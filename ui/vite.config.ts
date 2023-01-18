@@ -7,5 +7,6 @@ export default defineConfig({
   base: "./",
   build: {
     outDir: "build",
-  }
+  },
+  // externals: ['child_process'],
 });
