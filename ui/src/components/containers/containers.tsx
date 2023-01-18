@@ -4,5 +4,5 @@ import './containers.scss';
 import Button from '@mui/material/Button';
 
 export function Containers(props) {
-  return <button className="containerButton">Name: {props.name}</button>;
+  return <div>I'm in container</div>;
 }
