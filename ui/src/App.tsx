@@ -2,9 +2,11 @@ import React from 'react';
 import Button from '@mui/material/Button';
 import { createDockerDesktopClient } from '@docker/extension-api-client';
 import { Stack, TextField, Typography } from '@mui/material';
+// import Stream from 'stream';
 // Note: This line relies on Docker Desktop's presence as a host application.
 // If you're running this React app in a browser, it won't work properly.
 const client = createDockerDesktopClient();
+// const readableStream = new Stream.Readable();
 
 function useDockerDesktopClient() {
   return client;
@@ -15,19 +17,25 @@ export function App() {
   const ddClient = useDockerDesktopClient();
 
   const fetchAndDisplayResponse = async () => {
-    console.log('Hello! You pressed the button :)')
-    const result = await ddClient.extension.vm?.service?.get('/hello');
+    // const result = await ddClient.extension.vm?.service?.get('/hello');
 
     //This line gets the containers from the ddClient
     const containers = await ddClient.docker.listContainers();
     console.log('Running containers are:', containers);
-
-    setResponse(JSON.stringify(result));
+    // const idFirstContainer = containers[0].Id;
+    const stats = await ddClient.docker.cli.exec("stats", [
+      "--no-stream",
+      "--format",
+      '"{{json .}}"'
+    ]).then(results => results.parseJsonLines());
+    // 'docker stats --no-stream'
+    console.log('stats:', stats);
+    
+    setResponse(JSON.stringify(stats));
   };
 
   return (
     <>
-      {/* <Testing /> */}
       <Typography variant="h3">Docker extension demo</Typography>
       <Typography variant="body1" color="text.secondary" sx={{ mt: 2 }}>
         This is a basic page rendered with MUI, using Docker's theme. Read the
@@ -36,8 +44,7 @@ export function App() {
         look great as Docker's theme evolves.
       </Typography>
       <Typography variant="body1" color="text.secondary" sx={{ mt: 2 }}>
-        Pressing the below button will trigger a request to the backend. Its
-        response will appear in the textarea.
+        Pressing the below button will trigger a request print out container informaiton
       </Typography>
       <Stack direction="row" alignItems="start" spacing={2} sx={{ mt: 4 }}>
         <Button variant="contained" onClick={fetchAndDisplayResponse}>
