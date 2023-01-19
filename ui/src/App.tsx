@@ -9,6 +9,7 @@ import { Containers } from './components/containers/containers';
 // Note: This line relies on Docker Desktop's presence as a host application.
 // If you're running this React app in a browser, it won't work properly.
 const client = createDockerDesktopClient();
+// const readableStream = new Stream.Readable();
 
 function useDockerDesktopClient() {
   return client;

@@ -1,4 +1,16 @@
+.mainPageWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+a{
+  text-decoration: none;
+  color:white;
+}
 .containers {
+  width:100%;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -10,7 +22,7 @@
 @import '../scss-variables/variables.scss';
 
 .containerButton {
-  font-size: large;
+  font-size: 1.5vw;
   width: 20%;
   height: 250px;
   margin: 10px;
@@ -33,11 +45,11 @@
   border: none;
 }
 
-@media (max-width: 800px) {
-  .containerButton {
-    font-size: medium;
-    width: 200px;
-    height: 200px;
-    margin: 10px;
-  }
-}
+// @media (max-width: 800px) {
+//   .containerButton {
+//     font-size: medium;
+//     width: 200px;
+//     height: 200px;
+//     margin: 10px;
+//   }
+// }
