@@ -61,7 +61,7 @@ export function Mainpage(props) {
     }
   }
 
-  console.log(containerComponents);
+  // console.log(containerComponents);
   return (
     <>
       <div className="containers">{containerComponents}</div>
