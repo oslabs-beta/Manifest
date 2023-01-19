@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { SvgIcon } from '@mui/material';
-import './navbar.css';
+import './navbar.scss';
 
 function HomeIcon(props) {
   return (
@@ -19,32 +19,36 @@ function HomeIcon(props) {
 }
 
 export function Navbar() {
+  const navigate = useNavigate();
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-            style={{ position: 'absolute', left: '25px' }}
-          >
-            <HomeIcon fontSize="large" sx={{ flexGrow: 1 }} />
-          </IconButton>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-            style={{ position: 'absolute', right: '10px' }}
-          >
-            <MenuIcon className="menuButton" />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-    </Box>
+    <>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+              style={{ position: 'absolute', left: '25px' }}
+              onClick={() => navigate('/')}
+            >
+              <HomeIcon fontSize="large" sx={{ flexGrow: 1 }} />
+            </IconButton>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+              style={{ position: 'absolute', right: '10px' }}
+            >
+              <MenuIcon className="menuButton" />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+      </Box>
+    </>
   );
 }
