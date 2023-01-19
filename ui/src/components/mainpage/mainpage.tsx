@@ -1,20 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { createDockerDesktopClient } from '@docker/extension-api-client';
 import './mainpage.scss';
-
-const client = createDockerDesktopClient();
-const ddClient = useDockerDesktopClient();
-function useDockerDesktopClient() {
-  return client;
-}
-
-
+import CircularProgress from '@material-ui/core/CircularProgress';
+const ddClient = createDockerDesktopClient();
 
 export function Mainpage() {
-  const [containersLoaded, changeContainersLoaded] = React.useState(false);
-  const [containerArray, setResponse] = React.useState([]);
-
+  const [containersLoaded, changeContainersLoaded] = useState(false);
+  const [containerArray, setResponse] = useState([]);
 
   useEffect(() => {
     const getContainerData = async () => {
@@ -32,29 +25,35 @@ export function Mainpage() {
 
  
 
-  let containerComponents = [];
-  
-    console.log('this is container array: ', containerArray);
-    for (let i = 0; i < containerArray.length; i++) {
-      containerComponents.push(
-        <button className='containerButton'>
-        <Link  to={`/container/${containerArray[i].ID || containerArray[i].Id}`}>
-          Name: {containerArray[i].Name || containerArray[i].Names[0]}
+  const containerComponents = [];
+  for (let i = 0; i < containerArray.length; i++) {
+    containerComponents.push(
+      <button className='containerButton' key={i}>
+        <Link  to={`/container/${containerArray[i].ID}`} state = {{containerData: containerArray[i]}}>
+          <h3>{containerArray[i].Name || containerArray[i].Names[0]}</h3>
           <hr />
-          <p>Memory Used: {containerArray[i].MemUsage || ''}</p>
+          <p>Memory Used:</p>
+          <p> {containerArray[i].MemUsage || ''}</p>
           <p>{containerArray[i].MemPerc || ''}</p>
         </Link>
-        </button>
-      );
-    }
+      </button>
+    );
+  }
   
-
-  // console.log(containerComponents);
   return (
     <>
       {containersLoaded 
-        ? <div className="containers">{containerComponents}</div>
-        : <h1>Containers Loading, please wait...</h1>
+        ? <div className='mainPageWrapper'>
+            <h1>Running Containers</h1>
+            
+            <div className="containers">
+              {containerComponents}
+            </div>
+          </div>
+        : <div className = 'mainPageWrapper'>
+            <h1>Containers Loading, please wait...</h1>
+            <CircularProgress />
+          </div>
       }
             
     </>
