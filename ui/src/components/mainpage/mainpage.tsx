@@ -37,14 +37,14 @@ export function Mainpage() {
     console.log('this is container array: ', containerArray);
     for (let i = 0; i < containerArray.length; i++) {
       containerComponents.push(
-        <Link to={`/container/${containerArray[i].ID || containerArray[i].Id}`}>
-          <button>
+        <button className='containerButton'>
+        <Link  to={`/container/${containerArray[i].ID || containerArray[i].Id}`}>
           Name: {containerArray[i].Name || containerArray[i].Names[0]}
           <hr />
           <p>Memory Used: {containerArray[i].MemUsage || ''}</p>
           <p>{containerArray[i].MemPerc || ''}</p>
-          </button>
         </Link>
+        </button>
       );
     }
   
