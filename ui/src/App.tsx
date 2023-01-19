@@ -17,8 +17,8 @@ function useDockerDesktopClient() {
 export function App() {
   return (
     <>
-      <Navbar />
       <Router>
+        <Navbar />
         <Routes>
           <Route path="/" element={<Mainpage />} />
           <Route path="/container/:id" element={<Containers />} />

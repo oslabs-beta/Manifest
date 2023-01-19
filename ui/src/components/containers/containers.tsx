@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import './containers.scss';
 import Button from '@mui/material/Button';
 
 export function Containers(props) {
-  return <div>I'm in container</div>;
+  const { id } = useParams();
+  console.log('This is the id: ', id);
+  return <div>I'm in container. ID: {id}</div>;
 }
