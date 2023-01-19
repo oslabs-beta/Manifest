@@ -16,14 +16,24 @@ export function Mainpage(props) {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const loadContainers = async () => {
+      const names = await ddClient.docker.listContainers();
+      // console.log(names);
+      setResponse(JSON.stringify(names));
+    };
+    loadContainers();
+  }, []);
+
+  useEffect(() => {
     const callContainers = async () => {
       const stats = await ddClient.docker.cli.exec('stats', [
         '--no-stream',
+        '--no-trunc',
         '--format',
         '"{{json .}}"',
       ]);
       setResponse(JSON.stringify(stats.parseJsonLines()));
-      console.log('this is response: ', response);
+      // console.log('this is response: ', response);
     };
     callContainers().catch(console.error);
   });
@@ -31,17 +41,21 @@ export function Mainpage(props) {
   let containerComponents = [];
   if (response) {
     const containerArray = JSON.parse(response);
-    console.log('this is container array: ', containerArray);
+    // console.log('this is container array: ', containerArray);
     for (let i = 0; i < containerArray.length; i++) {
       containerComponents.push(
         <button
           className="containerButton"
-          // onClick={navigate(`/containers/${containers[i].id}`)}
+          onClick={() =>
+            navigate(
+              `/container/${containerArray[i].ID || containerArray[i].Id}`
+            )
+          }
         >
-          Name: {containerArray[i].Name}
+          Name: {containerArray[i].Name || containerArray[i].Names[0]}
           <hr />
-          <p>Memory Used: {containerArray[i].MemUsage}</p>
-          <p>{containerArray[i].MemPerc}</p>
+          <p>Memory Used: {containerArray[i].MemUsage || ''}</p>
+          <p>{containerArray[i].MemPerc || ''}</p>
         </button>
       );
     }
