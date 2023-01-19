@@ -1,70 +1,62 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Containers } from '../containers/containers';
+import { Link } from 'react-router-dom';
 import { createDockerDesktopClient } from '@docker/extension-api-client';
 import './mainpage.scss';
 
 const client = createDockerDesktopClient();
-
+const ddClient = useDockerDesktopClient();
 function useDockerDesktopClient() {
   return client;
 }
 
-export function Mainpage(props) {
-  const [response, setResponse] = React.useState<string>();
-  const ddClient = useDockerDesktopClient();
-  const navigate = useNavigate();
+
+
+export function Mainpage() {
+  const [containersLoaded, changeContainersLoaded] = React.useState(false);
+  const [containerArray, setResponse] = React.useState([]);
+
 
   useEffect(() => {
-    const loadContainers = async () => {
-      const names = await ddClient.docker.listContainers();
-      // console.log(names);
-      setResponse(JSON.stringify(names));
-    };
-    loadContainers();
-  }, []);
-
-  useEffect(() => {
-    const callContainers = async () => {
+    const getContainerData = async () => {
       const stats = await ddClient.docker.cli.exec('stats', [
         '--no-stream',
         '--no-trunc',
         '--format',
         '"{{json .}}"',
-      ]);
-      setResponse(JSON.stringify(stats.parseJsonLines()));
-      // console.log('this is response: ', response);
+      ]).then(res => res.parseJsonLines());
+      setResponse(stats);
+      changeContainersLoaded(true);
     };
-    callContainers().catch(console.error);
-  });
+    getContainerData();
+  },[]);
+
+ 
 
   let containerComponents = [];
-  if (response) {
-    const containerArray = JSON.parse(response);
-    // console.log('this is container array: ', containerArray);
+  
+    console.log('this is container array: ', containerArray);
     for (let i = 0; i < containerArray.length; i++) {
       containerComponents.push(
-        <button
-          className="containerButton"
-          onClick={() =>
-            navigate(
-              `/container/${containerArray[i].ID || containerArray[i].Id}`
-            )
-          }
-        >
+        <Link to={`/container/${containerArray[i].ID || containerArray[i].Id}`}>
+          <button>
           Name: {containerArray[i].Name || containerArray[i].Names[0]}
           <hr />
           <p>Memory Used: {containerArray[i].MemUsage || ''}</p>
           <p>{containerArray[i].MemPerc || ''}</p>
-        </button>
+          </button>
+        </Link>
       );
     }
-  }
+  
 
-  console.log(containerComponents);
+  // console.log(containerComponents);
   return (
     <>
-      <div className="containers">{containerComponents}</div>
+      {containersLoaded 
+        ? <div className="containers">{containerComponents}</div>
+        : <h1>Containers Loading, please wait...</h1>
+      }
+            
     </>
   );
 }
