@@ -23,8 +23,6 @@ export function Mainpage() {
     getContainerData();
   },[]);
 
- 
-
   const containerComponents = [];
   for (let i = 0; i < containerArray.length; i++) {
     containerComponents.push(
