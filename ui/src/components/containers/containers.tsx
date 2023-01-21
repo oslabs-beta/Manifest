@@ -6,11 +6,8 @@ import { ContainerInfo } from './containerInfo'
 
 export function Containers() {
   const location = useLocation();
-  const { containerData } = location.state;
-  const id  = containerData.ID;
-  const memPerc = containerData.MemPerc;
-  const memUsage = containerData.MemUsage;
-  const name = containerData.name;
-  console.log('This is the container data:', containerData);
-  return <ContainerInfo id = {id} name = {name} memPerc = {memPerc} memUsage ={memUsage} />;
+  const  containerData  = location.state.element;
+  const {ID, MemPerc, MemUsage, Name}  = containerData;
+  console.log("ID", ID);
+  return <ContainerInfo ID={ID} MemPerc = {MemPerc} MemUsage = {MemUsage} Name = {Name} />;
 }

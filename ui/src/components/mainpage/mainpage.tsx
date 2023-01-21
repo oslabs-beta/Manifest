@@ -7,80 +7,37 @@ import ContainerContext from '../../container-context';
 
 const ddClient = createDockerDesktopClient();
 
-export function Mainpage() {
-  const [containersLoaded, changeContainersLoaded] = useState(false);
-  const [containerArray, setContainerArray] = useState();
-
-  useEffect(() => {
-    const getContainerData = async () => {
-      const stats: any = await ddClient.docker.cli
-        .exec('stats', [
-          '--no-stream',
-          '--no-trunc',
-          '--format',
-          '"{{json .}}"',
-        ])
-        .then((res) => res.parseJsonLines());
-      setContainerArray(stats);
-      changeContainersLoaded(true);
-    };
-    getContainerData();
-  }, []);
-
-  const containerStore: any = useContext(ContainerContext);
-
-  // const containerComponents = [];
-  // for (let i = 0; i < containerArray.length; i++) {
-  //   containerComponents.push(
-  //     <button className="containerButton" key={i}>
-  //       <Link
-  //         to={`/container/${containerArray[i].ID}`}
-  //         state={{ containerArray[i]: containerArray[i] }}
-  //       >
-  //         <h3>{containerArray[i].Name || containerArray[i].Names[0]}</h3>
-  //         <hr />
-  //         <p>Memory Used:</p>
-  //         <p> {containerArray[i].MemUsage || ''}</p>
-  //         <p>{containerArray[i].MemPerc || ''}</p>
-  //       </Link>
-  //     </button>
-  //   );
-  // }
-
-  console.log('store: ', containerStore);
+export function Mainpage(props: any) {
+  const { containersArray, containersLoaded } = props;
   const containerComponents = [];
-  for (let i = 0; i < containerStore.length; i++) {
-    const container = containerStore[i];
-    containerComponents.push(
-      <ContainerContext.Consumer>
-        {(dataStore) => (
-          <button
-            className="containerButton"
-            key={`containerButton-${container.Name}`}
-          >
-            <Link
-              to={`/container/${container.ID}`}
-              // state={{ containerArray[i]: container }}
+
+  if(containersLoaded){
+    containersArray.forEach((element) => {
+    containerComponents.push( 
+            <button
+              className="containerButton"
+              key={`containerButton-${element.Name}`}
             >
-              <h3>{container.Name}</h3>
-              <hr />
-              <p>Memory Used:</p>
-              <p> {container.MemUsage || ''}</p>
-              <p>{container.MemPerc || ''}</p>
-            </Link>
-          </button>
-        )}
-      </ContainerContext.Consumer>
-    );
+              <Link
+                to={`/container/${element.ID}`}
+                state={{ element }}
+              >
+                <h3>{element.Name}</h3>
+                <hr />
+                <p>Memory Used:</p>
+                <p> {element.MemUsage }</p>
+                <p>{element.MemPerc }</p>
+              </Link>
+            </button>
+      )
+    });
   }
 
-  // console.log(containerComponents);
   return (
     <>
       {containersLoaded ? (
         <div className="mainPageWrapper">
           <h1>Running Containers</h1>
-          {/* <hr /> */}
           <div className="containers">{containerComponents}</div>
         </div>
       ) : (
