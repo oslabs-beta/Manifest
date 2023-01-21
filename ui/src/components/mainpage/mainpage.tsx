@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { createDockerDesktopClient } from '@docker/extension-api-client';
 import './mainpage.scss';
-import CircularProgress from '@material-ui/core/CircularProgress';
+// import CircularProgress from '@material-ui/core/CircularProgress';
 const ddClient = createDockerDesktopClient();
 
 export function Mainpage() {
@@ -52,7 +52,7 @@ export function Mainpage() {
           </div>
         : <div className = 'mainPageWrapper'>
             <h1>Containers Loading, please wait...</h1>
-            <CircularProgress />
+            {/* <CircularProgress /> */}
           </div>
       }
             
