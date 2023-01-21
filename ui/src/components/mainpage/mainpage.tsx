@@ -20,7 +20,6 @@ export function Mainpage(props: any) {
             >
               <Link
                 to={`/container/${element.ID}`}
-                state={{ element }}
               >
                 <h3>{element.Name}</h3>
                 <hr />

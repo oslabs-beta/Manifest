@@ -4,9 +4,14 @@ import './containers.scss';
 import Button from '@mui/material/Button';
 import { ContainerInfo } from './containerInfo'
 
-export function Containers() {
-  const location = useLocation();
-  const  containerData  = location.state.element;
+export function Containers(props) {
+  let containerData = props.container;
+
+  // props.containersArray.forEach(element => {
+  //   if (element.ID === location.state.ID) containerData = element;
+  //   return;
+  // });
+
   const {ID, MemPerc, MemUsage, Name}  = containerData;
   console.log("ID", ID);
   return <ContainerInfo ID={ID} MemPerc = {MemPerc} MemUsage = {MemUsage} Name = {Name} />;
