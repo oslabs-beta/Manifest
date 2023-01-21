@@ -13,21 +13,21 @@ export function Mainpage() {
 
   useEffect(() => {
     const getContainerData = async () => {
-      const stats = await ddClient.docker.cli.exec('stats', [
-        '--no-stream',
-        '--no-trunc',
-        '--format',
-        '"{{json .}}"',
-      ]).then(res => res.parseJsonLines());
+      const stats: any = await ddClient.docker.cli
+        .exec('stats', [
+          '--no-stream',
+          '--no-trunc',
+          '--format',
+          '"{{json .}}"',
+        ])
+        .then((res) => res.parseJsonLines());
       setContainerArray(stats);
       changeContainersLoaded(true);
     };
     getContainerData();
-  },[]);
+  }, []);
 
-  const containerStore = useContext(ContainerContext);
-
-
+  const containerStore: any = useContext(ContainerContext);
 
   // const containerComponents = [];
   // for (let i = 0; i < containerArray.length; i++) {
@@ -74,24 +74,21 @@ export function Mainpage() {
     );
   }
 
-
   // console.log(containerComponents);
   return (
     <>
-      {containersLoaded 
-        ? <div className='mainPageWrapper'>
-            <h1>Running Containers</h1>
-            
-            <div className="containers">
-              {containerComponents}
-            </div>
-          </div>
-        : <div className = 'mainPageWrapper'>
-            <h1>Containers Loading, please wait...</h1>
-            <CircularProgress />
-          </div>
-      }
-            
+      {containersLoaded ? (
+        <div className="mainPageWrapper">
+          <h1>Running Containers</h1>
+          {/* <hr /> */}
+          <div className="containers">{containerComponents}</div>
+        </div>
+      ) : (
+        <div className="mainPageWrapper">
+          <h1>Containers Loading, please wait...</h1>
+          <CircularProgress />
+        </div>
+      )}
     </>
   );
 }
