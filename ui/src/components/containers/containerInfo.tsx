@@ -1,20 +1,20 @@
 import React, { useEffect } from 'react';
 type containerData = {
-  id: string,
-  name: string,
-  memPerc: string,
-  memUsage: string
+  ID: string,
+  Name: string,
+  MemPerc: string,
+  MemUsage: string
 }
 export function ContainerInfo(props: containerData){
-  const { id, memPerc, memUsage, name } = props;
+  const { ID, MemPerc, MemUsage, Name } = props;
   return(
     <>
-    <h4>{name}</h4>
-    <h4>testing</h4>
+    <h4>{Name}</h4>
+    
     <ul>
-      <li>ID: {id}</li>
-      <li>Memory Usage: {memUsage}</li>
-      <li>Percent of memeory used: {memPerc}</li>
+      <li>ID: {ID}</li>
+      <li>Memory Usage: {MemUsage}</li>
+      <li>Percent of memeory used: {MemPerc}</li>
     </ul>
     </>
   );
