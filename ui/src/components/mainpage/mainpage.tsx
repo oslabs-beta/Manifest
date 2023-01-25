@@ -5,11 +5,18 @@ import './mainpage.scss';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ContainerContext from '../../container-context';
 
+import ContainerData from '../types/ContainerData';
+
 const ddClient = createDockerDesktopClient();
 
-export function Mainpage(props: any) {
+interface Props {
+  containersArray: ContainerData[],
+  containersLoaded: boolean,
+}
+
+export function Mainpage(props: Props) {
   const { containersArray, containersLoaded } = props;
-  const containerComponents = [];
+  const containerComponents: JSX.Element[] = [];
 
   if(containersLoaded){
     containersArray.forEach((element) => {
@@ -42,7 +49,7 @@ export function Mainpage(props: any) {
       ) : (
         <div className="mainPageWrapper">
           <h1>Containers Loading, please wait...</h1>
-          <CircularProgress />
+          {/* <CircularProgress /> */}
         </div>
       )}
     </>

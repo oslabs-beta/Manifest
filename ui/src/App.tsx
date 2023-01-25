@@ -9,17 +9,26 @@ import { Containers } from './components/containers/containers';
 import { Menu } from './components/menu/menu';
 
 import ContainerContext from './container-context';
+import { DockerDesktopClient } from '@docker/extension-api-client-types/dist/v1';
+import ContainerData from './components/types/containerData'
 
 // Note: This line relies on Docker Desktop's presence as a host application.
 // If you're running this React app in a browser, it won't work properly.
 const client = createDockerDesktopClient();
 
+const REFRESH_DELAY = 2000; // let user change
+
 function useDockerDesktopClient() {
   return client;
 }
 // let count = 1;
-const updateContainerData = async (ddClient, setDataStore, setContainersLoaded) => {
-  const stats = await ddClient.docker.cli
+const updateContainerData = async (
+  client: DockerDesktopClient,
+  setDataStore: React.Dispatch<React.SetStateAction<ContainerData[]>>,
+  setContainersLoaded: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+
+  const stats = await client.docker.cli
     .exec('stats', ['--no-stream', '--no-trunc', '--format', '"{{json .}}"'])
     .then((res) => res.parseJsonLines());
   // stats[0] = Object.assign(stats[0], { MemPerc: count });
@@ -31,21 +40,26 @@ const updateContainerData = async (ddClient, setDataStore, setContainersLoaded) 
 
 export function App() {
 
-  const [dataStore, setDataStore] = React.useState({});
+  const [dataStore, setDataStore] = React.useState<ContainerData[]>([]);
   const [containersLoaded, setContainersLoaded] = React.useState(false);
-  const ddClient = createDockerDesktopClient();
 
+
+
+
+  console.log('datastore: ', dataStore);
 
 
   //will run once when container is loaded
   useEffect(() => {
-    updateContainerData(ddClient, setDataStore, setContainersLoaded)
-    setInterval(() => { updateContainerData(ddClient, setDataStore, setContainersLoaded) }, 2000);
+    updateContainerData(client, setDataStore, setContainersLoaded)
+    setInterval(() => { updateContainerData(client, setDataStore, setContainersLoaded) }, REFRESH_DELAY);
   }, [])
 
-  const routesArray = [];
-  for (const elem in dataStore) {
-    routesArray.push(<Route path={`/container/${dataStore[elem].ID}`} element={<Containers container={dataStore[elem]} />}/>);
+  const routesArray: React.ReactElement[] = [];
+  
+  for (const elem of dataStore) {
+    console.log('elem: ', elem)
+    routesArray.push(<Route path={`/container/${elem.ID}`} element={<Containers container={elem} />}/>);
   }
 
   return (
