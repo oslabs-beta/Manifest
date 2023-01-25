@@ -10,7 +10,7 @@ import { Menu } from './components/menu/menu';
 
 import ContainerContext from './container-context';
 import { DockerDesktopClient } from '@docker/extension-api-client-types/dist/v1';
-import ContainerData from './components/types/containerData'
+import ContainerData from './components/types/ContainerData'
 
 // Note: This line relies on Docker Desktop's presence as a host application.
 // If you're running this React app in a browser, it won't work properly.
