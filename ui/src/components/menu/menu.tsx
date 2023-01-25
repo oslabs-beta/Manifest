@@ -19,7 +19,7 @@ export function Menu() {
         <MenuList>
           <MenuItem>
             <ListItemIcon>
-              <ContentCut fontSize="small" />
+              {/* <ContentCut fontSize="small" /> */}
             </ListItemIcon>
             <ListItemText>Cut</ListItemText>
             <Typography variant="body2" color="text.secondary">
@@ -28,7 +28,7 @@ export function Menu() {
           </MenuItem>
           <MenuItem>
             <ListItemIcon>
-              <ContentCopy fontSize="small" />
+              {/* <ContentCopy fontSize="small" /> */}
             </ListItemIcon>
             <ListItemText>Copy</ListItemText>
             <Typography variant="body2" color="text.secondary">
@@ -37,7 +37,7 @@ export function Menu() {
           </MenuItem>
           <MenuItem>
             <ListItemIcon>
-              <ContentPaste fontSize="small" />
+              {/* <ContentPaste fontSize="small" /> */}
             </ListItemIcon>
             <ListItemText>Paste</ListItemText>
             <Typography variant="body2" color="text.secondary">
@@ -47,7 +47,7 @@ export function Menu() {
           <Divider />
           <MenuItem>
             <ListItemIcon>
-              <Cloud fontSize="small" />
+              {/* <Cloud fontSize="small" /> */}
             </ListItemIcon>
             <ListItemText>Web Clipboard</ListItemText>
           </MenuItem>
