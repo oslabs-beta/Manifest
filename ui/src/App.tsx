@@ -18,34 +18,55 @@ function useDockerDesktopClient() {
   return client;
 }
 // let count = 1;
-const updateContainerData = async (ddClient, setDataStore, setContainersLoaded) => {
+const updateContainerData = async (
+  ddClient,
+  setDataStore,
+  setContainersLoaded,
+  state
+) => {
   const stats = await ddClient.docker.cli
     .exec('stats', ['--no-stream', '--no-trunc', '--format', '"{{json .}}"'])
     .then((res) => res.parseJsonLines());
   // stats[0] = Object.assign(stats[0], { MemPerc: count });
-  setDataStore(stats);
-  setContainersLoaded(true);
-  console.log(stats);
+  console.log('This is the state:', state);
+  if (JSON.stringify(state) !== JSON.stringify(stats)) {
+    console.log('setting state');
+    setDataStore(stats);
+    setContainersLoaded(true);
+  }
+
+  // console.log(stats);
   // count++;
 };
 
 export function App() {
-
-  const [dataStore, setDataStore] = React.useState({});
+  const [dataStore, setDataStore] = React.useState<any>([]);
   const [containersLoaded, setContainersLoaded] = React.useState(false);
   const ddClient = createDockerDesktopClient();
 
-
-
+  // console.log('this is the data store:', dataStore);
   //will run once when container is loaded
+
   useEffect(() => {
-    updateContainerData(ddClient, setDataStore, setContainersLoaded)
-    setInterval(() => { updateContainerData(ddClient, setDataStore, setContainersLoaded) }, 2000);
-  }, [])
+    updateContainerData(ddClient, setDataStore, setContainersLoaded, dataStore);
+    setInterval(
+      updateContainerData,
+      2000,
+      ddClient,
+      setDataStore,
+      setContainersLoaded,
+      dataStore
+    );
+  }, []);
 
   const routesArray = [];
   for (const elem in dataStore) {
-    routesArray.push(<Route path={`/container/${dataStore[elem].ID}`} element={<Containers container={dataStore[elem]} />}/>);
+    routesArray.push(
+      <Route
+        path={`/container/${dataStore[elem].ID}`}
+        element={<Containers container={dataStore[elem]} />}
+      />
+    );
   }
 
   return (
@@ -53,9 +74,17 @@ export function App() {
       <Router>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Mainpage containersArray = {dataStore} containersLoaded = {containersLoaded}/>}/>
+          <Route
+            path="/"
+            element={
+              <Mainpage
+                containersArray={dataStore}
+                containersLoaded={containersLoaded}
+              />
+            }
+          />
           {/* <Route path="/container/:id" element={<Containers containersArray = {dataStore} />}/> */}
-          { routesArray }
+          {routesArray}
         </Routes>
       </Router>
     </>

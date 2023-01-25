@@ -10,6 +10,7 @@ import ContentCut from '@mui/icons-material/ContentCut';
 import ContentCopy from '@mui/icons-material/ContentCopy';
 import ContentPaste from '@mui/icons-material/ContentPaste';
 import Cloud from '@mui/icons-material/Cloud';
+import Settings from '@mui/icons-material/Settings';
 import './menu.scss';
 
 export function Menu() {
@@ -19,37 +20,12 @@ export function Menu() {
         <MenuList>
           <MenuItem>
             <ListItemIcon>
-              <ContentCut fontSize="small" />
+              <Settings />
             </ListItemIcon>
-            <ListItemText>Cut</ListItemText>
-            <Typography variant="body2" color="text.secondary">
+            <ListItemText>Settings</ListItemText>
+            {/* <Typography variant="body2" color="text.secondary">
               ⌘X
-            </Typography>
-          </MenuItem>
-          <MenuItem>
-            <ListItemIcon>
-              <ContentCopy fontSize="small" />
-            </ListItemIcon>
-            <ListItemText>Copy</ListItemText>
-            <Typography variant="body2" color="text.secondary">
-              ⌘C
-            </Typography>
-          </MenuItem>
-          <MenuItem>
-            <ListItemIcon>
-              <ContentPaste fontSize="small" />
-            </ListItemIcon>
-            <ListItemText>Paste</ListItemText>
-            <Typography variant="body2" color="text.secondary">
-              ⌘V
-            </Typography>
-          </MenuItem>
-          <Divider />
-          <MenuItem>
-            <ListItemIcon>
-              <Cloud fontSize="small" />
-            </ListItemIcon>
-            <ListItemText>Web Clipboard</ListItemText>
+            </Typography> */}
           </MenuItem>
         </MenuList>
       </Paper>

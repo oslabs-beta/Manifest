@@ -1,25 +1,35 @@
 import React, { useEffect } from 'react';
+import DoughnutChart from '../charts/doughnut';
+import './containers.scss';
+
 type containerData = {
-  ID: string,
-  Name: string,
-  MemPerc: string,
-  MemUsage: string
-}
-export function ContainerInfo(props: containerData){
+  ID: string;
+  Name: string;
+  MemPerc: string;
+  MemUsage: string;
+};
+
+export function ContainerInfo(props: containerData) {
   const { ID, MemPerc, MemUsage, Name } = props;
-  return(
+
+  return (
     <>
-    <h4>{Name}</h4>
-    
-    <ul>
-      <li>ID: {ID}</li>
-      <li>Memory Usage: {MemUsage}</li>
-      <li>Percent of memeory used: {MemPerc}</li>
-    </ul>
+      <h4>{Name}</h4>
+
+      <ul>
+        <li>ID: {ID}</li>
+        <li>Memory Usage: {MemUsage}</li>
+        <li>Percent of memory used: {MemPerc}</li>
+      </ul>
+      <DoughnutChart
+        ID={ID}
+        MemPerc={MemPerc}
+        MemUsage={MemUsage}
+        Name={Name}
+      />
     </>
   );
 }
-
 
 // BlockIO: "5.89MB / 0B"
 // CPUPerc: "0.00%"
