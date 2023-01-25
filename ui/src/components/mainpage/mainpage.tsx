@@ -7,7 +7,7 @@ import ContainerContext from '../../container-context';
 
 import ContainerData from '../types/ContainerData';
 
-const ddClient = createDockerDesktopClient();
+// const ddClient = createDockerDesktopClient();
 
 interface Props {
   containersArray: ContainerData[],
