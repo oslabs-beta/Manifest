@@ -8,11 +8,12 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import { SvgIcon } from '@mui/material';
+import { SvgIcon, SvgIconProps } from '@mui/material';
 import { Menu } from '../menu/menu';
 import './navbar.scss';
 
-function HomeIcon(props: any) {
+function HomeIcon(props: SvgIconProps) {
+  console.log()
   return (
     <SvgIcon {...props}>
       <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
