@@ -45,10 +45,6 @@ export function App() {
 
 
 
-
-  console.log('datastore: ', dataStore);
-
-
   //will run once when container is loaded
   useEffect(() => {
     updateContainerData(client, setDataStore, setContainersLoaded)
@@ -58,8 +54,7 @@ export function App() {
   const routesArray: React.ReactElement[] = [];
   
   for (const elem of dataStore) {
-    console.log('elem: ', elem)
-    routesArray.push(<Route path={`/container/${elem.ID}`} element={<Containers container={elem} />}/>);
+    routesArray.push(<Route key={`container-button-${elem.Container}`} path={`/container/${elem.ID}`} element={<Containers container={elem} />}/>);
   }
 
   return (
@@ -67,7 +62,7 @@ export function App() {
       <Router>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Mainpage containersArray = {dataStore} containersLoaded = {containersLoaded}/>}/>
+          <Route path="/" element={<Mainpage containersArray={dataStore} containersLoaded ={containersLoaded}/>}/>
           {/* <Route path="/container/:id" element={<Containers containersArray = {dataStore} />}/> */}
           { routesArray }
         </Routes>
