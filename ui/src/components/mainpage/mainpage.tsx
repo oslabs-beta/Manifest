@@ -4,38 +4,46 @@ import { createDockerDesktopClient } from '@docker/extension-api-client';
 import './mainpage.scss';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ContainerContext from '../../container-context';
-
-import ContainerData from '../types/ContainerData';
+import DoughnutChart from '../charts/doughnut';
+import ContainerData from '../types/containerData';
+import { KeyboardDoubleArrowRightRounded } from '@mui/icons-material';
 
 // const ddClient = createDockerDesktopClient();
 
 interface Props {
-  containersArray: ContainerData[],
-  containersLoaded: boolean,
+  containersArray: ContainerData[];
+  containersLoaded: boolean;
+}
+
+interface containerInfo {
+  containerNames: string[];
+  containerMemPerc: number[];
 }
 
 export function Mainpage(props: Props) {
   const { containersArray, containersLoaded } = props;
   const containerComponents: JSX.Element[] = [];
 
-  if(containersLoaded){
+  let containerNames: any = [];
+  let containerMemPerc: any = [];
+  if (containersLoaded) {
     containersArray.forEach((element) => {
-    containerComponents.push( 
-            <button
-              className="containerButton"
-              key={`containerButton-${element.Name}`}
-            >
-              <Link
-                to={`/container/${element.ID}`}
-              >
-                <h3>{element.Name}</h3>
-                <hr />
-                <p>Memory Used:</p>
-                <p> {element.MemUsage }</p>
-                <p>{element.MemPerc }</p>
-              </Link>
-            </button>
-      )
+      containerComponents.push(
+        <button
+          className="containerButton"
+          key={`containerButton-${element.Name}`}
+        >
+          <Link to={`/container/${element.ID}`}>
+            <h3>{element.Name}</h3>
+            <hr />
+            <p>Memory Used:</p>
+            <p> {element.MemUsage}</p>
+            <p>{element.MemPerc}</p>
+          </Link>
+        </button>
+      );
+      containerNames.push(element.Name);
+      containerMemPerc.push(parseFloat(element.MemPerc));
     });
   }
 
@@ -43,13 +51,26 @@ export function Mainpage(props: Props) {
     <>
       {containersLoaded ? (
         <div className="mainPageWrapper">
+          <div className="doughnutCharts">
+            <DoughnutChart
+              containerNames={containerNames}
+              containerMemPerc={containerMemPerc}
+              className="doughnutChart"
+            />
+            <DoughnutChart
+              containerNames={containerNames}
+              containerMemPerc={containerMemPerc}
+              maxMem={8}
+              className="doughnutChart"
+            />
+          </div>
           <h1>Running Containers</h1>
           <div className="containers">{containerComponents}</div>
         </div>
       ) : (
         <div className="mainPageWrapper">
           <h1>Containers Loading, please wait...</h1>
-          {/* <CircularProgress /> */}
+          <CircularProgress />
         </div>
       )}
     </>

@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
 import './containers.scss';
 import Button from '@mui/material/Button';
 import { ContainerInfo } from './containerInfo';
-import ContainerData from '../types/ContainerData';
+import ContainerData from '../types/containerData';
 
 interface Props {
   container: ContainerData;
