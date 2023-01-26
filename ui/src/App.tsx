@@ -1,84 +1,76 @@
 import React, { useEffect } from 'react';
-import Button from '@mui/material/Button';
-import { createDockerDesktopClient } from '@docker/extension-api-client';
-import { Stack, TextField, Typography } from '@mui/material';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Navbar } from './components/navbar/navbar';
 import { Mainpage } from './components/mainpage/mainpage';
 import { Containers } from './components/containers/containers';
-import { Menu } from './components/menu/menu';
-import  getSoftMemoryLimit  from './getSoftMemLimits'
-import ContainerContext from './container-context';
-import { DockerDesktopClient } from '@docker/extension-api-client-types/dist/v1';
 import ContainerData from './components/types/containerData';
-
+import {getContianerIds, getSoftMemLimits, getContainerMetrics} from './interactingWithDDClient';
 // Note: This line relies on Docker Desktop's presence as a host application.
 // If you're running this React app in a browser, it won't work properly.
-const client = createDockerDesktopClient();
 
-const REFRESH_DELAY = 2000; // let user change
-
-// function useDockerDesktopClient() {
-//   return client;
-// }
-// let count = 1;
-const updateContainerData = async (
-  client: DockerDesktopClient,
-  setDataStore: React.Dispatch<React.SetStateAction<ContainerData[]>>,
-  setContainersLoaded: React.Dispatch<React.SetStateAction<boolean>>,
-  setIdArr: React.Dispatch<React.SetStateAction<string[]>>
-  ) => {
-    
-  const stats = await client.docker.cli
-    .exec('stats', ['--no-stream', '--no-trunc', '--format', '"{{json .}}"'])
-    .then((res) => res.parseJsonLines());
-  setDataStore(stats);
-  setContainersLoaded(true);
-  const idArr = stats.map(containerObj => containerObj.ID);
-  setIdArr(idArr);
-
-  // console.log(stats);
-  // count++;
-};
+//REFRESH_DELAY controls how often (in milliseconds) we will querry the Docker desktop client to recieve updates about our running containers. 
+const REFRESH_DELAY = 2000;
 
 export function App() {
+  /* 
+  dataStore is an array that holds objects. Each object holds data about a specific container 
+  */
   const [dataStore, setDataStore] = React.useState<ContainerData[]>([]);
+  //containersLoaded is bool indicating weather or not we've recieved data from the docker desktop client.
   const [containersLoaded, setContainersLoaded] = React.useState(false);
-  const [idArr, setIdArr] = React.useState<string[]>([]);
+  //softMemObj holds key:values where key is container ID and value is the soft limit. If not soft limit, null is assigned.
   const [softMemObj, setSoftMemObj] = React.useState({});
-  /*{
-    containerID : Soft mem limit
-  }*/
   
-  
-  //will run every time idArr is updated
-  useEffect(()=>{
-    getSoftMemoryLimit(idArr).then(newSoftMemObj => {
-      // console.log('new mem obj:', newSoftMemObj)
-      setSoftMemObj(newSoftMemObj);
+
+  /*******************
+   updateContainerData
+   *******************
+  Gets the updated data on container metrics then sets the dataStore accordingly.
+  Also sets containersLoaded to true
+  and calls itself again after the REFRESH_DELAY
+  */
+  const updateContainerData = () => {
+    getContainerMetrics().then(containerMetricsObject => {
+      setDataStore(containerMetricsObject);
+      setContainersLoaded(true);
+      setTimeout(updateContainerData , REFRESH_DELAY);
     });
-    
-  },[idArr]);
+  }
 
-  //will run when the componenet first mounts --> never again
+  /*******************
+   useEffect
+   *******************
+  Runs when container first loads ONLY. Does 3 things:
+    1. gets a list of all container id's
+    2. creates the soft memory object --> softMemObj piece of state. 
+        softMemObj is object where keys are container id and values are soft memory limit in bytes. if no limit is set - value is null. 
+    3. calles updateContainerData to start the refreshing behind the scenes. 
+  */
   useEffect(() => {
-    //first we will get the container data
-    updateContainerData(client, setDataStore, setContainersLoaded, setIdArr);
-    //then setup an interval to re-fresh the data every 2 seconds
-    setInterval(() => {
-      updateContainerData(client, setDataStore, setContainersLoaded, setIdArr);
-    }, REFRESH_DELAY);
-
+    //Gets a list the ID's of all running containers
+    getContianerIds().then(containerIdArray => {
+      //Creates a memory limit object which holds key:value pairs where the key is the container id and the value is the soft limit for that container (null if not set)
+      getSoftMemLimits(containerIdArray).then(memoryLimitObject => {
+        //Setting the softMemObj (piece of state) so that we can access those softMem properties later
+        setSoftMemObj(memoryLimitObject);
+        //Now, we want to querry the DD Client once again to get the object of all the other metrics we are tracking
+        updateContainerData();
+      });
+    });
   }, []);
 
+  /***************** 
+   This section of code creates an array: routesArray
+   routesArray holds JSX elements
+   Each element is a route to a specific containers page 
+  *****************/
   const routesArray: React.ReactElement[] = [];
-
   for (const elem of dataStore) {
     routesArray.push(
       <Route
         key={`container-button-${elem.Container}`}
         path={`/container/${elem.ID}`}
-        element={<Containers container={elem} />}
+        element={<Containers container={elem} softLimit={softMemObj[elem.ID]}/>}
       />
     );
   }
