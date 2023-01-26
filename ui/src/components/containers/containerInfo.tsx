@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import DoughnutChart from '../charts/doughnut';
+// import DoughnutChart from '../charts/doughnut';
 import './containers.scss';
 
 type containerData = {
@@ -21,12 +21,12 @@ export function ContainerInfo(props: containerData) {
         <li>Memory Usage: {MemUsage}</li>
         <li>Percent of memory used: {MemPerc}</li>
       </ul>
-      <DoughnutChart
+      {/* <DoughnutChart
         ID={ID}
         MemPerc={MemPerc}
         MemUsage={MemUsage}
         Name={Name}
-      />
+      /> */}
     </>
   );
 }
