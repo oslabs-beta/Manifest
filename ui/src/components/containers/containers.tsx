@@ -7,11 +7,12 @@ import ContainerData from '../types/containerData';
 
 interface Props {
   container: ContainerData;
+  softLimit: any;
 }
 
 export function Containers(props: Props) {
   let containerData = props.container;
-
+  const softLimit = props.softLimit
   // props.containersArray.forEach(element => {
   //   if (element.ID === location.state.ID) containerData = element;
   //   return;
@@ -20,6 +21,6 @@ export function Containers(props: Props) {
   const { ID, MemPerc, MemUsage, Name } = containerData;
   // console.log("ID", ID);
   return (
-    <ContainerInfo ID={ID} MemPerc={MemPerc} MemUsage={MemUsage} Name={Name} />
+    <ContainerInfo ID={ID} MemPerc={MemPerc} MemUsage={MemUsage} Name={Name} softLimit = {softLimit} />
   );
 }

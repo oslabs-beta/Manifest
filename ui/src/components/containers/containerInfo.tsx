@@ -7,10 +7,11 @@ type containerData = {
   Name: string;
   MemPerc: string;
   MemUsage: string;
+  softLimit: number;
 };
 
 export function ContainerInfo(props: containerData) {
-  const { ID, MemPerc, MemUsage, Name } = props;
+  const { ID, MemPerc, MemUsage, Name, softLimit } = props;
 
   return (
     <>
@@ -19,7 +20,8 @@ export function ContainerInfo(props: containerData) {
       <ul>
         <li>ID: {ID}</li>
         <li>Memory Usage: {MemUsage}</li>
-        <li>Percent of memory used: {MemPerc}</li>
+        <li>Percent of memory used: {MemPerc} bytes</li>
+        <li>Soft Limit: {softLimit}</li>
       </ul>
       {/* <DoughnutChart
         ID={ID}
