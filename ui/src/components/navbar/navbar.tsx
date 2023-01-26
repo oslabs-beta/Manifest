@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-// import Popup from 'reactjs-popup';
+import Popup from 'reactjs-popup';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -39,7 +39,7 @@ export function Navbar() {
             >
               <HomeIcon fontSize="large" sx={{ flexGrow: 1 }} />
             </IconButton>
-            {/* <Popup
+            <Popup
               trigger={
                 <IconButton
                   size="large"
@@ -60,7 +60,7 @@ export function Navbar() {
                 // @ts-ignore: Unreachable code error
                 (close) => <Menu />
               }
-            </Popup> */}
+            </Popup>
           </Toolbar>
         </AppBar>
       </Box>

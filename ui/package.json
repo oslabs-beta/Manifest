@@ -11,7 +11,9 @@
     "@emotion/styled": "11.10.4",
     "@mui/material": "5.10.8",
     "@mui/styled-engine": "^5.11.0",
+    "chart.js": "^4.2.0",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.6.2",
     "reactjs-popup": "^2.0.5"
