@@ -22,7 +22,7 @@ function HomeIcon(props: SvgIconProps) {
 }
 
 export function Navbar() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
@@ -35,7 +35,7 @@ export function Navbar() {
               aria-label="menu"
               sx={{ mr: 2 }}
               style={{ position: 'absolute', left: '25px' }}
-              onClick={() => navigate('/')}
+              // onClick={() => navigate('/')}
             >
               <HomeIcon fontSize="large" sx={{ flexGrow: 1 }} />
             </IconButton>
@@ -48,7 +48,7 @@ export function Navbar() {
                   aria-label="menu"
                   sx={{ mr: 2 }}
                   style={{ position: 'absolute', right: '10px' }}
-                  onClick={() => navigate('/menu')}
+                  // onClick={() => navigate('/menu')}
                 >
                   <MenuIcon className="menuButton" />
                 </IconButton>

@@ -7,12 +7,14 @@ import ContainerContext from '../../container-context';
 import DoughnutChart from '../charts/doughnut';
 import ContainerData from '../types/containerData';
 import { KeyboardDoubleArrowRightRounded } from '@mui/icons-material';
+import Containers from '../containers/containers';
 
 // const ddClient = createDockerDesktopClient();
 
 interface Props {
   containersArray: ContainerData[];
   containersLoaded: boolean;
+  softMemObj: any;
 }
 
 interface containerInfo {
@@ -21,26 +23,21 @@ interface containerInfo {
 }
 
 export function Mainpage(props: Props) {
-  const { containersArray, containersLoaded } = props;
-  const containerComponents: JSX.Element[] = [];
-
+  const { containersArray, containersLoaded, softMemObj } = props;
+  const containerRows: JSX.Element[] = [];
+  console.log(softMemObj);
   let containerNames: any = [];
   let containerMemPerc: any = [];
   if (containersLoaded) {
     containersArray.forEach((element) => {
-      containerComponents.push(
-        <button
-          className="containerButton"
-          key={`containerButton-${element.Name}`}
-        >
-          <Link to={`/container/${element.ID}`}>
-            <h3>{element.Name}</h3>
-            <hr />
-            <p>Memory Used:</p>
-            <p> {element.MemUsage}</p>
-            <p>{element.MemPerc}</p>
-          </Link>
-        </button>
+      containerRows.push(
+        <Containers
+          ID={element.ID}
+          MemUsage={element.MemUsage}
+          MemPerc={element.MemPerc}
+          Name={element.Name}
+          softLimit={softMemObj[element.ID]}
+        />
       );
       containerNames.push(element.Name);
       containerMemPerc.push(parseFloat(element.MemPerc));
@@ -55,17 +52,31 @@ export function Mainpage(props: Props) {
             <DoughnutChart
               containerNames={containerNames}
               containerMemPerc={containerMemPerc}
+              maxMem={8}
               className="doughnutChart"
+              id="doughnutChart1"
             />
             <DoughnutChart
               containerNames={containerNames}
               containerMemPerc={containerMemPerc}
-              maxMem={8}
               className="doughnutChart"
+              id="doughnutChart2"
             />
           </div>
           <h1>Running Containers</h1>
-          <div className="containers">{containerComponents}</div>
+          <table className="mainPageTable">
+            <thead>
+              <tr>
+                <th> Name </th>
+                <th> Current Mem Usage </th>
+                <th> Hard Limit / % Used </th>
+                <th> Soft Limit / % Used </th>
+                {/* <th> Expand </th> */}
+              </tr>
+            </thead>
+            <tbody>{containerRows}</tbody>
+          </table>
+          {/* <div className="containers">{containerComponents}</div> */}
         </div>
       ) : (
         <div className="mainPageWrapper">

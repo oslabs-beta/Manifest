@@ -2,13 +2,17 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Navbar } from './components/navbar/navbar';
 import { Mainpage } from './components/mainpage/mainpage';
-import { Containers } from './components/containers/containers';
+import Containers from './components/containers/containers';
 import ContainerData from './components/types/containerData';
-import {getContianerIds, getSoftMemLimits, getContainerMetrics} from './interactingWithDDClient';
+import {
+  getContianerIds,
+  getSoftMemLimits,
+  getContainerMetrics,
+} from './interactingWithDDClient';
 // Note: This line relies on Docker Desktop's presence as a host application.
 // If you're running this React app in a browser, it won't work properly.
 
-//REFRESH_DELAY controls how often (in milliseconds) we will querry the Docker desktop client to recieve updates about our running containers. 
+//REFRESH_DELAY controls how often (in milliseconds) we will querry the Docker desktop client to recieve updates about our running containers.
 const REFRESH_DELAY = 2000;
 
 export function App() {
@@ -20,7 +24,6 @@ export function App() {
   const [containersLoaded, setContainersLoaded] = React.useState(false);
   //softMemObj holds key:values where key is container ID and value is the soft limit. If not soft limit, null is assigned.
   const [softMemObj, setSoftMemObj] = React.useState({});
-  
 
   /*******************
    updateContainerData
@@ -30,12 +33,12 @@ export function App() {
   and calls itself again after the REFRESH_DELAY
   */
   const updateContainerData = () => {
-    getContainerMetrics().then(containerMetricsObject => {
+    getContainerMetrics().then((containerMetricsObject) => {
       setDataStore(containerMetricsObject);
       setContainersLoaded(true);
-      setTimeout(updateContainerData , REFRESH_DELAY);
+      setTimeout(updateContainerData, REFRESH_DELAY);
     });
-  }
+  };
 
   /*******************
    useEffect
@@ -48,9 +51,9 @@ export function App() {
   */
   useEffect(() => {
     //Gets a list the ID's of all running containers
-    getContianerIds().then(containerIdArray => {
+    getContianerIds().then((containerIdArray) => {
       //Creates a memory limit object which holds key:value pairs where the key is the container id and the value is the soft limit for that container (null if not set)
-      getSoftMemLimits(containerIdArray).then(memoryLimitObject => {
+      getSoftMemLimits(containerIdArray).then((memoryLimitObject) => {
         //Setting the softMemObj (piece of state) so that we can access those softMem properties later
         setSoftMemObj(memoryLimitObject);
         //Now, we want to querry the DD Client once again to get the object of all the other metrics we are tracking
@@ -70,16 +73,23 @@ export function App() {
       <Route
         key={`container-button-${elem.Container}`}
         path={`/container/${elem.ID}`}
-        element={<Containers container={elem} softLimit={softMemObj[elem.ID]}/>}
+        element={
+          <Containers container={elem} softLimit={softMemObj[elem.ID]} />
+        }
       />
     );
   }
 
   return (
     <>
-      <Router>
-        <Navbar />
-        <Routes>
+      {/* <Router> */}
+      <Navbar />
+      <Mainpage
+        containersArray={dataStore}
+        containersLoaded={containersLoaded}
+        softMemObj = {softMemObj}
+      />
+      {/* <Routes>
           <Route
             path="/"
             element={
@@ -91,7 +101,7 @@ export function App() {
           />
           {routesArray}
         </Routes>
-      </Router>
+      </Router> */}
     </>
   );
 }

@@ -22,7 +22,7 @@ a {
 @import '../scss-variables/variables.scss';
 
 .containerButton {
-  font-size: 1.5vw;
+  font-size: 1.25vw;
   width: 20%;
   height: 250px;
   margin: 10px;
@@ -48,10 +48,12 @@ a {
 .doughnutCharts {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  // flex-wrap: wrap;
   width: 100%;
   padding: 0px;
+  margin: 0 auto;
 }
 
 .gaugeChart {
@@ -59,8 +61,19 @@ a {
   // border-radius: 10px;
   // border-color: white;
   // padding: 20px;
+
   width: 50%;
   height: 400px;
+}
+
+.doughnutChart {
+}
+
+.mainPageTable {
+  border: solid;
+  border-color: white;
+  width: 100%;
+  
 }
 
 // @media (max-width: 800px) {
