@@ -25,6 +25,16 @@ export function App() {
   //softMemObj holds key:values where key is container ID and value is the soft limit. If not soft limit, null is assigned.
   const [softMemObj, setSoftMemObj] = React.useState({});
 
+  /*
+  memOBJECT
+  {
+    containerID: {softLimit: some num OR NULL
+                  hardLimit: some num oR NULL
+                  }
+  }
+  */
+
+
   /*******************
    updateContainerData
    *******************

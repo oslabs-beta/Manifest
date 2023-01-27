@@ -21,13 +21,17 @@ export default function Containers(props: Props) {
   };
 
   function formatMemUsage(bytes: string | null) {
-    if (bytes?.includes('MiB')) {
-      return bytes.match(/\d+\.\d+|\d+\b|\d+(?=\w)/g).map(function (v) {
+    const inBytes: number[] = bytes
+      .match(/\d+\.\d+|\d+\b|\d+(?=\w)/g)
+      .map(function (v) {
         return +v;
       });
+    if (bytes?.includes('MiB')) {
+      return parseInt(inBytes[0] * 1048576);
+    } else {
+      return parseInt(inBytes[0] * 1073741824);
     }
   }
-  console.log(formatMemUsage(MemUsage)[0]);
 
   function formatBytes(bytes: number | null, decimals = 2) {
     if (!bytes) return 'Soft Limit Not Set';
@@ -35,11 +39,28 @@ export default function Containers(props: Props) {
 
     const k = 1024;
     const dm = decimals < 0 ? 0 : decimals;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    const sizes = [
+      'Bytes',
+      'KiB',
+      'MiB',
+      'GiB',
+      'TiB',
+      'Pi',
+      'EiB',
+      'ZiB',
+      'YiB',
+    ];
 
     const i = Math.floor(Math.log(bytes) / Math.log(k));
 
     return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+  }
+
+  let softLimitPerc = 0;
+  if (softLimit) {
+    console.log((formatMemUsage(MemUsage) / softLimit) * 100);
+    softLimitPerc =
+      Math.round((formatMemUsage(MemUsage) / softLimit) * 100 * 100) / 100;
   }
   const softLimitString = formatBytes(softLimit);
 
@@ -49,7 +70,9 @@ export default function Containers(props: Props) {
         <td> {Name} </td>
         <td> {MemUsage} </td>
         <td> Hard Limit Coming Soon </td>
-        <td> {softLimitString}</td>
+        <td>
+          {softLimitString} {softLimit ? `/ ${softLimitPerc}` : null}
+        </td>
       </tr>
       {expanded && (
         <tr>
