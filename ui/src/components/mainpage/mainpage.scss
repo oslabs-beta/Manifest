@@ -13,7 +13,7 @@ a {
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  // justify-content: space-around;
   // border: solid;
   // border-color: white;
   flex-wrap: wrap;
@@ -48,39 +48,39 @@ a {
 .doughnutCharts {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-  // flex-wrap: wrap;
   width: 100%;
   padding: 0px;
   margin: 0 auto;
+  padding: 30px 0;
 }
 
 .gaugeChart {
-  // border: solid;
-  // border-radius: 10px;
-  // border-color: white;
-  // padding: 20px;
-
-  width: 50%;
+  padding: 20px;
+  width: 40%;
   height: 400px;
+  display: flex;
+  justify-content: center;
+  border-color: rgb(55, 55, 55);
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 10px;
+  box-shadow: $boxShadow;
 }
 
 .doughnutChart {
 }
 
 .mainPageTable {
-  border: solid;
-  border-color: white;
+  color: $text;
+  // background-color: whit;
   width: 100%;
-  
+  font-size: 2vw;
+  font-family: 'Roboto', sans-serif;
+  border-color: rgb(55, 55, 55);
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 10px;
+  box-shadow: $boxShadow;
 }
-
-// @media (max-width: 800px) {
-//   .containerButton {
-//     font-size: medium;
-//     width: 200px;
-//     height: 200px;
-//     margin: 10px;
-//   }
-// }

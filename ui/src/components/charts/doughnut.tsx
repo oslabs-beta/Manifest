@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { withTheme } from '@emotion/react';
+import './doughnut.scss';
 
 ChartJS.register(ArcElement, Tooltip, Legend, Title);
 
@@ -33,7 +34,7 @@ interface props {
 
 export default function DoughnutChart(props: props) {
   const { containerNames, containerMemPerc, maxMem } = props;
-  //   console.log(MemPerc);
+  // console.log(MemPerc);
   const [data, setData] = React.useState<data>({
     labels: [''],
     datasets: [
@@ -64,18 +65,18 @@ export default function DoughnutChart(props: props) {
 
     if (maxMem) {
       setData({
-        labels: [...containerNames, 'Remaining Memory'],
+        labels: ['Remaining Memory', ...containerNames],
         datasets: [
           {
-            label: '%',
-            data: [...containerMemPerc, 100 - sum],
+            label: 'Raw Memory',
+            data: [maxMem - sum, ...containerMemPerc],
             backgroundColor: [
+              'whitesmoke',
               '#42a5f5',
               '#ba68c8',
               '#ef5350',
               '#ff9800',
               '#4caf50',
-              'whitesmoke',
             ],
             borderColor: ['rgba(0, 0, 0, 0.54)'],
             color: '#FFF',
@@ -87,7 +88,7 @@ export default function DoughnutChart(props: props) {
         labels: containerNames,
         datasets: [
           {
-            label: '%',
+            label: 'Raw Memory',
             data: containerMemPerc,
             backgroundColor: [
               '#42a5f5',
@@ -112,6 +113,7 @@ export default function DoughnutChart(props: props) {
   const options: any = {
     maintainAspectRatio: true,
     responsive: true,
+    aspectRatio: 1,
     animation: {
       duration: 1000,
     },
@@ -129,6 +131,7 @@ export default function DoughnutChart(props: props) {
         },
       },
       title: {
+        fullSize: true,
         color: '#FFF',
         display: true,
         position: 'top',
@@ -136,6 +139,9 @@ export default function DoughnutChart(props: props) {
         padding: {
           top: 30,
           bottom: 0,
+        },
+        font: {
+          size: 20,
         },
       },
     },

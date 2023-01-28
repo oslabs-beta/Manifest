@@ -2,12 +2,13 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Navbar } from './components/navbar/navbar';
 import { Mainpage } from './components/mainpage/mainpage';
-import Containers from './components/containers/containers';
+import Containers from './components/tables/tablerow';
 import ContainerData from './components/types/containerData';
 import {
   getContianerIds,
-  getSoftMemLimits,
+  getMemLimits,
   getContainerMetrics,
+  getTotalMemoryAllocatedToDocker
 } from './interactingWithDDClient';
 // Note: This line relies on Docker Desktop's presence as a host application.
 // If you're running this React app in a browser, it won't work properly.
@@ -23,7 +24,8 @@ export function App() {
   //containersLoaded is bool indicating weather or not we've recieved data from the docker desktop client.
   const [containersLoaded, setContainersLoaded] = React.useState(false);
   //softMemObj holds key:values where key is container ID and value is the soft limit. If not soft limit, null is assigned.
-  const [softMemObj, setSoftMemObj] = React.useState({});
+  const [memObj, setMemObj] = React.useState({});
+  const [totalDockerMem, setTotalDockerMem] = React.useState<number>(0);
 
   /*
   memOBJECT
@@ -33,7 +35,6 @@ export function App() {
                   }
   }
   */
-
 
   /*******************
    updateContainerData
@@ -63,11 +64,17 @@ export function App() {
     //Gets a list the ID's of all running containers
     getContianerIds().then((containerIdArray) => {
       //Creates a memory limit object which holds key:value pairs where the key is the container id and the value is the soft limit for that container (null if not set)
-      getSoftMemLimits(containerIdArray).then((memoryLimitObject) => {
+      getMemLimits(containerIdArray).then((memoryLimitObject) => {
         //Setting the softMemObj (piece of state) so that we can access those softMem properties later
-        setSoftMemObj(memoryLimitObject);
-        //Now, we want to querry the DD Client once again to get the object of all the other metrics we are tracking
+        setMemObj(memoryLimitObject);
+        //now we want to querry the DDCLient to figure out total memory allocated to docker
+        getTotalMemoryAllocatedToDocker().then(totalMem => {
+          
+          setTotalDockerMem(totalMem);
+          //Now, we want to querry the DD Client once again to get the object of all the other metrics we are tracking
         updateContainerData();
+        })
+        
       });
     });
   }, []);
@@ -77,18 +84,16 @@ export function App() {
    routesArray holds JSX elements
    Each element is a route to a specific containers page 
   *****************/
-  const routesArray: React.ReactElement[] = [];
-  for (const elem of dataStore) {
-    routesArray.push(
-      <Route
-        key={`container-button-${elem.Container}`}
-        path={`/container/${elem.ID}`}
-        element={
-          <Containers container={elem} softLimit={softMemObj[elem.ID]} />
-        }
-      />
-    );
-  }
+  // const routesArray: React.ReactElement[] = [];
+  // for (const elem of dataStore) {
+  //   routesArray.push(
+  //     <Route
+  //       key={`container-button-${elem.Container}`}
+  //       path={`/container/${elem.ID}`}
+  //       element={<Containers container={elem} limits={memObj[elem.ID]} />}
+  //     />
+  //   );
+  // }
 
   return (
     <>
@@ -97,7 +102,8 @@ export function App() {
       <Mainpage
         containersArray={dataStore}
         containersLoaded={containersLoaded}
-        softMemObj = {softMemObj}
+        memObj={memObj}
+        totalDockerMem = {totalDockerMem}
       />
       {/* <Routes>
           <Route

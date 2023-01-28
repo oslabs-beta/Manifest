@@ -1,20 +1,20 @@
 import { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { createDockerDesktopClient } from '@docker/extension-api-client';
 import './mainpage.scss';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ContainerContext from '../../container-context';
 import DoughnutChart from '../charts/doughnut';
 import ContainerData from '../types/containerData';
 import { KeyboardDoubleArrowRightRounded } from '@mui/icons-material';
-import Containers from '../containers/containers';
+import TableRow from '../tables/tablerow';
 
 // const ddClient = createDockerDesktopClient();
 
 interface Props {
   containersArray: ContainerData[];
   containersLoaded: boolean;
-  softMemObj: any;
+  memObj: any;
+  totalDockerMem: number;
 }
 
 interface containerInfo {
@@ -22,25 +22,41 @@ interface containerInfo {
   containerMemPerc: number[];
 }
 
+function formatMemUsage(bytes: string | null) {
+  const inBytes: number[] = bytes
+    .match(/\d+\.\d+|\d+\b|\d+(?=\w)/g)
+    .map(function (v) {
+      return +v;
+    });
+  if (bytes?.includes('MiB')) {
+    return parseInt(inBytes[0] * 1048576);
+  } else {
+    return parseInt(inBytes[0] * 1073741824);
+  }
+}
+
 export function Mainpage(props: Props) {
-  const { containersArray, containersLoaded, softMemObj } = props;
-  const containerRows: JSX.Element[] = [];
-  console.log(softMemObj);
-  let containerNames: any = [];
-  let containerMemPerc: any = [];
+  const { containersArray, containersLoaded, memObj, totalDockerMem } = props;
+  const tableRows: JSX.Element[] = [];
+  // console.log(memObj);
+
+  let containerNames: any[] = [];
+  let containerMemPerc: any[] = [];
   if (containersLoaded) {
     containersArray.forEach((element) => {
-      containerRows.push(
-        <Containers
+      const elementMemUsage = formatMemUsage(element.MemUsage);
+      tableRows.push(
+        <TableRow
           ID={element.ID}
-          MemUsage={element.MemUsage}
-          MemPerc={element.MemPerc}
-          Name={element.Name}
-          softLimit={softMemObj[element.ID]}
+          containerName={element.Name}
+          memUsageReadableString={element.MemUsage}
+          byteUsage={elementMemUsage}
+          softLimit={memObj[element.ID].softLimit}
+          hardLimit={memObj[element.ID].hardLimit}
         />
       );
       containerNames.push(element.Name);
-      containerMemPerc.push(parseFloat(element.MemPerc));
+      containerMemPerc.push(elementMemUsage);
     });
   }
 
@@ -52,7 +68,7 @@ export function Mainpage(props: Props) {
             <DoughnutChart
               containerNames={containerNames}
               containerMemPerc={containerMemPerc}
-              maxMem={8}
+              maxMem={totalDockerMem}
               className="doughnutChart"
               id="doughnutChart1"
             />
@@ -74,9 +90,8 @@ export function Mainpage(props: Props) {
                 {/* <th> Expand </th> */}
               </tr>
             </thead>
-            <tbody>{containerRows}</tbody>
+            <tbody>{tableRows}</tbody>
           </table>
-          {/* <div className="containers">{containerComponents}</div> */}
         </div>
       ) : (
         <div className="mainPageWrapper">
