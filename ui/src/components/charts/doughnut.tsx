@@ -1,10 +1,17 @@
 import React, { useEffect } from 'react';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from 'chart.js';
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  Title,
+  Colors,
+} from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { withTheme } from '@emotion/react';
 import './doughnut.scss';
 
-ChartJS.register(ArcElement, Tooltip, Legend, Title);
+ChartJS.register(ArcElement, Tooltip, Legend, Title, Colors);
 
 type containerData = {
   ID: string;
@@ -118,16 +125,17 @@ export default function DoughnutChart(props: props) {
       duration: 1000,
     },
     plugins: {
+      colors: {
+        forceOverride: true,
+      },
       legend: {
         display: true,
         position: 'right',
         labels: {
-          // display: false,
           color: 'white',
           font: {
             size: 12,
             lineHeight: 1.2,
-            // style: 'color: white',
           },
           padding: 15,
         },
