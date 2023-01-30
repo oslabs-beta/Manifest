@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import { ContainerInfo } from './tableInfo';
 import ContainerData from '../types/containerData';
 import DoughnutChart from '../charts/doughnut';
+import { formatBytes } from '../../formattingBytes/formattingBytes';
 
 type Props = {
   ID: string;
@@ -15,30 +16,7 @@ type Props = {
   hardLimit: number | null;
 };
 
-function formatBytes(bytes: number | null, memLimit: string, decimals = 2) {
-  if (!bytes) return `${memLimit} Not Set`;
-  if (!+bytes) return '0 Bytes';
-
-  const k = 1024;
-  const dm = decimals < 0 ? 0 : decimals;
-  const sizes = [
-    'Bytes',
-    'KiB',
-    'MiB',
-    'GiB',
-    'TiB',
-    'Pi',
-    'EiB',
-    'ZiB',
-    'YiB',
-  ];
-
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-
-  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
-}
-
-export default function Containers(props: Props) {
+export default function TableRow(props: Props) {
   const {
     ID,
     containerName,
@@ -61,8 +39,8 @@ export default function Containers(props: Props) {
     hardLimitPerc = Math.round((byteUsage / hardLimit) * 100 * 100) / 100;
   }
 
-  const softLimitString: string = formatBytes(softLimit, 'Soft Limit');
-  const hardLimitString: string = formatBytes(hardLimit, 'Hard Limit');
+  const softLimitString: string = formatBytes(softLimit, 'Soft Limit Not Set');
+  const hardLimitString: string = formatBytes(hardLimit, 'Hard Limit Not Set');
 
   return (
     <>
@@ -79,20 +57,13 @@ export default function Containers(props: Props) {
       {expanded && (
         <tr className="rowExpanded">
           <td colSpan={4}>
-            {/* <img
-              src="https://miro.medium.com/max/1308/0*hNntnFFkfN67zLt3"
-              style={{ width: '10%', height: '10%' }}
-            /> */}
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
-            <hr />
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum.
           </td>
         </tr>
       )}

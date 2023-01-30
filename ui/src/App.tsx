@@ -8,7 +8,7 @@ import {
   getContianerIds,
   getMemLimits,
   getContainerMetrics,
-  getTotalMemoryAllocatedToDocker
+  getTotalMemoryAllocatedToDocker,
 } from './interactingWithDDClient';
 // Note: This line relies on Docker Desktop's presence as a host application.
 // If you're running this React app in a browser, it won't work properly.
@@ -68,13 +68,11 @@ export function App() {
         //Setting the softMemObj (piece of state) so that we can access those softMem properties later
         setMemObj(memoryLimitObject);
         //now we want to querry the DDCLient to figure out total memory allocated to docker
-        getTotalMemoryAllocatedToDocker().then(totalMem => {
-          
+        getTotalMemoryAllocatedToDocker().then((totalMem) => {
           setTotalDockerMem(totalMem);
           //Now, we want to querry the DD Client once again to get the object of all the other metrics we are tracking
-        updateContainerData();
-        })
-        
+          updateContainerData();
+        });
       });
     });
   }, []);
@@ -98,12 +96,12 @@ export function App() {
   return (
     <>
       {/* <Router> */}
-      <Navbar />
+      <Navbar containersArray={dataStore} />
       <Mainpage
         containersArray={dataStore}
         containersLoaded={containersLoaded}
         memObj={memObj}
-        totalDockerMem = {totalDockerMem}
+        totalDockerMem={totalDockerMem}
       />
       {/* <Routes>
           <Route

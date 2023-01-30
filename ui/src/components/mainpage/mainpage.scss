@@ -4,6 +4,7 @@
   justify-content: left;
   align-items: center;
   text-align: center;
+  border: none;
 }
 a {
   text-decoration: none;
@@ -21,22 +22,45 @@ a {
 
 @import '../scss-variables/variables.scss';
 
-.containerButton {
-  font-size: 1.25vw;
-  width: 20%;
-  height: 250px;
-  margin: 10px;
-  margin-top: 25px;
-  background-color: $primary;
-  color: $text;
-  font-family: 'Roboto', sans-serif;
-  border-color: rgb(55, 55, 55);
-  border-width: 2px;
-  border-style: solid;
-  border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 2px 1px,
-    rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px,
-    rgba(0, 0, 0, 0.09) 0px 16px 8px;
+// .containerButton {
+//   font-size: 1.25vw;
+//   width: 20%;
+//   height: 250px;
+//   margin: 10px;
+//   margin-top: 25px;
+//   background-color: $primary;
+//   color: $text;
+//   font-family: 'Roboto', sans-serif;
+//   border-color: rgb(55, 55, 55);
+//   border-width: 2px;
+//   border-style: solid;
+//   border-radius: 10px;
+//   box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 2px 1px,
+//     rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px,
+//     rgba(0, 0, 0, 0.09) 0px 16px 8px;
+// }
+
+table {
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+#tableName,
+#tableMemUsage,
+#tableHardLim,
+#tableSoftLim {
+  text-align: center;
+  border-bottom: 1px solid $text;
+  padding-bottom: 10px;
+}
+
+#tableHeader {
+  padding: 10px 0 0 0;
+  font-size: 35px;
+}
+
+hr {
+  padding: 0;
 }
 
 .containerButton:hover {
@@ -64,12 +88,12 @@ a {
   justify-content: center;
   border-color: rgb(55, 55, 55);
   border-width: 2px;
-  border-style: solid;
   border-radius: 10px;
   box-shadow: $boxShadow;
 }
 
-.doughnutChart {
+tr:last-child {
+  border-bottom: none;
 }
 
 .mainPageTable {
@@ -80,7 +104,6 @@ a {
   font-family: 'Roboto', sans-serif;
   border-color: rgb(55, 55, 55);
   border-width: 2px;
-  border-style: solid;
   border-radius: 10px;
   box-shadow: $boxShadow;
 }
