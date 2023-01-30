@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import { ContainerInfo } from './tableInfo';
 import ContainerData from '../types/containerData';
 import DoughnutChart from '../charts/doughnut';
+import Bar from '../charts/BarChart'
 import { formatBytes } from '../../formattingBytes/formattingBytes';
 
 type Props = {
@@ -39,8 +40,9 @@ export default function TableRow(props: Props) {
     hardLimitPerc = Math.round((byteUsage / hardLimit) * 100 * 100) / 100;
   }
 
-  const softLimitString: string = formatBytes(softLimit, 'Soft Limit Not Set');
-  const hardLimitString: string = formatBytes(hardLimit, 'Hard Limit Not Set');
+  const softLimitString: string = formatBytes(softLimit, 'Soft Limit');
+  const hardLimitString: string = formatBytes(hardLimit, 'Hard Limit');
+  const totalMemString: string = formatBytes(byteUsage, '');
 
   return (
     <>
@@ -64,15 +66,11 @@ export default function TableRow(props: Props) {
       </tr>
       {expanded && (
         <tr className="rowExpanded">
-          <td colSpan={4}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-          </td>
+          <td colSpan={2}>
+            {hardLimit || softLimit ? 
+              <Bar byteUsage = {byteUsage} softLimit = {softLimit} hardLimit = {hardLimit} softLimitString ={softLimitString} hardLimitString = {hardLimitString} totalMemString = {totalMemString} />
+              : <p>Use the interface to the right to setup memory limits</p>}
+            </td>
         </tr>
       )}
     </>

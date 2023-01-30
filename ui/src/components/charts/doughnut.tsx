@@ -8,7 +8,6 @@ import {
   Colors,
 } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
-import { withTheme } from '@emotion/react';
 import './doughnut.scss';
 
 ChartJS.register(ArcElement, Tooltip, Legend, Title, Colors);
@@ -61,7 +60,6 @@ export default function DoughnutChart(props: props) {
     ],
   });
 
-  // console.log(containerNames);
 
   useEffect(() => {
     // we are gonna need 2 set datas for each of the doughnut charts
