@@ -1,10 +1,21 @@
+@import '../scss-variables/variables.scss';
+
+.row {
+  border-bottom: 1px solid white;
+}
+
+td {
+  padding: 10px;
+}
+
 .row:hover {
-  background-color: grey;
-  border-color: grey;
-  border-collapse: collapse;
+  background-color: $bluePrimary;
+  border-color: $bluePrimary;
+  border-bottom: 1px solid $text;
 }
 
 .rowExpanded {
-  box-shadow: inset 0 3px 6px -3px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 3px 6px -3px rgb(255, 255, 255);
   padding: 0;
+  border-bottom: 1px solid $text;
 }

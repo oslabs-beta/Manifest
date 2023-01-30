@@ -117,6 +117,7 @@ export default function DoughnutChart(props: props) {
     },
     plugins: {
       legend: {
+        display: true,
         position: 'right',
         labels: {
           color: '#FFF',

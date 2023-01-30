@@ -22,7 +22,6 @@ interface containerInfo {
   containerMemPerc: number[];
 }
 
-
 export function Mainpage(props: Props) {
   const { containersArray, containersLoaded, memObj, totalDockerMem } = props;
   const tableRows: JSX.Element[] = [];
@@ -66,15 +65,21 @@ export function Mainpage(props: Props) {
               id="doughnutChart2"
             />
           </div>
-          <h1>Running Containers</h1>
+          {/* <h1>Running Containers</h1> */}
           <table className="mainPageTable">
             <thead>
               <tr>
-                <th> Name </th>
-                <th> Current Mem Usage </th>
-                <th> Hard Limit / % Used </th>
-                <th> Soft Limit / % Used </th>
-                {/* <th> Expand </th> */}
+                <th colSpan={4} id="tableHeader">
+                  Running Containers
+                </th>
+              </tr>
+            </thead>
+            <thead>
+              <tr>
+                <th id="tableName"> Name </th>
+                <th id="tableMemUsage"> Current Mem Usage </th>
+                <th id="tableHardLim"> Hard Limit / % Used </th>
+                <th id="tableSoftLim"> Soft Limit / % Used </th>
               </tr>
             </thead>
             <tbody>{tableRows}</tbody>
