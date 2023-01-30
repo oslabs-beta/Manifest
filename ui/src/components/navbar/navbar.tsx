@@ -10,10 +10,15 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { SvgIcon, SvgIconProps } from '@mui/material';
 import { Menu } from '../menu/menu';
+import Refresh from '@mui/icons-material/Refresh';
+import ContainerData from '../types/containerData';
 import './navbar.scss';
+import {
+  formatBytes,
+  formatMemUsage,
+} from '../../formattingBytes/formattingBytes';
 
 function HomeIcon(props: SvgIconProps) {
-  console.log()
   return (
     <SvgIcon {...props}>
       <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
@@ -21,8 +26,25 @@ function HomeIcon(props: SvgIconProps) {
   );
 }
 
-export function Navbar() {
+export function Navbar(props: containerData[]) {
+  const { containersArray } = props;
+  // console.log(containersArray);
   // const navigate = useNavigate();
+  const [totalMemUsage, setTotalMemUsage] = React.useState<string>();
+
+  useEffect(() => {
+    if (containersArray !== undefined) {
+      // console.log(containersArray);
+      const totalMem: number = containersArray.reduce((acc, curr) => {
+        acc += formatMemUsage(curr.MemUsage);
+        return acc;
+      }, 0);
+      setTotalMemUsage(formatBytes(totalMem, 'Loading'));
+      // console.log(totalMemUsage);
+    }
+    // console.log(totalMemUsage);
+  }, [containersArray]);
+
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
@@ -35,10 +57,23 @@ export function Navbar() {
               aria-label="menu"
               sx={{ mr: 2 }}
               style={{ position: 'absolute', left: '25px' }}
-              // onClick={() => navigate('/')}
+              onClick={() => location.reload()}
             >
-              <HomeIcon fontSize="large" sx={{ flexGrow: 1 }} />
+              {/* <HomeIcon fontSize="large" sx={{ flexGrow: 1 }} /> */}
+              <Refresh />
             </IconButton>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1 }}
+              style={{
+                margin: 'auto',
+                width: '50%',
+                textAlign: 'center',
+              }}
+            >
+              Total Memory Usage: {totalMemUsage}
+            </Typography>
             <Popup
               trigger={
                 <IconButton
