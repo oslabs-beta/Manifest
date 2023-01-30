@@ -120,7 +120,8 @@ export default function DoughnutChart(props: props) {
         display: true,
         position: 'right',
         labels: {
-          color: '#FFF',
+          // display: false,
+          color: 'white',
           font: {
             size: 12,
             lineHeight: 1.2,
@@ -146,15 +147,36 @@ export default function DoughnutChart(props: props) {
     },
   };
 
-
-
   return (
     <div className="gaugeChart">
       <Doughnut
         className="totalMemUsageChart"
         data={data}
         options={options}
+        // plugins={}
       />
     </div>
   );
 }
+
+// const textCenter = {
+//   id: 'textCenter',
+//   beforeDatasetsDraw(chart, args, pluginOptions) {
+//     const { ctx, data } = chart;
+
+//     const number = data.datasets[0].data[0];
+
+//     ctx.save();
+//     ctx.font = 'bold 30px sans-serif';
+//     ctx.fillStyle = 'white';
+//     ctx.textAlign = 'center';
+//     ctx.textBaseLine = 'middle';
+//     ctx.fillText(
+//       `${(Math.round(number * 100) / 100).toFixed(2)}%`,
+//       chart.getDatasetMeta(0).data[0].x,
+//       chart.getDatasetMeta(0).data[0].y
+//     );
+//   },
+// };
+
+// console.log(options.plugins.title);

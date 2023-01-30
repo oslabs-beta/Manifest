@@ -10,9 +10,9 @@ function formatMemUsage(bytes: string | null) {
     return parseInt(inBytes[0] * 1073741824);
   }
 }
-//function that takes in a number and a string representing the memory limit, and returns out the number of bytes. 
+//function that takes in a number and a string representing the memory limit, and returns out the number of bytes.
 function formatBytes(bytes: number | null, memLimit: string, decimals = 2) {
-  if (!bytes) return `${memLimit} Not Set`;
+  if (!bytes) return `${memLimit}`;
   if (!+bytes) return '0 Bytes';
 
   const k = 1024;
@@ -34,4 +34,4 @@ function formatBytes(bytes: number | null, memLimit: string, decimals = 2) {
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
 }
 
-export {formatMemUsage, formatBytes}
+export { formatMemUsage, formatBytes };

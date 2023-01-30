@@ -4,6 +4,7 @@
   justify-content: left;
   align-items: center;
   text-align: center;
+  border: none;
 }
 a {
   text-decoration: none;
@@ -87,12 +88,12 @@ hr {
   justify-content: center;
   border-color: rgb(55, 55, 55);
   border-width: 2px;
-  border-style: solid;
   border-radius: 10px;
   box-shadow: $boxShadow;
 }
 
-.doughnutChart {
+tr:last-child {
+  border-bottom: none;
 }
 
 .mainPageTable {
@@ -103,7 +104,6 @@ hr {
   font-family: 'Roboto', sans-serif;
   border-color: rgb(55, 55, 55);
   border-width: 2px;
-  border-style: solid;
   border-radius: 10px;
   box-shadow: $boxShadow;
 }
