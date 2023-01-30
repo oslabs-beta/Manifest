@@ -1,14 +1,14 @@
 import { useEffect, useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+
 import './mainpage.scss';
 import CircularProgress from '@mui/material/CircularProgress';
-import ContainerContext from '../../container-context';
+
 import DoughnutChart from '../charts/doughnut';
 import ContainerData from '../types/containerData';
-import { KeyboardDoubleArrowRightRounded } from '@mui/icons-material';
+
 import TableRow from '../tables/tablerow';
 import  { formatMemUsage }  from '../../formattingBytes/formattingBytes'
-// const ddClient = createDockerDesktopClient();
+
 
 interface Props {
   containersArray: ContainerData[];

@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import { ContainerInfo } from './tableInfo';
 import ContainerData from '../types/containerData';
 import DoughnutChart from '../charts/doughnut';
+import Bar from '../charts/BarChart'
 import { formatBytes } from '../../formattingBytes/formattingBytes';
 
 type Props = {
@@ -57,20 +58,7 @@ export default function TableRow(props: Props) {
       {expanded && (
         <tr className="rowExpanded">
           <td colSpan={4}>
-            {/* <img
-              src="https://miro.medium.com/max/1308/0*hNntnFFkfN67zLt3"
-              style={{ width: '10%', height: '10%' }}
-            /> */}
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
-            <hr />
+            <Bar byteUsage = {byteUsage} softLimit = {softLimit} hardLimit = {hardLimit} />
           </td>
         </tr>
       )}

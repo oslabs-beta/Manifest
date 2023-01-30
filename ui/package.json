@@ -13,6 +13,7 @@
     "@mui/material": "5.10.8",
     "@mui/styled-engine": "^5.11.0",
     "chart.js": "^4.2.0",
+    "chartjs-plugin-annotation": "^2.1.2",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",

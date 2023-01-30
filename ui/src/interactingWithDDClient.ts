@@ -20,7 +20,6 @@ const getMemLimits = async (idArr: string[]) => {
     .exec(`inspect`, [`--format='{{.HostConfig.MemoryReservation}} {{.HostConfig.Memory}}'`, ...idArr])
     .then(res => res.stdout.split('\n'));
     memLimitArr.pop();
-    console.log('memLimitArr:', memLimitArr);
     memLimitArr.forEach((memString, i) => {
       let softLimit: string | null;
       let hardLimit: string | null;
@@ -32,7 +31,6 @@ const getMemLimits = async (idArr: string[]) => {
         hardLimit: hardLimit
       }
     });
-    console.log('Return Object:', returnObj);
     return returnObj;
 }
 

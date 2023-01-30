@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
-import { withTheme } from '@emotion/react';
 import './doughnut.scss';
 
 ChartJS.register(ArcElement, Tooltip, Legend, Title);
@@ -54,7 +53,6 @@ export default function DoughnutChart(props: props) {
     ],
   });
 
-  // console.log(containerNames);
 
   useEffect(() => {
     // we are gonna need 2 set datas for each of the doughnut charts
@@ -147,27 +145,7 @@ export default function DoughnutChart(props: props) {
     },
   };
 
-  // const textCenter = {
-  //   id: 'textCenter',
-  //   beforeDatasetsDraw(chart, args, pluginOptions) {
-  //     const { ctx, data } = chart;
 
-  //     const number = data.datasets[0].data[0];
-
-  //     ctx.save();
-  //     ctx.font = 'bold 30px sans-serif';
-  //     ctx.fillStyle = 'white';
-  //     ctx.textAlign = 'center';
-  //     ctx.textBaseLine = 'middle';
-  //     ctx.fillText(
-  //       `${(Math.round(number * 100) / 100).toFixed(2)}%`,
-  //       chart.getDatasetMeta(0).data[0].x,
-  //       chart.getDatasetMeta(0).data[0].y
-  //     );
-  //   },
-  // };
-
-  // console.log(options.plugins.title);
 
   return (
     <div className="gaugeChart">
@@ -175,7 +153,6 @@ export default function DoughnutChart(props: props) {
         className="totalMemUsageChart"
         data={data}
         options={options}
-        // plugins={}
       />
     </div>
   );
