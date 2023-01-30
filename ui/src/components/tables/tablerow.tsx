@@ -39,8 +39,8 @@ export default function TableRow(props: Props) {
     hardLimitPerc = Math.round((byteUsage / hardLimit) * 100 * 100) / 100;
   }
 
-  const softLimitString: string = formatBytes(softLimit, 'Soft Limit');
-  const hardLimitString: string = formatBytes(hardLimit, 'Hard Limit');
+  const softLimitString: string = formatBytes(softLimit, 'Soft Limit Not Set');
+  const hardLimitString: string = formatBytes(hardLimit, 'Hard Limit Not Set');
 
   return (
     <>
