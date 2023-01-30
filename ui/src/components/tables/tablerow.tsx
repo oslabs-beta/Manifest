@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import { ContainerInfo } from './tableInfo';
 import ContainerData from '../types/containerData';
 import DoughnutChart from '../charts/doughnut';
+import { formatBytes } from '../../formattingBytes/formattingBytes';
 
 type Props = {
   ID: string;
@@ -15,30 +16,7 @@ type Props = {
   hardLimit: number | null;
 };
 
-function formatBytes(bytes: number | null, memLimit: string, decimals = 2) {
-  if (!bytes) return `${memLimit} Not Set`;
-  if (!+bytes) return '0 Bytes';
-
-  const k = 1024;
-  const dm = decimals < 0 ? 0 : decimals;
-  const sizes = [
-    'Bytes',
-    'KiB',
-    'MiB',
-    'GiB',
-    'TiB',
-    'Pi',
-    'EiB',
-    'ZiB',
-    'YiB',
-  ];
-
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-
-  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
-}
-
-export default function Containers(props: Props) {
+export default function TableRow(props: Props) {
   const {
     ID,
     containerName,
