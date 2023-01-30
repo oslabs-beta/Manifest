@@ -1,13 +1,13 @@
 import { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import './mainpage.scss';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 import ContainerContext from '../../container-context';
 import DoughnutChart from '../charts/doughnut';
 import ContainerData from '../types/containerData';
 import { KeyboardDoubleArrowRightRounded } from '@mui/icons-material';
 import TableRow from '../tables/tablerow';
-
+import  { formatMemUsage }  from '../../formattingBytes/formattingBytes'
 // const ddClient = createDockerDesktopClient();
 
 interface Props {
@@ -22,23 +22,10 @@ interface containerInfo {
   containerMemPerc: number[];
 }
 
-function formatMemUsage(bytes: string | null) {
-  const inBytes: number[] = bytes
-    .match(/\d+\.\d+|\d+\b|\d+(?=\w)/g)
-    .map(function (v) {
-      return +v;
-    });
-  if (bytes?.includes('MiB')) {
-    return parseInt(inBytes[0] * 1048576);
-  } else {
-    return parseInt(inBytes[0] * 1073741824);
-  }
-}
 
 export function Mainpage(props: Props) {
   const { containersArray, containersLoaded, memObj, totalDockerMem } = props;
   const tableRows: JSX.Element[] = [];
-  // console.log(memObj);
 
   let containerNames: any[] = [];
   let containerMemPerc: any[] = [];
