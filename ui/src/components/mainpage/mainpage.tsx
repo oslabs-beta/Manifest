@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import './mainpage.scss';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 import ContainerContext from '../../container-context';
 import DoughnutChart from '../charts/doughnut';
 import ContainerData from '../types/containerData';
@@ -47,6 +47,7 @@ export function Mainpage(props: Props) {
       const elementMemUsage = formatMemUsage(element.MemUsage);
       tableRows.push(
         <TableRow
+          key={`TableRow${element.ID}`}
           ID={element.ID}
           containerName={element.Name}
           memUsageReadableString={element.MemUsage}

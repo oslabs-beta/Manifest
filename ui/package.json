@@ -9,6 +9,7 @@
     "@docker/extension-api-client": "0.3.0",
     "@emotion/react": "11.10.4",
     "@emotion/styled": "11.10.4",
+    "@mui/icons-material": "^5.11.0",
     "@mui/material": "5.10.8",
     "@mui/styled-engine": "^5.11.0",
     "chart.js": "^4.2.0",
