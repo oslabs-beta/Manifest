@@ -66,18 +66,12 @@ export function Mainpage(props: Props) {
             />
           </div>
           {/* <h1>Running Containers</h1> */}
+          <h1>Running Containers</h1>
           <table className="mainPageTable">
             <thead>
               <tr>
-                <th colSpan={4} id="tableHeader">
-                  Running Containers
-                </th>
-              </tr>
-            </thead>
-            <thead>
-              <tr>
                 <th id="tableName"> Name </th>
-                <th id="tableMemUsage"> Current Mem Usage </th>
+                <th id="tableMemUsage"> Mem Usage </th>
                 <th id="tableHardLim"> Hard Limit / % Used </th>
                 <th id="tableSoftLim"> Soft Limit / % Used </th>
               </tr>

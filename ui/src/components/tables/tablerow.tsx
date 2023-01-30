@@ -42,6 +42,7 @@ export default function TableRow(props: Props) {
 
   const softLimitString: string = formatBytes(softLimit, 'Soft Limit');
   const hardLimitString: string = formatBytes(hardLimit, 'Hard Limit');
+  const totalMemString: string = formatBytes(byteUsage, '');
 
   return (
     <>
@@ -57,9 +58,11 @@ export default function TableRow(props: Props) {
       </tr>
       {expanded && (
         <tr className="rowExpanded">
-          <td colSpan={4}>
-            <Bar byteUsage = {byteUsage} softLimit = {softLimit} hardLimit = {hardLimit} />
-          </td>
+          <td colSpan={2}>
+            {hardLimit || softLimit ? 
+              <Bar byteUsage = {byteUsage} softLimit = {softLimit} hardLimit = {hardLimit} softLimitString ={softLimitString} hardLimitString = {hardLimitString} totalMemString = {totalMemString} />
+              : <p>Use the interface to the right to setup memory limits</p>}
+            </td>
         </tr>
       )}
     </>
