@@ -7,9 +7,7 @@ const getContianerIds = async () => {
   return await ddClient.docker.cli
   .exec('ps', ['--no-trunc','--format', '"{{.ID}}"'])
   .then((res) => {
-    //splitting by new lines
     const containerIdArr = res.stdout.split('\n');
-    //pop off last element (will always be empty string '' since the res.stdout has a \n at the end)
     containerIdArr.pop();
     return containerIdArr;
   });
