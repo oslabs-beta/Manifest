@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
 import './tables.scss';
-import Button from '@mui/material/Button';
-import { ContainerInfo } from './tableInfo';
-import ContainerData from '../types/containerData';
-import DoughnutChart from '../charts/doughnut';
 import Bar from '../charts/BarChart'
 import { formatBytes } from '../../formattingBytes/formattingBytes';
+import UpdateMemLimitsForm from '../updateDockerMetrics/UpdateMemLimits';
 
 type Props = {
   ID: string;
@@ -40,8 +36,8 @@ export default function TableRow(props: Props) {
     hardLimitPerc = Math.round((byteUsage / hardLimit) * 100 * 100) / 100;
   }
 
-  const softLimitString: string = formatBytes(softLimit, 'Soft Limit');
-  const hardLimitString: string = formatBytes(hardLimit, 'Hard Limit');
+  const softLimitString: string = formatBytes(softLimit, 'Soft Limit Not Set');
+  const hardLimitString: string = formatBytes(hardLimit, 'Hard Limit Not Set');
   const totalMemString: string = formatBytes(byteUsage, '');
 
   return (
@@ -63,6 +59,9 @@ export default function TableRow(props: Props) {
               <Bar byteUsage = {byteUsage} softLimit = {softLimit} hardLimit = {hardLimit} softLimitString ={softLimitString} hardLimitString = {hardLimitString} totalMemString = {totalMemString} />
               : <p>Use the interface to the right to setup memory limits</p>}
             </td>
+          <td colSpan={2}>
+            <UpdateMemLimitsForm ID = {ID}/>
+          </td>
         </tr>
       )}
     </>
