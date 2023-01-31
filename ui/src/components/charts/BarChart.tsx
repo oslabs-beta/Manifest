@@ -16,6 +16,25 @@ type Props = {
   totalMemString: string,
 };
 
+const getGradientColor = (byteUsage: number, softLimit: number | null, hardLimit: number | null): string => {
+  let rgb = [255, 255, 0]
+  if (!softLimit) {
+    if (hardLimit) softLimit = hardLimit / 2;
+    else return 'rgb(255, 0, 0)';
+  }
+
+  if (byteUsage < softLimit) {
+    const perc = byteUsage / softLimit;
+    rgb[0] = Math.floor(rgb[0] * perc);
+  } else if (byteUsage > softLimit) {
+    if (hardLimit) {
+      const perc = softLimit / (hardLimit - softLimit);
+      rgb[1] = Math.floor(rgb[1] * perc);
+    } else return 'rgb(255, 255, 0)';
+  }
+  return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+}
+
 export default function BarChart(props: Props){
   
   const labels = [props.totalMemString]
@@ -23,18 +42,22 @@ export default function BarChart(props: Props){
     labels: labels,
 
     datasets: [{
-      barPercentage: 0.5,
+      barPercentage: 0.4,
       data: [props.byteUsage],
       backgroundColor: [
-        'green',
+        `${getGradientColor(props.byteUsage, props.softLimit, props.hardLimit)}`,
       ],
-      borderColor: [
-        'white',
-      ],
+      borderRadius: 10,
+      borderSkipped: false,
+      // borderColor: [
+      //   'white',
+      // ],
       borderWidth: 1,
       color: 'white',
     }]
   };
+
+  console.log(data);
 
   const options = {
     indexAxis: 'y', 
@@ -42,6 +65,11 @@ export default function BarChart(props: Props){
     scales: {
       x: {
         display: false,
+      },
+      y: {
+        ticks: {
+          color: 'white',
+        }
       }
       
     },

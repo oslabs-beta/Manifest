@@ -50,10 +50,10 @@ export default function TableRow(props: Props) {
         <td> {containerName} </td>
         <td> {memUsageReadableString} </td>
         <td>
-          {hardLimitString} {hardLimit ? `/ ${hardLimitPerc}` : null}
+          {hardLimitString} {hardLimit ? `/ ${hardLimitPerc}%` : null}
         </td>
         <td>
-          {softLimitString} {softLimit ? `/ ${softLimitPerc}` : null}
+          {softLimitString} {softLimit ? `/ ${softLimitPerc}%` : null}
         </td>
       </tr>
       {expanded && (
