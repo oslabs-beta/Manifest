@@ -26,10 +26,15 @@ function HomeIcon(props: SvgIconProps) {
   );
 }
 
-export function Navbar(props: containerData[]) {
-  const { containersArray } = props;
-  // console.log(containersArray);
-  // const navigate = useNavigate();
+interface props {
+  containersArray: ContainerData[];
+  darkMode: boolean;
+  setDarkMode: () => void;
+}
+
+export function Navbar(props: props) {
+  const { containersArray, darkMode, setDarkMode } = props;
+  console.log('darkMode: ', darkMode);
   const [totalMemUsage, setTotalMemUsage] = React.useState<string>();
 
   useEffect(() => {
@@ -70,6 +75,7 @@ export function Navbar(props: containerData[]) {
                 margin: 'auto',
                 width: '50%',
                 textAlign: 'center',
+                color: 'white',
               }}
             >
               Total Memory Usage: {totalMemUsage}
