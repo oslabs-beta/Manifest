@@ -10,7 +10,7 @@ import ContentCut from '@mui/icons-material/ContentCut';
 import ContentCopy from '@mui/icons-material/ContentCopy';
 import ContentPaste from '@mui/icons-material/ContentPaste';
 import Cloud from '@mui/icons-material/Cloud';
-import Settings from '@mui/icons-material/Settings';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import DarkMode from '@mui/icons-material/DarkMode';
 import './menu.scss';
 
@@ -28,9 +28,9 @@ export function Menu(props: props) {
         <MenuList>
           <MenuItem>
             <ListItemIcon>
-              <Settings />
+              <GitHubIcon />
             </ListItemIcon>
-            <ListItemText>Settings</ListItemText>
+            <ListItemText><a href ='https://github.com/oslabs-beta/Dockery'>View Docs</a></ListItemText>
           </MenuItem>
           <MenuItem onClick={() => setDarkMode(!darkMode)}>
             <ListItemIcon>

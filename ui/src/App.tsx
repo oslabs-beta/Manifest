@@ -84,6 +84,7 @@ export function App() {
         darkMode={darkMode}
         setDarkMode={setDarkMode}
       />
+      <a href="https://www.google.com" target="_blank">google</a>
       <Mainpage
         containersArray={dataStore}
         containersLoaded={containersLoaded}

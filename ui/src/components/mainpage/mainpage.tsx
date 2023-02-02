@@ -3,7 +3,7 @@ import { useEffect, useState, useContext } from 'react';
 import './mainpage.scss';
 import CircularProgress from '@mui/material/CircularProgress';
 
-import DoughnutChart from '../charts/doughnut';
+import DoughnutChart from '../charts/DoughnutChart';
 import ContainerData from '../types/containerData';
 
 import TableRow from '../tables/tablerow';

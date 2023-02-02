@@ -1,14 +1,33 @@
 import React, { useEffect } from 'react';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title, scales, BarElement, CategoryScale, LinearScale } from 'chart.js';
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  Title,
+  scales,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+} from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { FlareSharp } from '@mui/icons-material';
-import annotationPlugin from 'chartjs-plugin-annotation'
+import annotationPlugin from 'chartjs-plugin-annotation';
 import { yellow } from '@mui/material/colors';
-import './BarChart.scss'
+import './BarChart.scss';
 
 import type { ChartOptions } from 'chart.js';
+import type { AnnotationPluginOptions } from 'chartjs-plugin-annotation';
 
-ChartJS.register(annotationPlugin, BarElement, Tooltip, Legend, Title, CategoryScale, LinearScale);
+ChartJS.register(
+  annotationPlugin,
+  BarElement,
+  Tooltip,
+  Legend,
+  Title,
+  CategoryScale,
+  LinearScale
+);
 
 type Props = {
   byteUsage: number;
@@ -16,7 +35,7 @@ type Props = {
   hardLimit: number | null;
   softLimitString: string;
   hardLimitString: string;
-  totalMemString: string,
+  totalMemString: string;
 };
 
 type dataset = [{
@@ -78,11 +97,12 @@ const getGradientColor = (byteUsage: number, softLimit: number | null, hardLimit
 }
 
 /* Creating a bar chart with the data that is passed in from the props. */
-export default function BarChart(props: Props){
-  
+export default function BarChart(props: Props) {
+  // Destructuring the props object.
+  const { softLimit, hardLimit } = props;
   // Label for bar chart (One label, appears on left before bar)
-  const labels: string[] = [props.totalMemString]
-  const data: Data = {
+  const labels = [props.totalMemString];
+  const data = {
     labels: labels,
 
     datasets: [{
@@ -106,12 +126,72 @@ export default function BarChart(props: Props){
       // color: 'white',
     }]
   };
+  /* Setting the hard limit annotation. */
+  const hardLimitAnnotations = {
+    annotations: {
+      hardLimit: {
+        type: 'line',
+        xMin: props.hardLimit,
+        xMax: props.hardLimit,
+        borderColor: 'rgb(175, 0, 0)',
+        borderWidth: 2,
+        label: {
+          content: 'Hard Limit ' + props.hardLimitString,
+          backgroundColor: 'rgb(175, 0, 0)',
+          display: true,
+          position: '0%',
+        },
+      },
+    },
+  };
 
+/* Setting the soft limit annotation. */
+  const softLimitAnnotations = {
+    annotations: {
+      softLimit: {
+        type: 'line',
+        xMin: props.softLimit,
+        xMax: props.softLimit,
+        borderColor: 'rgb(234,104,20)',
+        borderWidth: 2,
+        label: {
+          content: 'Soft Limit: ' + props.softLimitString,
+          backgroundColor: 'rgb(234,120,20)',
+          display: true,
+          position: '100%',
+        },
+      },
+    }
+  };
+  
+
+  /**
+   * It takes two numbers and returns an object with some properties
+   * @param {number | null} softLimit - The soft limit.
+   * @param {number | null} hardLimit - The hard limit.
+   * @returns An object with the softLimitAnnotations and hardLimitAnnotations
+   */
+
+  function annotations(
+    softLimit: number | null,
+    hardLimit: number | null
+  ): AnnotationPluginOptions {
+    let result = { annotations: {} };
+    if (softLimit) {
+      result = Object.assign(result, softLimitAnnotations);
+    }
+    if (hardLimit) {
+      result = Object.assign(result, hardLimitAnnotations);
+    }
+    return result;
+  }
+
+/* Setting the options for the bar chart. */
   // console.log(data);
 
   const options: ChartOptions<'bar'> = {
     // Horizontal "progress bar" style
-    indexAxis: 'y', 
+    indexAxis: 'y',
 
     scales: {
       x: {
@@ -120,62 +200,27 @@ export default function BarChart(props: Props){
       },
       y: {
         ticks: {
-          color: "white"
-        }
-      }
-      
+          color: 'white',
+        },
+      },
     },
 
     aspectRatio: 3.75,
 
     plugins: {
       legend: {
-        display: false
+        display: false,
       },
       title: {
-        display: false
+        display: false,
       },
-      annotation: {
-        annotations: {
-          // Creates line annotation for soft limit
-          softLimitLine: {
-            type: 'line',
-            xMin: props.softLimit,
-            xMax: props.softLimit,
-            borderColor: 'rgb(234,104,20)',
-            borderWidth: 2,
-            label: {
-              content: 'Soft Limit: ' + props.softLimitString,
-              backgroundColor: 'rgb(234,120,20)',
-              display: true,
-              position: '100%', // Top of horizontal chart
-            }
-          },
-          // Creates line annotation for hard limit
-          hardLimitLine: {
-            type: 'line',
-            xMin: props.hardLimit,
-            xMax: props.hardLimit,
-            borderColor: 'rgb(175, 0, 0)',
-            borderWidth: 2,
-            label: {
-              content: 'Hard Limit ' + props.hardLimitString,
-              backgroundColor: 'rgb(175, 0, 0)',
-              display: true,
-              position: '0%', // Bottom of horizontal chart
-            }
-          }
-        }
-      }
-    }
-  }
-  
+      annotation: annotations(softLimit, hardLimit),
+    },
+  };
 
   return (
-    <div className = 'barGraphWrapper'>
-      <Bar data = {data} 
-      options = {options} 
-      />
+    <div className="barGraphWrapper">
+      <Bar data={data} options={options} />
     </div>
-  )
+  );
 }

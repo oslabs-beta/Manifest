@@ -14,9 +14,6 @@ a {
   width: 100%;
   display: flex;
   flex-direction: row;
-  // justify-content: space-around;
-  // border: solid;
-  // border-color: white;
   flex-wrap: wrap;
 }
 
@@ -30,6 +27,17 @@ a {
   color: black;
 }
 
+.doughnutCharts {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  padding: 0px;
+  margin: 0 auto;
+  padding: 30px 0;
+}
+
 table {
   border-collapse: collapse;
   table-layout: fixed;
@@ -40,7 +48,6 @@ table {
 #tableHardLim,
 #tableSoftLim {
   text-align: center;
-  // border-bottom: 1px solid $text;
   padding-bottom: 10px;
 }
 
@@ -53,24 +60,12 @@ hr {
   padding: 0;
 }
 
-.doughnutCharts {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
-  padding: 0px;
-  margin: 0 auto;
-  padding: 30px 0;
-}
-
 tr:last-child {
   border-bottom: none;
 }
 
 .mainPageTableDark {
   color: $text;
-  // background-color: whit;
   width: 100%;
   font-size: 2vw;
   font-family: 'Roboto', sans-serif;

@@ -3,7 +3,7 @@ import './tables.scss';
 import Button from '@mui/material/Button';
 import { ContainerInfo } from './tableInfo';
 import ContainerData from '../types/containerData';
-import DoughnutChart from '../charts/doughnut';
+import DoughnutChart from '../charts/DoughnutChart';
 import Bar from '../charts/BarChart';
 import { formatBytes } from '../../formattingBytes/formattingBytes';
 import UpdateMemLimitsForm from '../updateDockerMetrics/UpdateMemLimitsForm';
@@ -45,7 +45,7 @@ export default function TableRow(props: Props) {
   };
 
   /**************
-  softLimitPerc and hardLimitPerc are 
+  softLimitPerc/String and hardLimitPerc/String are for displaying text within the tables
   ***************/
   let softLimitPerc: number = 0;
   if (softLimit) {
@@ -55,11 +55,13 @@ export default function TableRow(props: Props) {
   if (hardLimit) {
     hardLimitPerc = Math.round((byteUsage / hardLimit) * 100 * 100) / 100;
   }
-
   const softLimitString: string = formatBytes(softLimit, 'Soft Limit Not Set');
   const hardLimitString: string = formatBytes(hardLimit, 'Hard Limit Not Set');
   const totalMemString: string = formatBytes(byteUsage, '');
 
+  /**************
+  Change style depending on dark/light mode
+  ***************/
   function style(): style {
     if (expanded) {
       return { borderBottom: 'none' };
