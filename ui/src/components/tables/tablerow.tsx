@@ -16,6 +16,7 @@ type Props = {
   softLimit: number | null;
   hardLimit: number | null;
   darkMode: boolean;
+  totalDockerMem: number
 };
 
 type style = {
@@ -31,6 +32,7 @@ export default function TableRow(props: Props) {
     softLimit,
     hardLimit,
     darkMode,
+    totalDockerMem
   } = props;
   const [expanded, setExpanded] = useState<boolean>(false);
   const expand = () => {
@@ -76,7 +78,7 @@ export default function TableRow(props: Props) {
       </tr>
       {expanded && (
         <tr className="rowExpanded">
-          <td colSpan={2}>
+          <td colSpan={3}>
             {hardLimit || softLimit ? (
               <Bar
                 byteUsage={byteUsage}
@@ -89,6 +91,9 @@ export default function TableRow(props: Props) {
             ) : (
               <p>Use the interface to the right to setup memory limits</p>
             )}
+          </td>
+          <td colSpan={1} >
+            <UpdateMemLimitsForm ID = {ID} totalDockerMem = {totalDockerMem}/>
           </td>
         </tr>
       )}
