@@ -87,10 +87,16 @@ const updateMemoryLimits = async (softMemLimit: string, hardMemLimit: string, ID
   .exec('update', [`-m`, hardMemLimit, '--memory-reservation', softMemLimit, '--memory-swap', hardMemLimit, ID]);
 }
 
+
+const openExternalLink = async (link: string) => {
+  await ddClient.host.openExternal(link);
+}
+
 export {
   getContianerIds,
   getMemLimits,
   getContainerMetrics,
   getTotalMemoryAllocatedToDocker,
-  updateMemoryLimits
+  updateMemoryLimits,
+  openExternalLink
 };

@@ -8,7 +8,7 @@ import {
   Colors,
 } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
-import './doughnut.scss';
+import './DoughnutChart.scss';
 import { formatBytes } from '../../formattingBytes/formattingBytes';
 
 ChartJS.register(ArcElement, Tooltip, Legend, Title, Colors);

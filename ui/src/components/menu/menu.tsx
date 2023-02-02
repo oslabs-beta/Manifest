@@ -13,6 +13,7 @@ import Cloud from '@mui/icons-material/Cloud';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import DarkMode from '@mui/icons-material/DarkMode';
 import './menu.scss';
+import { openExternalLink } from '../../interactingWithDDClient';
 
 interface props {
   darkMode: boolean;
@@ -26,11 +27,11 @@ export function Menu(props: props) {
     <div className="menu">
       <Paper sx={{ width: 320, maxWidth: '100%' }}>
         <MenuList>
-          <MenuItem>
+          <MenuItem onClick = {() => openExternalLink('https://github.com/oslabs-beta/Dockery')}>
             <ListItemIcon>
               <GitHubIcon />
             </ListItemIcon>
-            <ListItemText><a href ='https://github.com/oslabs-beta/Dockery'>View Docs</a></ListItemText>
+            <ListItemText>View Docs</ListItemText>
           </MenuItem>
           <MenuItem onClick={() => setDarkMode(!darkMode)}>
             <ListItemIcon>
