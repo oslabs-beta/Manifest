@@ -96,6 +96,7 @@ export function App() {
         containersLoaded={containersLoaded}
         memObj={memObj}
         totalDockerMem={totalDockerMem}
+        darkMode={darkMode}
       />
     </>
   );
