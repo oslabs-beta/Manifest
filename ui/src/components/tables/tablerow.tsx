@@ -46,7 +46,15 @@ export default function TableRow(props: Props) {
 
   return (
     <>
-      <tr onClick={() => expand()} className="row">
+      <tr
+        onClick={() => expand()}
+        className="row"
+        style={
+          expanded
+            ? { borderBottom: 'none' }
+            : { borderBottom: '1px solid white' }
+        }
+      >
         <td> {containerName} </td>
         <td> {memUsageReadableString} </td>
         <td>
