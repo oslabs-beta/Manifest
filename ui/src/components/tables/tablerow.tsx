@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
 import './tables.scss';
 import Button from '@mui/material/Button';
 import { ContainerInfo } from './tableInfo';
@@ -7,6 +6,7 @@ import ContainerData from '../types/containerData';
 import DoughnutChart from '../charts/doughnut';
 import Bar from '../charts/BarChart';
 import { formatBytes } from '../../formattingBytes/formattingBytes';
+import UpdateMemLimitsForm from '../updateDockerMetrics/UpdateMemLimitsForm';
 
 type Props = {
   ID: string;
@@ -16,6 +16,7 @@ type Props = {
   softLimit: number | null;
   hardLimit: number | null;
   darkMode: boolean;
+  totalDockerMem: number
 };
 
 type style = {
@@ -31,6 +32,7 @@ export default function TableRow(props: Props) {
     softLimit,
     hardLimit,
     darkMode,
+    totalDockerMem
   } = props;
   const [expanded, setExpanded] = useState<boolean>(false);
   const expand = () => {
@@ -46,8 +48,8 @@ export default function TableRow(props: Props) {
     hardLimitPerc = Math.round((byteUsage / hardLimit) * 100 * 100) / 100;
   }
 
-  const softLimitString: string = formatBytes(softLimit, 'Soft Limit');
-  const hardLimitString: string = formatBytes(hardLimit, 'Hard Limit');
+  const softLimitString: string = formatBytes(softLimit, 'Soft Limit Not Set');
+  const hardLimitString: string = formatBytes(hardLimit, 'Hard Limit Not Set');
   const totalMemString: string = formatBytes(byteUsage, '');
 
   function style(): style {
@@ -76,7 +78,7 @@ export default function TableRow(props: Props) {
       </tr>
       {expanded && (
         <tr className="rowExpanded">
-          <td colSpan={2}>
+          <td colSpan={3}>
             {hardLimit || softLimit ? (
               <Bar
                 byteUsage={byteUsage}
@@ -89,6 +91,9 @@ export default function TableRow(props: Props) {
             ) : (
               <p>Use the interface to the right to setup memory limits</p>
             )}
+          </td>
+          <td colSpan={1} >
+            <UpdateMemLimitsForm ID = {ID} totalDockerMem = {totalDockerMem}/>
           </td>
         </tr>
       )}

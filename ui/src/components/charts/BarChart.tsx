@@ -42,6 +42,11 @@ export default function BarChart(props: Props){
     scales: {
       x: {
         display: false,
+      },
+      y: {
+        ticks: {
+          color: "white"
+        }
       }
       
     },
