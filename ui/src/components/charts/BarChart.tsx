@@ -104,9 +104,8 @@ export default function BarChart(props: Props){
         display: false,
       },
       y: {
-        // TODO: dynamic based on theme
         ticks: {
-          color: 'white',
+          color: "white"
         }
       }
       
