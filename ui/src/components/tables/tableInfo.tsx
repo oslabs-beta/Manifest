@@ -23,12 +23,6 @@ export function ContainerInfo(props: containerData) {
         <li>Percent of memory used: {MemPerc} bytes</li>
         <li>Soft Limit: {softLimit}</li>
       </ul>
-      {/* <DoughnutChart
-        ID={ID}
-        MemPerc={MemPerc}
-        MemUsage={MemUsage}
-        Name={Name}
-      /> */}
     </>
   );
 }

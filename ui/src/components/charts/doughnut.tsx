@@ -42,9 +42,30 @@ interface props {
   id: string;
 }
 
+const backgroundColors = [
+  '#819FB3',
+  'green',
+  '#D4D4FF',
+  'blue',
+  '#D7F4F3',
+  '#9BCFB6',
+  'orange',
+  '#FFF0D9',
+  'yellow',
+  '#F3E7BE',
+  'purple',
+  '#F8CDE8',
+  'red',
+  '#D68D96',
+  '#DFB1E6',
+  '#996D99',
+  '#003f5c',
+  '#58508d',
+  '#bc5090',
+];
+
 export default function DoughnutChart(props: props) {
   const { containerNames, containerMemPerc, maxMem, darkMode } = props;
-  // console.log(MemPerc);
   const [data, setData] = React.useState<data>({
     labels: [''],
     datasets: [
@@ -70,7 +91,7 @@ export default function DoughnutChart(props: props) {
           {
             label: 'Raw Memory',
             data: [maxMem - sum, ...containerMemPerc],
-            backgroundColor: ['whitesmoke'],
+            backgroundColor: ['whitesmoke', ...backgroundColors],
             borderColor: ['rgba(0, 0, 0, 0.54)'],
             color: color,
           },
@@ -83,7 +104,7 @@ export default function DoughnutChart(props: props) {
           {
             label: 'Raw Memory',
             data: containerMemPerc,
-            backgroundColor: [''],
+            backgroundColor: backgroundColors,
             borderColor: ['rgba(0, 0, 0, 0.54)'],
             color: color,
           },
@@ -114,10 +135,6 @@ export default function DoughnutChart(props: props) {
             tooltipItem.formattedValue = formatBytes(tooltipItem.raw, '');
           },
         },
-      },
-      colors: {
-        forceOverride: true,
-        enabled: true,
       },
       legend: {
         display: true,
