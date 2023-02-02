@@ -53,7 +53,7 @@ export default function UpdateMemLimitsForm (props: Props) {
    2. Compare the softLimit and hardLimit byte numbers to make sure that soft limit is less than hard limit
    3. Compare hardLimit byte number to totalDocker memory. Hard limit must be less than total memory allocated to docker
    4. Makes sure both hard limit and soft limit are greater than 6m. Docker does not allow setting limits less than 6m.
-   
+   5. If the above conditions are met, querry updateMemoryLimits and pass in the users hard/soft limits plus the ID to update the 
    *******************/
   const handleSubmit = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
