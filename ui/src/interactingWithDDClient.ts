@@ -54,9 +54,16 @@ const getTotalMemoryAllocatedToDocker = async () => {
   return response;
 };
 
+const updateMemoryLimits = async (softMemLimit: string, hardMemLimit: string, ID: string) => {
+  const response = await ddClient.docker.cli
+  .exec('update', [`-m`, hardMemLimit, '--memory-reservation', softMemLimit, '--memory-swap', hardMemLimit, ID]);
+  console.log('response', response);
+}
+
 export {
   getContianerIds,
   getMemLimits,
   getContainerMetrics,
   getTotalMemoryAllocatedToDocker,
+  updateMemoryLimits
 };

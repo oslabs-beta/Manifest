@@ -46,6 +46,7 @@ export function Mainpage(props: Props) {
           softLimit={memObj[element.ID].softLimit}
           hardLimit={memObj[element.ID].hardLimit}
           darkMode={darkMode}
+          totalDockerMem={totalDockerMem}
         />
       );
       containerNames.push(element.Name);
