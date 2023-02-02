@@ -29,7 +29,7 @@ function HomeIcon(props: SvgIconProps) {
 interface props {
   containersArray: ContainerData[];
   darkMode: boolean;
-  setDarkMode: () => void;
+  setDarkMode: (a: boolean) => void;
 }
 
 export function Navbar(props: props) {
@@ -53,7 +53,10 @@ export function Navbar(props: props) {
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
+        <AppBar
+          position="static"
+          style={darkMode ? {} : { borderColor: 'black' }}
+        >
           <Toolbar>
             <IconButton
               size="large"
@@ -65,18 +68,27 @@ export function Navbar(props: props) {
               onClick={() => location.reload()}
             >
               {/* <HomeIcon fontSize="large" sx={{ flexGrow: 1 }} /> */}
-              <Refresh />
+              <Refresh style={darkMode ? {} : { color: 'black' }} />
             </IconButton>
             <Typography
               variant="h6"
               component="div"
               sx={{ flexGrow: 1 }}
-              style={{
-                margin: 'auto',
-                width: '50%',
-                textAlign: 'center',
-                color: 'white',
-              }}
+              style={
+                darkMode
+                  ? {
+                      margin: 'auto',
+                      width: '50%',
+                      textAlign: 'center',
+                      color: 'white',
+                    }
+                  : {
+                      margin: 'auto',
+                      width: '50%',
+                      textAlign: 'center',
+                      color: 'black',
+                    }
+              }
             >
               Total Memory Usage: {totalMemUsage}
             </Typography>
@@ -91,7 +103,10 @@ export function Navbar(props: props) {
                   style={{ position: 'absolute', right: '10px' }}
                   // onClick={() => navigate('/menu')}
                 >
-                  <MenuIcon className="menuButton" />
+                  <MenuIcon
+                    className="menuButton"
+                    style={darkMode ? {} : { color: 'black' }}
+                  />
                 </IconButton>
               }
               modal
@@ -99,7 +114,9 @@ export function Navbar(props: props) {
             >
               {
                 // @ts-ignore: Unreachable code error
-                (close) => <Menu />
+                (close) => (
+                  <Menu darkMode={darkMode} setDarkMode={setDarkMode} />
+                )
               }
             </Popup>
           </Toolbar>

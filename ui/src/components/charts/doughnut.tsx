@@ -36,11 +36,14 @@ interface data {
 interface props {
   containerNames: string[];
   containerMemPerc: number[];
-  maxMem: any;
+  maxMem?: any;
+  darkMode: boolean;
+  className: string;
+  id: string;
 }
 
 export default function DoughnutChart(props: props) {
-  const { containerNames, containerMemPerc, maxMem } = props;
+  const { containerNames, containerMemPerc, maxMem, darkMode } = props;
   // console.log(MemPerc);
   const [data, setData] = React.useState<data>({
     labels: [''],
@@ -69,7 +72,7 @@ export default function DoughnutChart(props: props) {
             data: [maxMem - sum, ...containerMemPerc],
             backgroundColor: ['whitesmoke'],
             borderColor: ['rgba(0, 0, 0, 0.54)'],
-            color: '#FFF',
+            color: color,
           },
         ],
       });
@@ -82,16 +85,20 @@ export default function DoughnutChart(props: props) {
             data: containerMemPerc,
             backgroundColor: [''],
             borderColor: ['rgba(0, 0, 0, 0.54)'],
-            color: '#FFF',
+            color: color,
           },
         ],
       });
     }
-  }, [containerMemPerc, maxMem]);
+  }, [containerMemPerc, maxMem, darkMode]);
 
   let title = 'Memory Usage Ratio per Container';
   if (maxMem) {
     title = 'Memory Usage by Containers';
+  }
+  let color = 'black';
+  if (darkMode) {
+    color = 'white';
   }
 
   const options: any = {
@@ -116,7 +123,7 @@ export default function DoughnutChart(props: props) {
         display: true,
         position: 'right',
         labels: {
-          color: 'white',
+          color: color,
           font: {
             size: 12,
             lineHeight: 1.2,
@@ -126,7 +133,7 @@ export default function DoughnutChart(props: props) {
       },
       title: {
         fullSize: true,
-        color: '#FFF',
+        color: color,
         display: true,
         position: 'top',
         text: title,
@@ -142,7 +149,7 @@ export default function DoughnutChart(props: props) {
   };
 
   return (
-    <div className="gaugeChart">
+    <div className={darkMode ? 'gaugeChartDark' : 'gaugeChart'}>
       <Doughnut
         className="totalMemUsageChart"
         data={data}
