@@ -6,6 +6,8 @@ import annotationPlugin from 'chartjs-plugin-annotation'
 import { yellow } from '@mui/material/colors';
 import './BarChart.scss'
 
+import type { ChartOptions } from 'chart.js';
+
 ChartJS.register(annotationPlugin, BarElement, Tooltip, Legend, Title, CategoryScale, LinearScale);
 
 type Props = {
@@ -17,6 +19,19 @@ type Props = {
   totalMemString: string,
 };
 
+type dataset = [{
+    barPercentage: number,
+    data: number[],
+    backgroundColor: string[],
+    borderRadius: number,
+    borderSkipped: boolean,
+  }]
+
+type Data = {
+  labels: string[],
+
+  datasets: dataset,
+};
 
 /**
  * If the byteUsage is less than the softLimit, then the red value of the RGB color is set to the
@@ -34,7 +49,7 @@ type Props = {
 const getGradientColor = (byteUsage: number, softLimit: number | null, hardLimit: number | null): string => {
 
   // rgb is declared as yellow and modified accordingly
-  let rgb = [255, 255, 0]
+  let rgb: number[] = [255, 255, 0]
 
   // If a soft limit is not set for a given container, use half of the hard limit
   if (!softLimit) {
@@ -47,7 +62,7 @@ const getGradientColor = (byteUsage: number, softLimit: number | null, hardLimit
     // If byte usage is less than the soft limit, reduce the red value of rgb
     //  proportional to the percentage of bytes used to soft limit
     //    - Reducing red value makes the bar appear more green
-    const perc = byteUsage / softLimit;
+    const perc: number = byteUsage / softLimit;
     rgb[0] = Math.floor(rgb[0] * perc);
   } else if (byteUsage > softLimit) {
     // If byte usage is above the soft limit, reduce the green value of rgb
@@ -66,8 +81,8 @@ const getGradientColor = (byteUsage: number, softLimit: number | null, hardLimit
 export default function BarChart(props: Props){
   
   // Label for bar chart (One label, appears on left before bar)
-  const labels = [props.totalMemString]
-  const data = {
+  const labels: string[] = [props.totalMemString]
+  const data: Data = {
     labels: labels,
 
     datasets: [{
@@ -94,7 +109,7 @@ export default function BarChart(props: Props){
 
   // console.log(data);
 
-  const options = {
+  const options: ChartOptions<'bar'> = {
     // Horizontal "progress bar" style
     indexAxis: 'y', 
 

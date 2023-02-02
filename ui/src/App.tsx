@@ -17,33 +17,34 @@ import {
 const REFRESH_DELAY = 2000;
 
 export function App() {
-  /* 
-  dataStore is an array that holds objects. Each object holds data about a specific container 
-  */
+  
+  //dataStore is an array that holds objects. Each object holds data about a specific container 
   const [dataStore, setDataStore] = React.useState<ContainerData[]>([]);
+
   //containersLoaded is bool indicating weather or not we've recieved data from the docker desktop client.
   const [containersLoaded, setContainersLoaded] = React.useState(false);
-  //softMemObj holds key:values where key is container ID and value is the soft limit. If not soft limit, null is assigned.
-  const [memObj, setMemObj] = React.useState({});
-  const [totalDockerMem, setTotalDockerMem] = React.useState<number>(0);
-  const [darkMode, setDarkMode] = React.useState<boolean>(true);
 
-  /*
-  memOBJECT
-  {
-    containerID: {softLimit: some num OR NULL
-                  hardLimit: some num oR NULL
-                  }
+  //totalDockerMem is a number that is the total Bytes of memory allocated to docker desktop. Can be changed from DockerDesktop settings. 
+  const [totalDockerMem, setTotalDockerMem] = React.useState<number>(0);
+
+  //darkMode is a boolean indicating if we are in dark mode or not
+  const [darkMode, setDarkMode] = React.useState<boolean>(true);
+  
+  //mem object is a nested object containing the soft/hard memory limit for each contianer. See example memory object below
+  const [memObj, setMemObj] = React.useState({});
+  /* Example memObj
+  memObj = {
+      containerID: {
+          softLimit: some num OR NULL
+          hardLimit: some num oR NULL
+      }
   }
   */
 
   /*******************
-   updateContainerData
-   *******************
-  Gets the updated data on container metrics then sets the dataStore accordingly.
-  Also sets containersLoaded to true
-  and calls itself again after the REFRESH_DELAY
-  */
+  updateContainerData --> Gets the updated data on container metrics then sets the dataStore accordingly.
+  Also sets containersLoaded to true and calls itself again after the REFRESH_DELAY
+  ********************/
   const updateContainerData = () => {
     getContainerMetrics().then((containerMetricsObject) => {
       setDataStore(containerMetricsObject);
@@ -55,35 +56,27 @@ export function App() {
   /*******************
    useEffect
    *******************
-  Runs when container first loads ONLY. Does 3 things:
+  Runs when container first loads ONLY. Does 4 things: in this order:
     1. gets a list of all container id's
-    2. creates the soft memory object --> softMemObj piece of state. 
-        softMemObj is object where keys are container id and values are soft memory limit in bytes. if no limit is set - value is null. 
-    3. calles updateContainerData to start the refreshing behind the scenes. 
+    2. creates the memory  object --> memObj is a piece of state
+        memObj is object where keys are container id and values are soft memory limit in bytes. if no limit is set - value is null. 
+    3. Gets the totalMemory allocated to docker and sets totalDockerMem piece of state
+    4. calls updateContainerData to get metrics associated with each docker container
   */
   useEffect(() => {
-    //Gets a list the ID's of all running containers
     getContianerIds().then((containerIdArray) => {
-      //Creates a memory limit object which holds key:value pairs where the key is the container id and the value is the soft limit for that container (null if not set)
       getMemLimits(containerIdArray).then((memoryLimitObject) => {
-        //Setting the softMemObj (piece of state) so that we can access those softMem properties later
+        console.log('memoryLimitObject:', memoryLimitObject)
         setMemObj(memoryLimitObject);
-        //now we want to querry the DDCLient to figure out total memory allocated to docker
         getTotalMemoryAllocatedToDocker().then((totalMem) => {
           setTotalDockerMem(totalMem);
-          //Now, we want to querry the DD Client once again to get the object of all the other metrics we are tracking
           updateContainerData();
         });
       });
     });
   }, []);
 
-  /***************** 
-   This section of code creates an array: routesArray
-   routesArray holds JSX elements
-   Each element is a route to a specific containers page 
-  *****************/
-
+//return our navbar at the top and mainpage underneath it
   return (
     <>
       <Navbar

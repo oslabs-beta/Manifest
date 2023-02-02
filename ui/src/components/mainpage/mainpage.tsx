@@ -30,10 +30,20 @@ export function Mainpage(props: Props) {
     totalDockerMem,
     darkMode,
   } = props;
+  /**************
+  tableRows variable is what we are rendering, it is an array of react components
+  ***************/
   const tableRows: JSX.Element[] = [];
 
-  let containerNames: any[] = [];
-  let containerMemPerc: any[] = [];
+  /**************
+  containerNames and containerMemPerc are arrays which is passed into the charts' data because the charts require arrays to render
+  ***************/
+  let containerNames: string[] = [];
+  let containerMemPerc: number[] = [];
+
+  /**************
+  This pushes react components into tableRows array to be rendered passing down the necessary props it needs
+  ***************/
   if (containersLoaded) {
     containersArray.forEach((element) => {
       const elementMemUsage = formatMemUsage(element.MemUsage);
@@ -55,6 +65,9 @@ export function Mainpage(props: Props) {
     });
   }
 
+  /**************
+  Used to change style depending on light or dark mode
+  ***************/
   const style = darkMode
     ? { borderBottom: '1px solid white' }
     : { borderBottom: '1px solid black' };

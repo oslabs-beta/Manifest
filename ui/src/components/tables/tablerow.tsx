@@ -34,11 +34,19 @@ export default function TableRow(props: Props) {
     darkMode,
     totalDockerMem
   } = props;
+
+  /**************
+  State variable to check whether or not a row is expanded
+  Function also to change the row to expanded or unexpand the row
+  ***************/
   const [expanded, setExpanded] = useState<boolean>(false);
-  const expand = () => {
+  const expand = (): void => {
     setExpanded(!expanded);
   };
 
+  /**************
+  softLimitPerc and hardLimitPerc are 
+  ***************/
   let softLimitPerc: number = 0;
   if (softLimit) {
     softLimitPerc = Math.round((byteUsage / softLimit) * 100 * 100) / 100;

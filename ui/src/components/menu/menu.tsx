@@ -31,9 +31,6 @@ export function Menu(props: props) {
               <Settings />
             </ListItemIcon>
             <ListItemText>Settings</ListItemText>
-            {/* <Typography variant="body2" color="text.secondary">
-              ⌘X
-            </Typography> */}
           </MenuItem>
           <MenuItem onClick={() => setDarkMode(!darkMode)}>
             <ListItemIcon>
