@@ -5,6 +5,7 @@ import { FlareSharp } from '@mui/icons-material';
 import annotationPlugin from 'chartjs-plugin-annotation'
 import { yellow } from '@mui/material/colors';
 import './BarChart.scss'
+
 ChartJS.register(annotationPlugin, BarElement, Tooltip, Legend, Title, CategoryScale, LinearScale);
 
 type Props = {
@@ -16,17 +17,43 @@ type Props = {
   totalMemString: string,
 };
 
+
+/**
+ * If the byteUsage is less than the softLimit, then the red value of the RGB color is set to the
+ * percentage of the softLimit that the byteUsage is. Creates a gradient from green to yellow
+ * proportional to bar length
+ * If the byteUsage is greater than the softLimit, then the green value of the RGB color is set to
+ * the percentage of the softLimit that the byteUsage is. Creates a gradient from yellow to red
+ * proportional to bar length
+ * 
+ * @param {number} byteUsage - The number of bytes used by the container.
+ * @param {number | null} softLimit - The soft limit set for the container.
+ * @param {number | null} hardLimit - The maximum amount of bytes allowed to be used.
+ * @returns A string of the form 'rgb(r, g, b)' where r, g, and b are integers between 0 and 255.
+ */
 const getGradientColor = (byteUsage: number, softLimit: number | null, hardLimit: number | null): string => {
+
+  // rgb is declared as yellow and modified accordingly
   let rgb = [255, 255, 0]
+
+  // If a soft limit is not set for a given container, use half of the hard limit
   if (!softLimit) {
     if (hardLimit) softLimit = hardLimit / 2;
+    // If hard limit is also not set, bar will be green
     else return 'rgb(255, 0, 0)';
   }
 
   if (byteUsage < softLimit) {
+    // If byte usage is less than the soft limit, reduce the red value of rgb
+    //  proportional to the percentage of bytes used to soft limit
+    //    - Reducing red value makes the bar appear more green
     const perc = byteUsage / softLimit;
     rgb[0] = Math.floor(rgb[0] * perc);
   } else if (byteUsage > softLimit) {
+    // If byte usage is above the soft limit, reduce the green value of rgb
+    //  proportional to the percentage of bytes used between soft and hard limits
+    //    - Reducing green value makes the bar appear more red
+    // Or, if a hard limit is not set, bar will be yellow
     if (hardLimit) {
       const perc = softLimit / (hardLimit - softLimit);
       rgb[1] = Math.floor(rgb[1] * perc);
@@ -35,38 +62,49 @@ const getGradientColor = (byteUsage: number, softLimit: number | null, hardLimit
   return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
 }
 
+/* Creating a bar chart with the data that is passed in from the props. */
 export default function BarChart(props: Props){
   
+  // Label for bar chart (One label, appears on left before bar)
   const labels = [props.totalMemString]
   const data = {
     labels: labels,
 
     datasets: [{
+      // Width of bar chart (height because it is horizontal)
       barPercentage: 0.4,
+      // Data of bar, how many bytes are being used (controls length of bar)
       data: [props.byteUsage],
+      // Sets bar color, used in conjunction with getGradientColor function
+      // to dynamically change the color of the bar depending on byte usage
       backgroundColor: [
         `${getGradientColor(props.byteUsage, props.softLimit, props.hardLimit)}`,
       ],
+      // Round edges for a nice clean look
       borderRadius: 10,
+      // Do not make left edge squared
       borderSkipped: false,
       // borderColor: [
       //   'white',
       // ],
-      borderWidth: 1,
-      color: 'white',
+      // borderWidth: 1,
+      // color: 'white',
     }]
   };
 
-  console.log(data);
+  // console.log(data);
 
   const options = {
+    // Horizontal "progress bar" style
     indexAxis: 'y', 
 
     scales: {
       x: {
+        // Remove bottom scale
         display: false,
       },
       y: {
+        // TODO: dynamic based on theme
         ticks: {
           color: 'white',
         }
@@ -85,7 +123,8 @@ export default function BarChart(props: Props){
       },
       annotation: {
         annotations: {
-          line1: {
+          // Creates line annotation for soft limit
+          softLimitLine: {
             type: 'line',
             xMin: props.softLimit,
             xMax: props.softLimit,
@@ -95,10 +134,11 @@ export default function BarChart(props: Props){
               content: 'Soft Limit: ' + props.softLimitString,
               backgroundColor: 'rgb(234,120,20)',
               display: true,
-              position: '100%',
+              position: '100%', // Top of horizontal chart
             }
           },
-          line2: {
+          // Creates line annotation for hard limit
+          hardLimitLine: {
             type: 'line',
             xMin: props.hardLimit,
             xMax: props.hardLimit,
@@ -108,7 +148,7 @@ export default function BarChart(props: Props){
               content: 'Hard Limit ' + props.hardLimitString,
               backgroundColor: 'rgb(175, 0, 0)',
               display: true,
-              position: '0%',
+              position: '0%', // Bottom of horizontal chart
             }
           }
         }
