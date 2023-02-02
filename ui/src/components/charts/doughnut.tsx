@@ -1,9 +1,17 @@
 import React, { useEffect } from 'react';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from 'chart.js';
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  Title,
+  Colors,
+} from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import './doughnut.scss';
+import { formatBytes } from '../../formattingBytes/formattingBytes';
 
-ChartJS.register(ArcElement, Tooltip, Legend, Title);
+ChartJS.register(ArcElement, Tooltip, Legend, Title, Colors);
 
 type containerData = {
   ID: string;
@@ -40,23 +48,14 @@ export default function DoughnutChart(props: props) {
       {
         label: 'Percentage',
         data: [0],
-        backgroundColor: [
-          '#42a5f5',
-          '#ba68c8',
-          '#ef5350',
-          '#ff9800',
-          '#4caf50',
-        ],
+        backgroundColor: [''],
         borderColor: ['rgba(0, 0, 0, 0.54)'],
         color: '#FFF',
       },
     ],
   });
 
-
   useEffect(() => {
-    // we are gonna need 2 set datas for each of the doughnut charts
-    // add an if statement to check if maxMem is defined
     let sum = containerMemPerc.reduce((acc, curr) => {
       return (acc += curr);
     }, 0);
@@ -68,14 +67,7 @@ export default function DoughnutChart(props: props) {
           {
             label: 'Raw Memory',
             data: [maxMem - sum, ...containerMemPerc],
-            backgroundColor: [
-              'whitesmoke',
-              '#42a5f5',
-              '#ba68c8',
-              '#ef5350',
-              '#ff9800',
-              '#4caf50',
-            ],
+            backgroundColor: ['whitesmoke'],
             borderColor: ['rgba(0, 0, 0, 0.54)'],
             color: '#FFF',
           },
@@ -88,13 +80,7 @@ export default function DoughnutChart(props: props) {
           {
             label: 'Raw Memory',
             data: containerMemPerc,
-            backgroundColor: [
-              '#42a5f5',
-              '#ba68c8',
-              '#ef5350',
-              '#ff9800',
-              '#4caf50',
-            ],
+            backgroundColor: [''],
             borderColor: ['rgba(0, 0, 0, 0.54)'],
             color: '#FFF',
           },
@@ -109,23 +95,31 @@ export default function DoughnutChart(props: props) {
   }
 
   const options: any = {
-    maintainAspectRatio: true,
-    responsive: true,
-    aspectRatio: 1,
-    animation: {
-      duration: 1000,
+    tooltip: {
+      position: 'nearest',
     },
+    layout: {},
     plugins: {
+      tooltip: {
+        enabled: true,
+        callbacks: {
+          label: function (tooltipItem: any) {
+            tooltipItem.formattedValue = formatBytes(tooltipItem.raw, '');
+          },
+        },
+      },
+      colors: {
+        forceOverride: true,
+        enabled: true,
+      },
       legend: {
         display: true,
         position: 'right',
         labels: {
-          // display: false,
           color: 'white',
           font: {
             size: 12,
             lineHeight: 1.2,
-            // style: 'color: white',
           },
           padding: 15,
         },
