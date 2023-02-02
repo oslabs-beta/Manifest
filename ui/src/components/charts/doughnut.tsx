@@ -66,7 +66,6 @@ const backgroundColors = [
 
 export default function DoughnutChart(props: props) {
   const { containerNames, containerMemPerc, maxMem, darkMode } = props;
-  // console.log(MemPerc);
   const [data, setData] = React.useState<data>({
     labels: [''],
     datasets: [
