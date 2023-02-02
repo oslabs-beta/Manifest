@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './tables.scss';
 import Bar from '../charts/BarChart'
 import { formatBytes } from '../../formattingBytes/formattingBytes';
-import UpdateMemLimitsForm from '../updateDockerMetrics/UpdateMemLimits';
+import UpdateMemLimitsForm from '../updateDockerMetrics/UpdateMemLimitsForm';
 
 type Props = {
   ID: string;
@@ -11,6 +11,7 @@ type Props = {
   byteUsage: number;
   softLimit: number | null;
   hardLimit: number | null;
+  totalDockerMem: number
 };
 
 export default function TableRow(props: Props) {
@@ -21,6 +22,7 @@ export default function TableRow(props: Props) {
     byteUsage,
     softLimit,
     hardLimit,
+    totalDockerMem
   } = props;
   const [expanded, setExpanded] = useState<boolean>(false);
   const expand = () => {
@@ -54,13 +56,13 @@ export default function TableRow(props: Props) {
       </tr>
       {expanded && (
         <tr className="rowExpanded">
-          <td colSpan={2}>
+          <td colSpan={3}>
             {hardLimit || softLimit ? 
               <Bar byteUsage = {byteUsage} softLimit = {softLimit} hardLimit = {hardLimit} softLimitString ={softLimitString} hardLimitString = {hardLimitString} totalMemString = {totalMemString} />
               : <p>Use the interface to the right to setup memory limits</p>}
             </td>
-          <td colSpan={2}>
-            <UpdateMemLimitsForm ID = {ID}/>
+          <td colSpan={1} >
+            <UpdateMemLimitsForm ID = {ID} totalDockerMem = {totalDockerMem}/>
           </td>
         </tr>
       )}

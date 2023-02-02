@@ -39,6 +39,7 @@ export function Mainpage(props: Props) {
           byteUsage={elementMemUsage}
           softLimit={memObj[element.ID].softLimit}
           hardLimit={memObj[element.ID].hardLimit}
+          totalDockerMem={totalDockerMem}
         />
       );
       containerNames.push(element.Name);

@@ -77,25 +77,9 @@ export function App() {
     });
   }, []);
 
-  /***************** 
-   This section of code creates an array: routesArray
-   routesArray holds JSX elements
-   Each element is a route to a specific containers page 
-  *****************/
-  // const routesArray: React.ReactElement[] = [];
-  // for (const elem of dataStore) {
-  //   routesArray.push(
-  //     <Route
-  //       key={`container-button-${elem.Container}`}
-  //       path={`/container/${elem.ID}`}
-  //       element={<Containers container={elem} limits={memObj[elem.ID]} />}
-  //     />
-  //   );
-  // }
 
   return (
     <>
-      {/* <Router> */}
       <Navbar containersArray={dataStore} />
       <Mainpage
         containersArray={dataStore}
@@ -103,19 +87,6 @@ export function App() {
         memObj={memObj}
         totalDockerMem={totalDockerMem}
       />
-      {/* <Routes>
-          <Route
-            path="/"
-            element={
-              <Mainpage
-                containersArray={dataStore}
-                containersLoaded={containersLoaded}
-              />
-            }
-          />
-          {routesArray}
-        </Routes>
-      </Router> */}
     </>
   );
 }
