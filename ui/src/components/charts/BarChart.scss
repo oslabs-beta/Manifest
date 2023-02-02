@@ -1,6 +1,6 @@
-@import '../scss-variables/variables.scss';
+@import '../scss-variables/variables.module.scss';
 
-.barGraphWrapper{
+.barGraphWrapper {
   border-color: rgb(55, 55, 55);
   border-width: 2px;
   border-style: solid;
@@ -8,4 +8,3 @@
   margin: 10px;
   box-shadow: $boxShadow;
 }
-

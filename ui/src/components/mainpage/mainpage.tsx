@@ -7,14 +7,14 @@ import DoughnutChart from '../charts/doughnut';
 import ContainerData from '../types/containerData';
 
 import TableRow from '../tables/tablerow';
-import  { formatMemUsage }  from '../../formattingBytes/formattingBytes'
-
+import { formatMemUsage } from '../../formattingBytes/formattingBytes';
 
 interface Props {
   containersArray: ContainerData[];
   containersLoaded: boolean;
   memObj: any;
   totalDockerMem: number;
+  darkMode: boolean;
 }
 
 interface containerInfo {
@@ -23,7 +23,13 @@ interface containerInfo {
 }
 
 export function Mainpage(props: Props) {
-  const { containersArray, containersLoaded, memObj, totalDockerMem } = props;
+  const {
+    containersArray,
+    containersLoaded,
+    memObj,
+    totalDockerMem,
+    darkMode,
+  } = props;
   const tableRows: JSX.Element[] = [];
 
   let containerNames: any[] = [];
@@ -39,13 +45,17 @@ export function Mainpage(props: Props) {
           byteUsage={elementMemUsage}
           softLimit={memObj[element.ID].softLimit}
           hardLimit={memObj[element.ID].hardLimit}
-          totalDockerMem={totalDockerMem}
+          darkMode={darkMode}
         />
       );
       containerNames.push(element.Name);
       containerMemPerc.push(elementMemUsage);
     });
   }
+
+  const style = darkMode
+    ? { borderBottom: '1px solid white' }
+    : { borderBottom: '1px solid black' };
 
   return (
     <>
@@ -56,25 +66,38 @@ export function Mainpage(props: Props) {
               containerNames={containerNames}
               containerMemPerc={containerMemPerc}
               maxMem={totalDockerMem}
+              darkMode={darkMode}
               className="doughnutChart"
               id="doughnutChart1"
             />
             <DoughnutChart
               containerNames={containerNames}
               containerMemPerc={containerMemPerc}
+              darkMode={darkMode}
               className="doughnutChart"
               id="doughnutChart2"
             />
           </div>
-          {/* <h1>Running Containers</h1> */}
-          <h1>Running Containers</h1>
-          <table className="mainPageTable">
+          <h1 className={darkMode ? 'h1Dark' : 'h1Light'}>
+            Running Containers
+          </h1>
+          <table
+            className={darkMode ? 'mainPageTableDark' : 'mainPageTableLight'}
+          >
             <thead>
               <tr>
-                <th id="tableName"> Name </th>
-                <th id="tableMemUsage"> Mem Usage </th>
-                <th id="tableHardLim"> Hard Limit / % Used </th>
-                <th id="tableSoftLim"> Soft Limit / % Used </th>
+                <th id="tableName" style={style}>
+                  Name
+                </th>
+                <th id="tableMemUsage" style={style}>
+                  Mem Usage
+                </th>
+                <th id="tableHardLim" style={style}>
+                  Hard Limit / % Used
+                </th>
+                <th id="tableSoftLim" style={style}>
+                  Soft Limit / % Used
+                </th>
               </tr>
             </thead>
             <tbody>{tableRows}</tbody>

@@ -1,8 +1,4 @@
-@import '../scss-variables/variables.scss';
-
-.row {
-  border-bottom: 1px solid white;
-}
+@import '../scss-variables/variables.module.scss';
 
 td {
   padding: 10px;
@@ -15,11 +11,9 @@ td {
 }
 
 .rowExpanded {
-  box-shadow: inset 0 3px 6px -3px rgb(255, 255, 255);
   padding: 0;
   border-bottom: 1px solid $text;
   height: 10vw;
-  
 }
 
 

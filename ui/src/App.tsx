@@ -26,6 +26,7 @@ export function App() {
   //softMemObj holds key:values where key is container ID and value is the soft limit. If not soft limit, null is assigned.
   const [memObj, setMemObj] = React.useState({});
   const [totalDockerMem, setTotalDockerMem] = React.useState<number>(0);
+  const [darkMode, setDarkMode] = React.useState<boolean>(true);
 
   /*
   memOBJECT
@@ -77,15 +78,25 @@ export function App() {
     });
   }, []);
 
+  /***************** 
+   This section of code creates an array: routesArray
+   routesArray holds JSX elements
+   Each element is a route to a specific containers page 
+  *****************/
 
   return (
     <>
-      <Navbar containersArray={dataStore} />
+      <Navbar
+        containersArray={dataStore}
+        darkMode={darkMode}
+        setDarkMode={setDarkMode}
+      />
       <Mainpage
         containersArray={dataStore}
         containersLoaded={containersLoaded}
         memObj={memObj}
         totalDockerMem={totalDockerMem}
+        darkMode={darkMode}
       />
     </>
   );

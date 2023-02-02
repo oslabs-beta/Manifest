@@ -1,9 +1,17 @@
 import React, { useEffect } from 'react';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from 'chart.js';
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  Title,
+  Colors,
+} from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import './doughnut.scss';
+import { formatBytes } from '../../formattingBytes/formattingBytes';
 
-ChartJS.register(ArcElement, Tooltip, Legend, Title);
+ChartJS.register(ArcElement, Tooltip, Legend, Title, Colors);
 
 type containerData = {
   ID: string;
@@ -28,11 +36,14 @@ interface data {
 interface props {
   containerNames: string[];
   containerMemPerc: number[];
-  maxMem: any;
+  maxMem?: any;
+  darkMode: boolean;
+  className: string;
+  id: string;
 }
 
 export default function DoughnutChart(props: props) {
-  const { containerNames, containerMemPerc, maxMem } = props;
+  const { containerNames, containerMemPerc, maxMem, darkMode } = props;
   // console.log(MemPerc);
   const [data, setData] = React.useState<data>({
     labels: [''],
@@ -40,23 +51,14 @@ export default function DoughnutChart(props: props) {
       {
         label: 'Percentage',
         data: [0],
-        backgroundColor: [
-          '#42a5f5',
-          '#ba68c8',
-          '#ef5350',
-          '#ff9800',
-          '#4caf50',
-        ],
+        backgroundColor: [''],
         borderColor: ['rgba(0, 0, 0, 0.54)'],
         color: '#FFF',
       },
     ],
   });
 
-
   useEffect(() => {
-    // we are gonna need 2 set datas for each of the doughnut charts
-    // add an if statement to check if maxMem is defined
     let sum = containerMemPerc.reduce((acc, curr) => {
       return (acc += curr);
     }, 0);
@@ -68,16 +70,9 @@ export default function DoughnutChart(props: props) {
           {
             label: 'Raw Memory',
             data: [maxMem - sum, ...containerMemPerc],
-            backgroundColor: [
-              'whitesmoke',
-              '#42a5f5',
-              '#ba68c8',
-              '#ef5350',
-              '#ff9800',
-              '#4caf50',
-            ],
+            backgroundColor: ['whitesmoke'],
             borderColor: ['rgba(0, 0, 0, 0.54)'],
-            color: '#FFF',
+            color: color,
           },
         ],
       });
@@ -88,51 +83,57 @@ export default function DoughnutChart(props: props) {
           {
             label: 'Raw Memory',
             data: containerMemPerc,
-            backgroundColor: [
-              '#42a5f5',
-              '#ba68c8',
-              '#ef5350',
-              '#ff9800',
-              '#4caf50',
-            ],
+            backgroundColor: [''],
             borderColor: ['rgba(0, 0, 0, 0.54)'],
-            color: '#FFF',
+            color: color,
           },
         ],
       });
     }
-  }, [containerMemPerc, maxMem]);
+  }, [containerMemPerc, maxMem, darkMode]);
 
   let title = 'Memory Usage Ratio per Container';
   if (maxMem) {
     title = 'Memory Usage by Containers';
   }
+  let color = 'black';
+  if (darkMode) {
+    color = 'white';
+  }
 
   const options: any = {
-    maintainAspectRatio: true,
-    responsive: true,
-    aspectRatio: 1,
-    animation: {
-      duration: 1000,
+    tooltip: {
+      position: 'nearest',
     },
+    layout: {},
     plugins: {
+      tooltip: {
+        enabled: true,
+        callbacks: {
+          label: function (tooltipItem: any) {
+            tooltipItem.formattedValue = formatBytes(tooltipItem.raw, '');
+          },
+        },
+      },
+      colors: {
+        forceOverride: true,
+        enabled: true,
+      },
       legend: {
         display: true,
         position: 'right',
         labels: {
-          // display: false,
-          color: 'white',
+          color: color,
           font: {
             size: 12,
             lineHeight: 1.2,
-            // style: 'color: white',
           },
           padding: 15,
         },
       },
       title: {
         fullSize: true,
-        color: '#FFF',
+        color: color,
         display: true,
         position: 'top',
         text: title,
@@ -148,7 +149,7 @@ export default function DoughnutChart(props: props) {
   };
 
   return (
-    <div className="gaugeChart">
+    <div className={darkMode ? 'gaugeChartDark' : 'gaugeChart'}>
       <Doughnut
         className="totalMemUsageChart"
         data={data}

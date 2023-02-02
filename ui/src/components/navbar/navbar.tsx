@@ -26,10 +26,15 @@ function HomeIcon(props: SvgIconProps) {
   );
 }
 
-export function Navbar(props: containerData[]) {
-  const { containersArray } = props;
-  // console.log(containersArray);
-  // const navigate = useNavigate();
+interface props {
+  containersArray: ContainerData[];
+  darkMode: boolean;
+  setDarkMode: (a: boolean) => void;
+}
+
+export function Navbar(props: props) {
+  const { containersArray, darkMode, setDarkMode } = props;
+  console.log('darkMode: ', darkMode);
   const [totalMemUsage, setTotalMemUsage] = React.useState<string>();
 
   useEffect(() => {
@@ -48,7 +53,10 @@ export function Navbar(props: containerData[]) {
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
+        <AppBar
+          position="static"
+          style={darkMode ? {} : { borderColor: 'black' }}
+        >
           <Toolbar>
             <IconButton
               size="large"
@@ -60,17 +68,27 @@ export function Navbar(props: containerData[]) {
               onClick={() => location.reload()}
             >
               {/* <HomeIcon fontSize="large" sx={{ flexGrow: 1 }} /> */}
-              <Refresh />
+              <Refresh style={darkMode ? {} : { color: 'black' }} />
             </IconButton>
             <Typography
               variant="h6"
               component="div"
               sx={{ flexGrow: 1 }}
-              style={{
-                margin: 'auto',
-                width: '50%',
-                textAlign: 'center',
-              }}
+              style={
+                darkMode
+                  ? {
+                      margin: 'auto',
+                      width: '50%',
+                      textAlign: 'center',
+                      color: 'white',
+                    }
+                  : {
+                      margin: 'auto',
+                      width: '50%',
+                      textAlign: 'center',
+                      color: 'black',
+                    }
+              }
             >
               Total Memory Usage: {totalMemUsage}
             </Typography>
@@ -85,7 +103,10 @@ export function Navbar(props: containerData[]) {
                   style={{ position: 'absolute', right: '10px' }}
                   // onClick={() => navigate('/menu')}
                 >
-                  <MenuIcon className="menuButton" />
+                  <MenuIcon
+                    className="menuButton"
+                    style={darkMode ? {} : { color: 'black' }}
+                  />
                 </IconButton>
               }
               modal
@@ -93,7 +114,9 @@ export function Navbar(props: containerData[]) {
             >
               {
                 // @ts-ignore: Unreachable code error
-                (close) => <Menu />
+                (close) => (
+                  <Menu darkMode={darkMode} setDarkMode={setDarkMode} />
+                )
               }
             </Popup>
           </Toolbar>

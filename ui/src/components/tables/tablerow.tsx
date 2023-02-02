@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import './tables.scss';
-import Bar from '../charts/BarChart'
+import Button from '@mui/material/Button';
+import { ContainerInfo } from './tableInfo';
+import ContainerData from '../types/containerData';
+import DoughnutChart from '../charts/doughnut';
+import Bar from '../charts/BarChart';
 import { formatBytes } from '../../formattingBytes/formattingBytes';
 import UpdateMemLimitsForm from '../updateDockerMetrics/UpdateMemLimitsForm';
 
@@ -11,7 +15,11 @@ type Props = {
   byteUsage: number;
   softLimit: number | null;
   hardLimit: number | null;
-  totalDockerMem: number
+  darkMode: boolean;
+};
+
+type style = {
+  borderBottom: string;
 };
 
 export default function TableRow(props: Props) {
@@ -22,7 +30,7 @@ export default function TableRow(props: Props) {
     byteUsage,
     softLimit,
     hardLimit,
-    totalDockerMem
+    darkMode,
   } = props;
   const [expanded, setExpanded] = useState<boolean>(false);
   const expand = () => {
@@ -42,9 +50,21 @@ export default function TableRow(props: Props) {
   const hardLimitString: string = formatBytes(hardLimit, 'Hard Limit Not Set');
   const totalMemString: string = formatBytes(byteUsage, '');
 
+  function style(): style {
+    if (expanded) {
+      return { borderBottom: 'none' };
+    } else {
+      if (darkMode) {
+        return { borderBottom: '1px solid white' };
+      } else {
+        return { borderBottom: '1px solid black' };
+      }
+    }
+  }
+
   return (
     <>
-      <tr onClick={() => expand()} className="row">
+      <tr onClick={() => expand()} className="row" style={style()}>
         <td> {containerName} </td>
         <td> {memUsageReadableString} </td>
         <td>
@@ -56,13 +76,19 @@ export default function TableRow(props: Props) {
       </tr>
       {expanded && (
         <tr className="rowExpanded">
-          <td colSpan={3}>
-            {hardLimit || softLimit ? 
-              <Bar byteUsage = {byteUsage} softLimit = {softLimit} hardLimit = {hardLimit} softLimitString ={softLimitString} hardLimitString = {hardLimitString} totalMemString = {totalMemString} />
-              : <p>Use the interface to the right to setup memory limits</p>}
-            </td>
-          <td colSpan={1} >
-            <UpdateMemLimitsForm ID = {ID} totalDockerMem = {totalDockerMem}/>
+          <td colSpan={2}>
+            {hardLimit || softLimit ? (
+              <Bar
+                byteUsage={byteUsage}
+                softLimit={softLimit}
+                hardLimit={hardLimit}
+                softLimitString={softLimitString}
+                hardLimitString={hardLimitString}
+                totalMemString={totalMemString}
+              />
+            ) : (
+              <p>Use the interface to the right to setup memory limits</p>
+            )}
           </td>
         </tr>
       )}
