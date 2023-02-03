@@ -106,53 +106,55 @@ export default function UpdateMemLimitsForm (props: Props) {
   ];
 
   return(
-    <form onSubmit = {handleSubmit} className = 'formGrid'>
+    <div id='formWrapper'>
+      <p className = 'formTitle'>Update memory limits</p>
+      <form onSubmit = {handleSubmit} className = 'formGrid'>
+          <TextField
+            id = {`hardLimit-input-${ID}`}
+            className = 'hard-limit-input'
+            name = 'hardLimit'
+            label = 'Hard Limit'
+            type = 'number'
+            value = {formValues.hardLimit}
+            // @ts-ignore - no onChange prop in TextField MUI
+            onChange = {handleInputChange}
+          />
 
-        <TextField
-          id = {`hardLimit-input-${ID}`}
-          className = 'hard-limit-input'
-          name = 'hardLimit'
-          label = 'Hard Limit'
-          type = 'number'
-          value = {formValues.hardLimit}
-          // @ts-ignore - no onChange prop in TextField MUI
-          onChange = {handleInputChange}
-        />
+          <Select
+            id = {`hardLimit-units-${ID}`}
+            className = 'hard-limit-units'
+            name = "hardLimitUnits"
+            value = {formValues.hardLimitUnits}
+            onChange = {handleInputChange}
+          >
+            {unitsArray}
+          </Select>
 
-        <Select
-          id = {`hardLimit-units-${ID}`}
-          className = 'hard-limit-units'
-          name = "hardLimitUnits"
-          value = {formValues.hardLimitUnits}
-          onChange = {handleInputChange}
-        >
-          {unitsArray}
-        </Select>
+          <TextField
+            id = {`softLimit-input-${ID}`}
+            className = 'soft-limit-input'
+            name = 'softLimit'
+            label = 'Soft Limit'
+            type = 'number'
+            value = {formValues.softLimit}
+            // @ts-ignore - no onChange prop in TextField MUI
+            onChange = {handleInputChange}
+          />
 
-        <TextField
-          id = {`softLimit-input-${ID}`}
-          className = 'soft-limit-input'
-          name = 'softLimit'
-          label = 'Soft Limit'
-          type = 'number'
-          value = {formValues.softLimit}
-          // @ts-ignore - no onChange prop in TextField MUI
-          onChange = {handleInputChange}
-        />
-
-        <Select
-          id = {`softLimit-units-${ID}`}
-          className = 'soft-limit-units'
-          name = "softLimitUnits"
-          value = {formValues.softLimitUnits}
-          onChange = {handleInputChange}
-        >
-          {unitsArray}
-        </Select>
-        
-        <Button type = 'submit' className='formSubmit'>Submit</Button>
-   
-    </form>  
+          <Select
+            id = {`softLimit-units-${ID}`}
+            className = 'soft-limit-units'
+            name = "softLimitUnits"
+            value = {formValues.softLimitUnits}
+            onChange = {handleInputChange}
+          >
+            {unitsArray}
+          </Select>
+          
+          <Button type = 'submit' className='formSubmit'>Submit</Button>
+    
+      </form>  
+    </div>
   )
 }
 

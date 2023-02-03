@@ -8,8 +8,12 @@ import ContainerData from '../types/containerData';
 
 import TableRow from '../tables/tablerow';
 import { formatMemUsage } from '../../formattingBytes/formattingBytes';
-import { getCurrentTextColor } from '../../getCurrentTextColor';
-const color = getCurrentTextColor();
+/************************* */
+import { currentTextColor } from '../../getCurrentTextColor';
+//currentTextColor is based off of current light/dark mode theme set in docker desktop settings. 
+//Since ChartJS needs a color property passed in for the labels, we need to get this current themed color to apply it to our graphs
+/************************/
+
 interface Props {
   containersArray: ContainerData[];
   containersLoaded: boolean;
@@ -85,11 +89,11 @@ export function Mainpage(props: Props) {
               id="doughnutChart2"
             />
           </div>
-          <h1>
+          <h2>
             Running Containers
-          </h1>
+          </h2>
           <table
-            style = {{boxShadow: `${color} 0px 0px 6px 2px`}}
+            style = {{boxShadow: `${currentTextColor} 0px 0px 6px 2px`}}
           >
             <thead>
               <tr>

@@ -3,8 +3,11 @@ import './tables.scss';
 import Bar from '../charts/BarChart';
 import { formatBytes } from '../../formattingBytes/formattingBytes';
 import UpdateMemLimitsForm from '../forms/UpdateMemLimitsForm';
-import { getCurrentTextColor } from '../../getCurrentTextColor';
-const currentTextColor = getCurrentTextColor();
+/************************* */
+import { currentTextColor } from '../../getCurrentTextColor';
+//currentTextColor is based off of current light/dark mode theme set in docker desktop settings. 
+//Since ChartJS needs a color property passed in for the labels, we need to get this current themed color to apply it to our graphs
+/************************/
 type Props = {
   ID: string;
   containerName: string;
@@ -72,7 +75,7 @@ export default function TableRow(props: Props) {
       </tr>
       {expanded && (
         <tr className="rowExpanded">
-          <td colSpan={3}>
+          <td colSpan={3} >
             {hardLimit || softLimit ? (
               <Bar
                 byteUsage={byteUsage}

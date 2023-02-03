@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
 import {
   Chart as ChartJS,
-  ArcElement,
   Tooltip,
   Legend,
   Title,
@@ -11,15 +9,16 @@ import {
   LinearScale,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import { FlareSharp } from '@mui/icons-material';
 import annotationPlugin from 'chartjs-plugin-annotation';
-import { yellow } from '@mui/material/colors';
 import './BarChart.scss';
-
 import type { ChartOptions } from 'chart.js';
-import type { AnnotationPluginOptions } from 'chartjs-plugin-annotation';
-import { getCurrentTextColor } from '../../getCurrentTextColor';
-const currentTextColor = getCurrentTextColor();
+/************************* */
+import { currentTextColor } from '../../getCurrentTextColor';
+//currentTextColor is based off of current light/dark mode theme set in docker desktop settings. 
+//Since ChartJS needs a color property passed in for the labels, we need to get this current themed color to apply it to our graphs
+/************************/
+
+
 ChartJS.register(
   annotationPlugin,
   BarElement,
