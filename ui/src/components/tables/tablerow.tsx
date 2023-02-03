@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import './tables.scss';
-import Button from '@mui/material/Button';
-import { ContainerInfo } from './tableInfo';
-import ContainerData from '../types/containerData';
-import DoughnutChart from '../charts/DoughnutChart';
 import Bar from '../charts/BarChart';
 import { formatBytes } from '../../formattingBytes/formattingBytes';
-import UpdateMemLimitsForm from '../updateDockerMetrics/UpdateMemLimitsForm';
-
+import UpdateMemLimitsForm from '../forms/UpdateMemLimitsForm';
+/************************* */
+import { currentTextColor } from '../../getCurrentTextColor';
+//currentTextColor is based off of current light/dark mode theme set in docker desktop settings. 
+//Since ChartJS needs a color property passed in for the labels, we need to get this current themed color to apply it to our graphs
+/************************/
 type Props = {
   ID: string;
   containerName: string;
@@ -15,7 +15,6 @@ type Props = {
   byteUsage: number;
   softLimit: number | null;
   hardLimit: number | null;
-  darkMode: boolean;
   totalDockerMem: number
 };
 
@@ -31,7 +30,6 @@ export default function TableRow(props: Props) {
     byteUsage,
     softLimit,
     hardLimit,
-    darkMode,
     totalDockerMem
   } = props;
 
@@ -42,7 +40,9 @@ export default function TableRow(props: Props) {
   const [expanded, setExpanded] = useState<boolean>(false);
   const expand = (): void => {
     setExpanded(!expanded);
-  };
+   
+    
+  };  
 
   /**************
   softLimitPerc/String and hardLimitPerc/String are for displaying text within the tables
@@ -59,24 +59,11 @@ export default function TableRow(props: Props) {
   const hardLimitString: string = formatBytes(hardLimit, 'Hard Limit Not Set');
   const totalMemString: string = formatBytes(byteUsage, '');
 
-  /**************
-  Change style depending on dark/light mode
-  ***************/
-  function style(): style {
-    if (expanded) {
-      return { borderBottom: 'none' };
-    } else {
-      if (darkMode) {
-        return { borderBottom: '1px solid white' };
-      } else {
-        return { borderBottom: '1px solid black' };
-      }
-    }
-  }
+
 
   return (
     <>
-      <tr onClick={() => expand()} className="row" style={style()}>
+      <tr onClick={() => expand()} className="row" style ={{borderTop: `solid ${currentTextColor}`}}>
         <td> {containerName} </td>
         <td> {memUsageReadableString} </td>
         <td>
@@ -88,7 +75,7 @@ export default function TableRow(props: Props) {
       </tr>
       {expanded && (
         <tr className="rowExpanded">
-          <td colSpan={3}>
+          <td colSpan={3} >
             {hardLimit || softLimit ? (
               <Bar
                 key={`Bar ${ID}`}

@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
 import {
   Chart as ChartJS,
-  ArcElement,
   Tooltip,
   Legend,
   Title,
@@ -11,13 +9,15 @@ import {
   LinearScale,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import { FlareSharp } from '@mui/icons-material';
 import annotationPlugin from 'chartjs-plugin-annotation';
-import { yellow } from '@mui/material/colors';
 import './BarChart.scss';
-
 import type { ChartOptions } from 'chart.js';
-import type { AnnotationPluginOptions } from 'chartjs-plugin-annotation';
+/************************* */
+import { currentTextColor } from '../../getCurrentTextColor';
+//currentTextColor is based off of current light/dark mode theme set in docker desktop settings. 
+//Since ChartJS needs a color property passed in for the labels, we need to get this current themed color to apply it to our graphs
+/************************/
+
 
 ChartJS.register(
   annotationPlugin,
@@ -98,6 +98,7 @@ const getGradientColor = (byteUsage: number, softLimit: number | null, hardLimit
 
 /* Creating a bar chart with the data that is passed in from the props. */
 export default function BarChart(props: Props) {
+ 
   // Destructuring the props object.
   const { softLimit, hardLimit } = props;
   // Label for bar chart (One label, appears on left before bar)
@@ -128,7 +129,6 @@ export default function BarChart(props: Props) {
   };
   /* Setting the hard limit annotation. */
   const hardLimitAnnotations = {
-    annotations: {
       hardLimit: {
         type: 'line',
         xMin: props.hardLimit,
@@ -142,12 +142,10 @@ export default function BarChart(props: Props) {
           position: '0%',
         },
       },
-    },
   };
 
 /* Setting the soft limit annotation. */
   const softLimitAnnotations = {
-    annotations: {
       softLimit: {
         type: 'line',
         xMin: props.softLimit,
@@ -161,7 +159,6 @@ export default function BarChart(props: Props) {
           position: '100%',
         },
       },
-    }
   };
   
 
@@ -175,19 +172,22 @@ export default function BarChart(props: Props) {
   function annotations(
     softLimit: number | null,
     hardLimit: number | null
-  ): AnnotationPluginOptions {
-    let result = { annotations: {} };
+  ){
+    let result = {};
     if (softLimit) {
       result = Object.assign(result, softLimitAnnotations);
     }
-    if (hardLimit) {
+    if (hardLimit)  {
       result = Object.assign(result, hardLimitAnnotations);
     }
     return result;
   }
+  //this object holds our annotations for our chart.js plugin to markup the graph with the hard and soft limits
+  const annotation = annotations(softLimit, hardLimit);
+
 
 /* Setting the options for the bar chart. */
-  // console.log(data);
+  
 
   const options: ChartOptions<'bar'> = {
     // Horizontal "progress bar" style
@@ -200,7 +200,7 @@ export default function BarChart(props: Props) {
       },
       y: {
         ticks: {
-          color: 'white',
+          color: currentTextColor,
         },
       },
     },
@@ -214,12 +214,21 @@ export default function BarChart(props: Props) {
       title: {
         display: false,
       },
-      annotation: annotations(softLimit, hardLimit),
+      annotation: {
+        annotations: annotation
+      }
     },
   };
 
+ 
+
   return (
-    <div className="barGraphWrapper">
+    <div 
+      className="barGraphWrapper" 
+      style = {{
+        boxShadow: `0px 0px 5px ${currentTextColor}`,
+        borderColor: `${currentTextColor}`
+        }}>
       <Bar data={data} options={options} />
     </div>
   );

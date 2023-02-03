@@ -8,13 +8,18 @@ import ContainerData from '../types/containerData';
 
 import TableRow from '../tables/tablerow';
 import { formatMemUsage } from '../../formattingBytes/formattingBytes';
+/************************* */
+import { currentTextColor } from '../../getCurrentTextColor';
+//currentTextColor is based off of current light/dark mode theme set in docker desktop settings. 
+//Since ChartJS needs a color property passed in for the labels, we need to get this current themed color to apply it to our graphs
+/************************/
 
 interface Props {
   containersArray: ContainerData[];
   containersLoaded: boolean;
   memObj: any;
   totalDockerMem: number;
-  darkMode: boolean;
+  
 }
 
 interface containerInfo {
@@ -23,12 +28,12 @@ interface containerInfo {
 }
 
 export function Mainpage(props: Props) {
+  
   const {
     containersArray,
     containersLoaded,
     memObj,
     totalDockerMem,
-    darkMode,
   } = props;
   /**************
   tableRows variable is what we are rendering, it is an array of react components
@@ -56,7 +61,6 @@ export function Mainpage(props: Props) {
           byteUsage={elementMemUsage}
           softLimit={memObj[element.ID].softLimit}
           hardLimit={memObj[element.ID].hardLimit}
-          darkMode={darkMode}
           totalDockerMem={totalDockerMem}
         />
       );
@@ -64,13 +68,7 @@ export function Mainpage(props: Props) {
       containerMemPerc.push(elementMemUsage);
     });
   }
-
-  /**************
-  Used to change style depending on light or dark mode
-  ***************/
-  const style = darkMode
-    ? { borderBottom: '1px solid white' }
-    : { borderBottom: '1px solid black' };
+ 
 
   return (
     <>
@@ -81,36 +79,34 @@ export function Mainpage(props: Props) {
               containerNames={containerNames}
               containerMemPerc={containerMemPerc}
               maxMem={totalDockerMem}
-              darkMode={darkMode}
               className="doughnutChart"
               id="doughnutChart1"
             />
             <DoughnutChart
               containerNames={containerNames}
               containerMemPerc={containerMemPerc}
-              darkMode={darkMode}
               className="doughnutChart"
               id="doughnutChart2"
             />
           </div>
-          <h1 className={darkMode ? 'h1Dark' : 'h1Light'}>
+          <h2>
             Running Containers
-          </h1>
+          </h2>
           <table
-            className={darkMode ? 'mainPageTableDark' : 'mainPageTableLight'}
+            style = {{boxShadow: `${currentTextColor} 0px 0px 6px 2px`}}
           >
             <thead>
               <tr>
-                <th id="tableName" style={style}>
+                <th id="tableName" >
                   Name
                 </th>
-                <th id="tableMemUsage" style={style}>
+                <th id="tableMemUsage" >
                   Mem Usage
                 </th>
-                <th id="tableHardLim" style={style}>
+                <th id="tableHardLim" >
                   Hard Limit / % Used
                 </th>
-                <th id="tableSoftLim" style={style}>
+                <th id="tableSoftLim" >
                   Soft Limit / % Used
                 </th>
               </tr>

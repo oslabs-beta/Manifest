@@ -27,8 +27,7 @@ export function App() {
   //totalDockerMem is a number that is the total Bytes of memory allocated to docker desktop. Can be changed from DockerDesktop settings. 
   const [totalDockerMem, setTotalDockerMem] = React.useState<number>(0);
 
-  //darkMode is a boolean indicating if we are in dark mode or not
-  const [darkMode, setDarkMode] = React.useState<boolean>(true);
+
   
   //mem object is a nested object containing the soft/hard memory limit for each contianer. See example memory object below
   const [memObj, setMemObj] = React.useState({});
@@ -87,15 +86,12 @@ export function App() {
     <>
       <Navbar
         containersArray={dataStore}
-        darkMode={darkMode}
-        setDarkMode={setDarkMode}
       />
       <Mainpage
         containersArray={dataStore}
         containersLoaded={containersLoaded}
         memObj={memObj}
         totalDockerMem={totalDockerMem}
-        darkMode={darkMode}
       />
     </>
   );
