@@ -179,12 +179,14 @@ export default function BarChart(props: Props) {
     if (hardLimit)  {
       result = Object.assign(result, hardLimitAnnotations);
     }
-    console.log('result:', result);
     return result;
   }
+  //this object holds our annotations for our chart.js plugin to markup the graph with the hard and soft limits
   const annotation = annotations(softLimit, hardLimit);
+
+
 /* Setting the options for the bar chart. */
-  // console.log(data);
+  
 
   const options: ChartOptions<'bar'> = {
     // Horizontal "progress bar" style
@@ -217,7 +219,7 @@ export default function BarChart(props: Props) {
     },
   };
 
-  console.log('options:', options);
+ 
 
   return (
     <div className="barGraphWrapper">

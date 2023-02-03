@@ -1,12 +1,8 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import './tables.scss';
-import Button from '@mui/material/Button';
-import { ContainerInfo } from './tableInfo';
-import ContainerData from '../types/containerData';
-import DoughnutChart from '../charts/DoughnutChart';
 import Bar from '../charts/BarChart';
 import { formatBytes } from '../../formattingBytes/formattingBytes';
-import UpdateMemLimitsForm from '../updateDockerMetrics/UpdateMemLimitsForm';
+import UpdateMemLimitsForm from '../forms/UpdateMemLimitsForm';
 
 type Props = {
   ID: string;

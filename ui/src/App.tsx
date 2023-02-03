@@ -66,7 +66,6 @@ export function App() {
   useEffect(() => {
     getContianerIds().then((containerIdArray) => {
       getMemLimits(containerIdArray).then((memoryLimitObject) => {
-        console.log('memoryLimitObject:', memoryLimitObject)
         setMemObj(memoryLimitObject);
         getTotalMemoryAllocatedToDocker().then((totalMem) => {
           setTotalDockerMem(totalMem);

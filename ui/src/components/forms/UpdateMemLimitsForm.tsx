@@ -65,6 +65,7 @@ export default function UpdateMemLimitsForm (props: Props) {
    *******************/
   const handleSubmit = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
+
     //1. converting limits to numbers
     const hardLimitByteNumber = byteStringToBytes(
       formValues.hardLimit, 
@@ -100,8 +101,8 @@ export default function UpdateMemLimitsForm (props: Props) {
 
   //units array for dropdown selection
   const unitsArray = [
-    <MenuItem value ={'m'}>m</MenuItem>,
-    <MenuItem value ={'g'}>g</MenuItem>,
+    <MenuItem value ={'m'} key='m' >m</MenuItem>,
+    <MenuItem value ={'g'} key='g'>g</MenuItem>,
   ];
 
   return(
@@ -112,7 +113,7 @@ export default function UpdateMemLimitsForm (props: Props) {
           className = 'hard-limit-input'
           name = 'hardLimit'
           label = 'Hard Limit'
-          type = 'text'
+          type = 'number'
           value = {formValues.hardLimit}
           // @ts-ignore - no onChange prop in TextField MUI
           onChange = {handleInputChange}
@@ -133,7 +134,7 @@ export default function UpdateMemLimitsForm (props: Props) {
           className = 'soft-limit-input'
           name = 'softLimit'
           label = 'Soft Limit'
-          type = 'text'
+          type = 'number'
           value = {formValues.softLimit}
           // @ts-ignore - no onChange prop in TextField MUI
           onChange = {handleInputChange}
