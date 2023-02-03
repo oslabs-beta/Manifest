@@ -13,8 +13,8 @@ import {
 // Note: This line relies on Docker Desktop's presence as a host application.
 // If you're running this React app in a browser, it won't work properly.
 
-//REFRESH_DELAY controls how often (in milliseconds) we will querry the Docker desktop client to recieve updates about our running containers.
-const REFRESH_DELAY = 2000;
+//REFRESH_DELAY controls how often (in milliseconds) we will query the Docker desktop client to recieve updates about our running containers.
+let REFRESH_DELAY = 2000;
 
 export function App() {
   
@@ -41,6 +41,16 @@ export function App() {
   }
   */
 
+
+  const updateMemoryObject = async () => {
+    await getContianerIds().then((containerIdArray) => {
+      getMemLimits(containerIdArray).then((memoryLimitObject) => {
+        console.log('memoryLimitObject:', memoryLimitObject)
+        setMemObj(memoryLimitObject);
+      });
+    });
+  }
+
   /*******************
   updateContainerData --> Gets the updated data on container metrics then sets the dataStore accordingly.
   Also sets containersLoaded to true and calls itself again after the REFRESH_DELAY
@@ -64,14 +74,10 @@ export function App() {
     4. calls updateContainerData to get metrics associated with each docker container
   */
   useEffect(() => {
-    getContianerIds().then((containerIdArray) => {
-      getMemLimits(containerIdArray).then((memoryLimitObject) => {
-        console.log('memoryLimitObject:', memoryLimitObject)
-        setMemObj(memoryLimitObject);
-        getTotalMemoryAllocatedToDocker().then((totalMem) => {
-          setTotalDockerMem(totalMem);
-          updateContainerData();
-        });
+    updateMemoryObject().then (res => {
+      getTotalMemoryAllocatedToDocker().then((totalMem) => {
+        setTotalDockerMem(totalMem);
+        updateContainerData();
       });
     });
   }, []);

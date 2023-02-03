@@ -8,14 +8,13 @@ import {
 import React, { useEffect, useState } from 'react';
 import './UpdateMemLimits.scss';
 import { byteStringToBytes } from '../../formattingBytes/formattingBytes';
-import { createDockerDesktopClient } from '@docker/extension-api-client';
-import { updateMemoryLimits } from '../../interactingWithDDClient';
-const ddClient = createDockerDesktopClient();
+import { updateMemoryLimits, sendToast } from '../../interactingWithDDClient';
 
 //Shape of props object passed into UpdateMemLimitsForm
 type Props = {
   ID: string,
-  totalDockerMem : number
+  totalDockerMem : number,
+  bar: JSX.Element,
 }
 
 //shape of formValues object
@@ -24,12 +23,12 @@ type FormValues = {
   softLimit : string,
   softLimitUnits: string,
   hardLimit : string,
-  hardLimitUnits : string
+  hardLimitUnits : string,
 }
 
 export default function UpdateMemLimitsForm (props: Props) {
   //ID --> container ID, totalDockerMem --> total memory (in bytes) allocated to Docker Desktop
-  const { ID, totalDockerMem } = props;
+  const { ID, totalDockerMem, bar } = props;
   const defaultValues: FormValues = {
     ID : ID,
     softLimit: '0',
@@ -75,9 +74,9 @@ export default function UpdateMemLimitsForm (props: Props) {
       formValues.softLimitUnits
     );  
     //2-4 making sure byte inputs are acceptable by docker 
-    if(softLimitByteNumber > hardLimitByteNumber) ddClient.desktopUI.toast.error('The soft limit must be smaller than the hard limit. Please try again.');
-    else if(hardLimitByteNumber > totalDockerMem) ddClient.desktopUI.toast.error('Limits must be less than the total memory allocated to Docker Desktop. Please try again.')
-    else if(hardLimitByteNumber < 6000000 || softLimitByteNumber < 6000000) ddClient.desktopUI.toast.error('Limits must be greater than 6m. Please try again');
+    if(softLimitByteNumber > hardLimitByteNumber) sendToast('error', 'The soft limit must be smaller than the hard limit. Please try again.');
+    else if(hardLimitByteNumber > totalDockerMem) sendToast('error', 'Limits must be less than the total memory allocated to Docker Desktop. Please try again.')
+    else if(hardLimitByteNumber < 6000000 || softLimitByteNumber < 6000000) sendToast('error', 'Limits must be greater than 6m. Please try again');
     //5. querrying to update the memory limits on a container
     else {
       updateMemoryLimits(
@@ -85,13 +84,17 @@ export default function UpdateMemLimitsForm (props: Props) {
         formValues.hardLimit + formValues.hardLimitUnits,
         ID
       )
-        .then(() =>
-          ddClient.desktopUI.toast.success(
+        .then(() => {
+          sendToast(
+            'success',
             'Success! Please reload the page to see your updated memory limits'
           )
+          bar.setMemoryLimit
+        }
         )
         .catch(() =>
-          ddClient.desktopUI.toast.error(
+          sendToast(
+            'error',
             'Something went wrong. Please try again.'
           )
         );

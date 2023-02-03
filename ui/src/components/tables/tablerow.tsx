@@ -91,6 +91,7 @@ export default function TableRow(props: Props) {
           <td colSpan={3}>
             {hardLimit || softLimit ? (
               <Bar
+                key={`Bar ${ID}`}
                 byteUsage={byteUsage}
                 softLimit={softLimit}
                 hardLimit={hardLimit}
@@ -99,11 +100,11 @@ export default function TableRow(props: Props) {
                 totalMemString={totalMemString}
               />
             ) : (
-              <p>Use the interface to the right to setup memory limits</p>
+              <p>Use the interface to the right to set up memory limits</p>
             )}
           </td>
           <td colSpan={1} >
-            <UpdateMemLimitsForm ID = {ID} totalDockerMem = {totalDockerMem}/>
+            <UpdateMemLimitsForm ID = {ID} totalDockerMem = {totalDockerMem} bar={bar}/>
           </td>
         </tr>
       )}

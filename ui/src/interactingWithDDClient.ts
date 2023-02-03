@@ -92,11 +92,25 @@ const openExternalLink = async (link: string) => {
   await ddClient.host.openExternal(link);
 }
 
+const sendToast = (toastType: 'error' | 'success' | 'warning', message: string) => {
+  const toast = ddClient.desktopUI.toast;
+  const funcs: { [key: string]: Function } = {
+    'error': toast.error,
+    'success': toast.success,
+    'warning': toast.warning,
+  }
+  funcs[toastType](message);
+  // if (toastType === 'error') ddClient.desktopUI.toast.error(message);
+  // if (toastType === 'success') ddClient.desktopUI.toast.success(message);
+  // if (toastType === 'warning') ddClient.desktopUI.toast.warning(message);
+}
+
 export {
   getContianerIds,
   getMemLimits,
   getContainerMetrics,
   getTotalMemoryAllocatedToDocker,
   updateMemoryLimits,
-  openExternalLink
+  openExternalLink,
+  sendToast
 };
