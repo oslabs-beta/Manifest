@@ -14,7 +14,7 @@ import { updateMemoryLimits, sendToast } from '../../interactingWithDDClient';
 type Props = {
   ID: string,
   totalDockerMem : number,
-  bar: JSX.Element,
+  updateMemoryObject: () => Promise<void>
 }
 
 //shape of formValues object
@@ -28,7 +28,7 @@ type FormValues = {
 
 export default function UpdateMemLimitsForm (props: Props) {
   //ID --> container ID, totalDockerMem --> total memory (in bytes) allocated to Docker Desktop
-  const { ID, totalDockerMem, bar } = props;
+  const { ID, totalDockerMem, updateMemoryObject } = props;
   const defaultValues: FormValues = {
     ID : ID,
     softLimit: '0',
@@ -88,9 +88,9 @@ export default function UpdateMemLimitsForm (props: Props) {
         .then(() => {
           sendToast(
             'success',
-            'Success! Please reload the page to see your updated memory limits'
+            'Success! Please wait a moment for Dockery to update its display'
           )
-          bar.setMemoryLimit
+          updateMemoryObject();
         }
         )
         .catch(() =>

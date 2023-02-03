@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import { FormControl, SvgIcon, SvgIconProps, InputLabel, Select, MenuItem } from '@mui/material';
+import { SvgIcon, SvgIconProps } from '@mui/material';
 import { Menu } from '../menu/menu';
 import Refresh from '@mui/icons-material/Refresh';
 import ContainerData from '../types/containerData';
@@ -75,22 +75,6 @@ export function Navbar(props: props) {
                     }}
             >
               Total Memory Usage: {totalMemUsage}
- 
-            {/* <FormControl>
-              <InputLabel id="refresh-rate-select-label">Refresh Rate</InputLabel>
-              <Select
-                labelId="refresh-rate-select-label"
-                id="refresh-rate-select"
-                value={2000}
-                label="Refresh Rate"
-              >
-                <MenuItem value={'1s'}>1s</MenuItem>
-                <MenuItem value={'5s'}>5s</MenuItem>
-                <MenuItem value={'10s'}>10s</MenuItem>
-                <MenuItem value={'1m'}>1m</MenuItem>
-                <MenuItem value={'5m'}>5m</MenuItem>
-              </Select>
-            </FormControl> */}
 
             </Typography>
             <Popup

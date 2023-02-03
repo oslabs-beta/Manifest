@@ -8,18 +8,13 @@ import ContainerData from '../types/containerData';
 
 import TableRow from '../tables/tablerow';
 import { formatMemUsage } from '../../formattingBytes/formattingBytes';
-/************************* */
-import { currentTextColor } from '../../getCurrentTextColor';
-//currentTextColor is based off of current light/dark mode theme set in docker desktop settings. 
-//Since ChartJS needs a color property passed in for the labels, we need to get this current themed color to apply it to our graphs
-/************************/
 
 interface Props {
   containersArray: ContainerData[];
   containersLoaded: boolean;
   memObj: any;
   totalDockerMem: number;
-  
+  updateMemoryObject: () => Promise<void>
 }
 
 interface containerInfo {
@@ -28,12 +23,12 @@ interface containerInfo {
 }
 
 export function Mainpage(props: Props) {
-  
   const {
     containersArray,
     containersLoaded,
     memObj,
     totalDockerMem,
+    updateMemoryObject
   } = props;
   /**************
   tableRows variable is what we are rendering, it is an array of react components
@@ -62,13 +57,14 @@ export function Mainpage(props: Props) {
           softLimit={memObj[element.ID].softLimit}
           hardLimit={memObj[element.ID].hardLimit}
           totalDockerMem={totalDockerMem}
+          updateMemoryObject = {updateMemoryObject}
         />
       );
       containerNames.push(element.Name);
       containerMemPerc.push(elementMemUsage);
     });
   }
- 
+
 
   return (
     <>
@@ -89,24 +85,22 @@ export function Mainpage(props: Props) {
               id="doughnutChart2"
             />
           </div>
-          <h2>
+          <h1>
             Running Containers
-          </h2>
-          <table
-            style = {{boxShadow: `${currentTextColor} 0px 0px 6px 2px`}}
-          >
+          </h1>
+          <table>
             <thead>
               <tr>
-                <th id="tableName" >
+                <th id="tableName">
                   Name
                 </th>
-                <th id="tableMemUsage" >
+                <th id="tableMemUsage">
                   Mem Usage
                 </th>
-                <th id="tableHardLim" >
+                <th id="tableHardLim">
                   Hard Limit / % Used
                 </th>
-                <th id="tableSoftLim" >
+                <th id="tableSoftLim">
                   Soft Limit / % Used
                 </th>
               </tr>

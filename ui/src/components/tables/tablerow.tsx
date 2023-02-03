@@ -15,7 +15,8 @@ type Props = {
   byteUsage: number;
   softLimit: number | null;
   hardLimit: number | null;
-  totalDockerMem: number
+  totalDockerMem: number,
+  updateMemoryObject: () => Promise<void>
 };
 
 type style = {
@@ -30,7 +31,8 @@ export default function TableRow(props: Props) {
     byteUsage,
     softLimit,
     hardLimit,
-    totalDockerMem
+    totalDockerMem,
+    updateMemoryObject
   } = props;
 
   /**************
@@ -91,7 +93,7 @@ export default function TableRow(props: Props) {
             )}
           </td>
           <td colSpan={1} >
-            <UpdateMemLimitsForm ID = {ID} totalDockerMem = {totalDockerMem} bar={bar}/>
+            <UpdateMemLimitsForm ID = {ID} totalDockerMem = {totalDockerMem} updateMemoryObject = {updateMemoryObject}/>
           </td>
         </tr>
       )}

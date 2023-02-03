@@ -4,6 +4,8 @@ import { Navbar } from './components/navbar/navbar';
 import { Mainpage } from './components/mainpage/mainpage';
 import Containers from './components/tables/tablerow';
 import ContainerData from './components/types/containerData';
+import { FormControl, InputLabel, MenuItem } from '@mui/material';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import {
   getContianerIds,
   getMemLimits,
@@ -73,7 +75,7 @@ export function App() {
     4. calls updateContainerData to get metrics associated with each docker container
   */
   useEffect(() => {
-    updateMemoryObject().then (res => {
+    updateMemoryObject().then(res => {
       getTotalMemoryAllocatedToDocker().then((totalMem) => {
         setTotalDockerMem(totalMem);
         updateContainerData();
@@ -92,6 +94,7 @@ export function App() {
         containersLoaded={containersLoaded}
         memObj={memObj}
         totalDockerMem={totalDockerMem}
+        updateMemoryObject = {updateMemoryObject}
       />
     </>
   );
