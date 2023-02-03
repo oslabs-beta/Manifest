@@ -3,7 +3,8 @@ import './tables.scss';
 import Bar from '../charts/BarChart';
 import { formatBytes } from '../../formattingBytes/formattingBytes';
 import UpdateMemLimitsForm from '../forms/UpdateMemLimitsForm';
-
+import { getCurrentTextColor } from '../../getCurrentTextColor';
+const currentTextColor = getCurrentTextColor();
 type Props = {
   ID: string;
   containerName: string;
@@ -11,7 +12,6 @@ type Props = {
   byteUsage: number;
   softLimit: number | null;
   hardLimit: number | null;
-  darkMode: boolean;
   totalDockerMem: number
 };
 
@@ -27,7 +27,6 @@ export default function TableRow(props: Props) {
     byteUsage,
     softLimit,
     hardLimit,
-    darkMode,
     totalDockerMem
   } = props;
 
@@ -38,7 +37,9 @@ export default function TableRow(props: Props) {
   const [expanded, setExpanded] = useState<boolean>(false);
   const expand = (): void => {
     setExpanded(!expanded);
-  };
+   
+    
+  };  
 
   /**************
   softLimitPerc/String and hardLimitPerc/String are for displaying text within the tables
@@ -55,24 +56,11 @@ export default function TableRow(props: Props) {
   const hardLimitString: string = formatBytes(hardLimit, 'Hard Limit Not Set');
   const totalMemString: string = formatBytes(byteUsage, '');
 
-  /**************
-  Change style depending on dark/light mode
-  ***************/
-  function style(): style {
-    if (expanded) {
-      return { borderBottom: 'none' };
-    } else {
-      if (darkMode) {
-        return { borderBottom: '1px solid white' };
-      } else {
-        return { borderBottom: '1px solid black' };
-      }
-    }
-  }
+
 
   return (
     <>
-      <tr onClick={() => expand()} className="row" style={style()}>
+      <tr onClick={() => expand()} className="row" style ={{borderTop: `solid ${currentTextColor}`}}>
         <td> {containerName} </td>
         <td> {memUsageReadableString} </td>
         <td>

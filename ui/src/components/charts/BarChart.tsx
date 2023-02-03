@@ -18,7 +18,8 @@ import './BarChart.scss';
 
 import type { ChartOptions } from 'chart.js';
 import type { AnnotationPluginOptions } from 'chartjs-plugin-annotation';
-
+import { getCurrentTextColor } from '../../getCurrentTextColor';
+const currentTextColor = getCurrentTextColor();
 ChartJS.register(
   annotationPlugin,
   BarElement,
@@ -98,6 +99,7 @@ const getGradientColor = (byteUsage: number, softLimit: number | null, hardLimit
 
 /* Creating a bar chart with the data that is passed in from the props. */
 export default function BarChart(props: Props) {
+ 
   // Destructuring the props object.
   const { softLimit, hardLimit } = props;
   // Label for bar chart (One label, appears on left before bar)
@@ -199,7 +201,7 @@ export default function BarChart(props: Props) {
       },
       y: {
         ticks: {
-          color: 'white',
+          color: currentTextColor,
         },
       },
     },
@@ -222,7 +224,12 @@ export default function BarChart(props: Props) {
  
 
   return (
-    <div className="barGraphWrapper">
+    <div 
+      className="barGraphWrapper" 
+      style = {{
+        boxShadow: `0px 0px 5px ${currentTextColor}`,
+        borderColor: `${currentTextColor}`
+        }}>
       <Bar data={data} options={options} />
     </div>
   );

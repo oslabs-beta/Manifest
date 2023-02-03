@@ -15,13 +15,10 @@ import DarkMode from '@mui/icons-material/DarkMode';
 import './menu.scss';
 import { openExternalLink } from '../../interactingWithDDClient';
 
-interface props {
-  darkMode: boolean;
-  setDarkMode: (a: boolean) => void;
-}
 
-export function Menu(props: props) {
-  const { setDarkMode, darkMode } = props;
+
+export function Menu() {
+  
 
   return (
     <div className="menu">
@@ -32,12 +29,6 @@ export function Menu(props: props) {
               <GitHubIcon />
             </ListItemIcon>
             <ListItemText>View Docs</ListItemText>
-          </MenuItem>
-          <MenuItem onClick={() => setDarkMode(!darkMode)}>
-            <ListItemIcon>
-              <DarkMode />
-            </ListItemIcon>
-            <ListItemText>Dark Mode</ListItemText>
           </MenuItem>
         </MenuList>
       </Paper>

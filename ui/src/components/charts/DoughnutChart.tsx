@@ -10,6 +10,8 @@ import {
 import { Doughnut } from 'react-chartjs-2';
 import './DoughnutChart.scss';
 import { formatBytes } from '../../formattingBytes/formattingBytes';
+import { getCurrentTextColor } from '../../getCurrentTextColor';
+
 
 ChartJS.register(ArcElement, Tooltip, Legend, Title, Colors);
 
@@ -37,7 +39,6 @@ interface props {
   containerNames: string[];
   containerMemPerc: number[];
   maxMem?: any;
-  darkMode: boolean;
   className: string;
   id: string;
 }
@@ -65,7 +66,8 @@ const backgroundColors = [
 ];
 
 export default function DoughnutChart(props: props) {
-  const { containerNames, containerMemPerc, maxMem, darkMode } = props;
+  const color = getCurrentTextColor();
+  const { containerNames, containerMemPerc, maxMem } = props;
   const [data, setData] = React.useState<data>({
     labels: [''],
     datasets: [
@@ -74,7 +76,7 @@ export default function DoughnutChart(props: props) {
         data: [0],
         backgroundColor: [''],
         borderColor: ['rgba(0, 0, 0, 0.54)'],
-        color: '#FFF',
+        color: color,
       },
     ],
   });
@@ -120,7 +122,7 @@ export default function DoughnutChart(props: props) {
         ],
       });
     }
-  }, [containerMemPerc, maxMem, darkMode]);
+  }, [containerMemPerc, maxMem]);
 
   /**************
   Setting the title to the appropriate doughnut chart depending on whether 'maxMem' prop exists
@@ -129,10 +131,7 @@ export default function DoughnutChart(props: props) {
   if (maxMem) {
     title = 'Memory Usage by Containers';
   }
-  let color = 'black';
-  if (darkMode) {
-    color = 'white';
-  }
+ 
 
   /**************
   From Chart.js: https://www.chartjs.org/docs/latest/general/options.html
@@ -182,7 +181,9 @@ export default function DoughnutChart(props: props) {
   };
 
   return (
-    <div className={darkMode ? 'gaugeChartDark' : 'gaugeChart'}>
+    <div className='gaugeChart'
+    style = {{boxShadow: ` 0px 0px 6px 1px ${color}`}}
+    >
       <Doughnut
         className="totalMemUsageChart"
         data={data}

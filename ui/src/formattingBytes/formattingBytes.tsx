@@ -6,7 +6,6 @@ function formatMemUsage(bytes: string) {
     const inBytes: number[] = strArr.map(function (v) {
         return +v;
       });
-      console.log('typeof inBytes[0]', typeof inBytes[0])
     if (bytes?.includes('MiB')) {
       return inBytes[0] * 1048576;
     } else {
