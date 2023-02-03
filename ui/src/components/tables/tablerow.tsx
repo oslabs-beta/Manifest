@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import './tables.scss';
-import Button from '@mui/material/Button';
-import { ContainerInfo } from './tableInfo';
-import ContainerData from '../types/containerData';
-import DoughnutChart from '../charts/doughnut';
 import Bar from '../charts/BarChart';
 import { formatBytes } from '../../formattingBytes/formattingBytes';
-import UpdateMemLimitsForm from '../updateDockerMetrics/UpdateMemLimitsForm';
-
+import UpdateMemLimitsForm from '../forms/UpdateMemLimitsForm';
+/************************* */
+import { currentTextColor } from '../../getCurrentTextColor';
+//currentTextColor is based off of current light/dark mode theme set in docker desktop settings. 
+//Since ChartJS needs a color property passed in for the labels, we need to get this current themed color to apply it to our graphs
+/************************/
 type Props = {
   ID: string;
   containerName: string;
@@ -15,7 +15,6 @@ type Props = {
   byteUsage: number;
   softLimit: number | null;
   hardLimit: number | null;
-  darkMode: boolean;
   totalDockerMem: number
 };
 
@@ -31,14 +30,23 @@ export default function TableRow(props: Props) {
     byteUsage,
     softLimit,
     hardLimit,
-    darkMode,
     totalDockerMem
   } = props;
-  const [expanded, setExpanded] = useState<boolean>(false);
-  const expand = () => {
-    setExpanded(!expanded);
-  };
 
+  /**************
+  State variable to check whether or not a row is expanded
+  Function also to change the row to expanded or unexpand the row
+  ***************/
+  const [expanded, setExpanded] = useState<boolean>(false);
+  const expand = (): void => {
+    setExpanded(!expanded);
+   
+    
+  };  
+
+  /**************
+  softLimitPerc/String and hardLimitPerc/String are for displaying text within the tables
+  ***************/
   let softLimitPerc: number = 0;
   if (softLimit) {
     softLimitPerc = Math.round((byteUsage / softLimit) * 100 * 100) / 100;
@@ -47,38 +55,27 @@ export default function TableRow(props: Props) {
   if (hardLimit) {
     hardLimitPerc = Math.round((byteUsage / hardLimit) * 100 * 100) / 100;
   }
-
   const softLimitString: string = formatBytes(softLimit, 'Soft Limit Not Set');
   const hardLimitString: string = formatBytes(hardLimit, 'Hard Limit Not Set');
   const totalMemString: string = formatBytes(byteUsage, '');
 
-  function style(): style {
-    if (expanded) {
-      return { borderBottom: 'none' };
-    } else {
-      if (darkMode) {
-        return { borderBottom: '1px solid white' };
-      } else {
-        return { borderBottom: '1px solid black' };
-      }
-    }
-  }
+
 
   return (
     <>
-      <tr onClick={() => expand()} className="row" style={style()}>
+      <tr onClick={() => expand()} className="row" style ={{borderTop: `solid ${currentTextColor}`}}>
         <td> {containerName} </td>
         <td> {memUsageReadableString} </td>
         <td>
-          {hardLimitString} {hardLimit ? `/ ${hardLimitPerc}` : null}
+          {hardLimitString} {hardLimit ? `/ ${hardLimitPerc}%` : null}
         </td>
         <td>
-          {softLimitString} {softLimit ? `/ ${softLimitPerc}` : null}
+          {softLimitString} {softLimit ? `/ ${softLimitPerc}%` : null}
         </td>
       </tr>
       {expanded && (
         <tr className="rowExpanded">
-          <td colSpan={3}>
+          <td colSpan={3} >
             {hardLimit || softLimit ? (
               <Bar
                 byteUsage={byteUsage}

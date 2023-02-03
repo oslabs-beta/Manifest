@@ -7,13 +7,13 @@ td {
 .row:hover {
   background-color: $bluePrimary;
   border-color: $bluePrimary;
-  border-bottom: 1px solid $text;
 }
 
-.rowExpanded {
-  padding: 0;
-  border-bottom: 1px solid $text;
-  height: 10vw;
+.rowExpanded { 
+  td{
+    padding-top: 0;
+    padding-bottom: 2vw;
+  }
 }
 
 

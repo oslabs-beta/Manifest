@@ -1,0 +1,13 @@
+@import '../scss-variables/variables.module.scss';
+
+.gaugeChart {
+  padding: 0px;
+  width: 40%;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  
+  border-width: 2px;
+  border-radius: 10px;
+  
+}

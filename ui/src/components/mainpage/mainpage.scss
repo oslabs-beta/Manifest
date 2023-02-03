@@ -6,10 +6,10 @@
   text-align: center;
   border: none;
 }
-a {
-  text-decoration: none;
-  color: white;
-}
+// a {
+//   text-decoration: none;
+//   color: white;
+// }
 .containers {
   width: 100%;
   display: flex;
@@ -19,12 +19,23 @@ a {
 
 @import '../scss-variables/variables.module.scss';
 
-.h1Dark {
-  color: white;
-}
+// .h1Dark {
+//   color: white;
+// }
 
-.h1Light {
-  color: black;
+// .h1Light {
+//   color: black;
+// }
+
+.doughnutCharts {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  padding: 0px;
+  margin: 0 auto;
+  padding: 30px 0;
 }
 
 table {
@@ -38,6 +49,7 @@ table {
 #tableSoftLim {
   text-align: center;
   padding-bottom: 10px;
+  padding-top: 10px;
 }
 
 #tableHeader {
@@ -49,39 +61,17 @@ hr {
   padding: 0;
 }
 
-.doughnutCharts {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
-  padding: 0px;
-  margin: 0 auto;
-  padding: 30px 0;
-}
-
-tr:last-child {
+tr:first-child {
   border-bottom: none;
 }
 
-.mainPageTableDark {
-  color: $text;
-  width: 100%;
-  font-size: 2vw;
-  font-family: 'Roboto', sans-serif;
-  border-color: rgb(55, 55, 55);
-  border-width: 2px;
-  border-radius: 10px;
-  box-shadow: $boxShadow;
-}
 
-.mainPageTableLight {
-  color: $textDark;
+table {
   width: 100%;
-  font-size: 2vw;
+  font-size: 1.75vw;
   font-family: 'Roboto', sans-serif;
-  border-color: rgb(0, 0, 0);
   border-width: 2px;
   border-radius: 10px;
-  box-shadow: $boxShadowDark;
+  border-collapse: collapse;
+
 }
