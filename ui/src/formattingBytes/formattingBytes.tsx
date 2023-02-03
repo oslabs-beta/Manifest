@@ -13,6 +13,7 @@ function formatMemUsage(bytes: string) {
       return inBytes[0] * 1073741824;
     }
   }
+  else return 0;
 }
 //function that takes in a number and a string representing the memory limit, and returns out a STRING representing the number of bytes.
 function formatBytes(bytes: number | null, memLimit: string, decimals = 2) {
