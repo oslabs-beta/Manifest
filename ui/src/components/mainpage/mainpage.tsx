@@ -1,59 +1,129 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { createDockerDesktopClient } from '@docker/extension-api-client';
+import { useEffect, useState, useContext } from 'react';
+
 import './mainpage.scss';
-import CircularProgress from '@material-ui/core/CircularProgress';
-const ddClient = createDockerDesktopClient();
+import CircularProgress from '@mui/material/CircularProgress';
 
-export function Mainpage() {
-  const [containersLoaded, changeContainersLoaded] = useState(false);
-  const [containerArray, setResponse] = useState([]);
+import DoughnutChart from '../charts/DoughnutChart';
+import ContainerData from '../types/containerData';
 
-  useEffect(() => {
-    const getContainerData = async () => {
-      const stats = await ddClient.docker.cli.exec('stats', [
-        '--no-stream',
-        '--no-trunc',
-        '--format',
-        '"{{json .}}"',
-      ]).then(res => res.parseJsonLines());
-      setResponse(stats);
-      changeContainersLoaded(true);
-    };
-    getContainerData();
-  },[]);
+import TableRow from '../tables/tablerow';
+import { formatMemUsage } from '../../formattingBytes/formattingBytes';
 
-  const containerComponents = [];
-  for (let i = 0; i < containerArray.length; i++) {
-    containerComponents.push(
-      <button className='containerButton' key={i}>
-        <Link  to={`/container/${containerArray[i].ID}`} state = {{containerData: containerArray[i]}}>
-          <h3>{containerArray[i].Name || containerArray[i].Names[0]}</h3>
-          <hr />
-          <p>Memory Used:</p>
-          <p> {containerArray[i].MemUsage || ''}</p>
-          <p>{containerArray[i].MemPerc || ''}</p>
-        </Link>
-      </button>
-    );
+interface Props {
+  containersArray: ContainerData[];
+  containersLoaded: boolean;
+  memObj: any;
+  totalDockerMem: number;
+  darkMode: boolean;
+}
+
+interface containerInfo {
+  containerNames: string[];
+  containerMemPerc: number[];
+}
+
+export function Mainpage(props: Props) {
+  const {
+    containersArray,
+    containersLoaded,
+    memObj,
+    totalDockerMem,
+    darkMode,
+  } = props;
+  /**************
+  tableRows variable is what we are rendering, it is an array of react components
+  ***************/
+  const tableRows: JSX.Element[] = [];
+
+  /**************
+  containerNames and containerMemPerc are arrays which is passed into the charts' data because the charts require arrays to render
+  ***************/
+  let containerNames: string[] = [];
+  let containerMemPerc: number[] = [];
+
+  /**************
+  This pushes react components into tableRows array to be rendered passing down the necessary props it needs
+  ***************/
+  if (containersLoaded) {
+    containersArray.forEach((element) => {
+      const elementMemUsage = formatMemUsage(element.MemUsage);
+      tableRows.push(
+        <TableRow
+          key={`TableRow${element.ID}`}
+          ID={element.ID}
+          containerName={element.Name}
+          memUsageReadableString={element.MemUsage}
+          byteUsage={elementMemUsage}
+          softLimit={memObj[element.ID].softLimit}
+          hardLimit={memObj[element.ID].hardLimit}
+          darkMode={darkMode}
+          totalDockerMem={totalDockerMem}
+        />
+      );
+      containerNames.push(element.Name);
+      containerMemPerc.push(elementMemUsage);
+    });
   }
-  
+
+  /**************
+  Used to change style depending on light or dark mode
+  ***************/
+  const style = darkMode
+    ? { borderBottom: '1px solid white' }
+    : { borderBottom: '1px solid black' };
+
   return (
     <>
-      {containersLoaded 
-        ? <div className='mainPageWrapper'>
-            <h1>Running Containers</h1>
-            
-            <div className="containers">
-              {containerComponents}
-            </div>
+      {containersLoaded ? (
+        <div className="mainPageWrapper">
+          <div className="doughnutCharts">
+            <DoughnutChart
+              containerNames={containerNames}
+              containerMemPerc={containerMemPerc}
+              maxMem={totalDockerMem}
+              darkMode={darkMode}
+              className="doughnutChart"
+              id="doughnutChart1"
+            />
+            <DoughnutChart
+              containerNames={containerNames}
+              containerMemPerc={containerMemPerc}
+              darkMode={darkMode}
+              className="doughnutChart"
+              id="doughnutChart2"
+            />
           </div>
-        : <div className = 'mainPageWrapper'>
-            <h1>Containers Loading, please wait...</h1>
-            <CircularProgress />
-          </div>
-      }
-            
+          <h1 className={darkMode ? 'h1Dark' : 'h1Light'}>
+            Running Containers
+          </h1>
+          <table
+            className={darkMode ? 'mainPageTableDark' : 'mainPageTableLight'}
+          >
+            <thead>
+              <tr>
+                <th id="tableName" style={style}>
+                  Name
+                </th>
+                <th id="tableMemUsage" style={style}>
+                  Mem Usage
+                </th>
+                <th id="tableHardLim" style={style}>
+                  Hard Limit / % Used
+                </th>
+                <th id="tableSoftLim" style={style}>
+                  Soft Limit / % Used
+                </th>
+              </tr>
+            </thead>
+            <tbody>{tableRows}</tbody>
+          </table>
+        </div>
+      ) : (
+        <div className="mainPageWrapper">
+          <h1>Containers Loading, please wait...</h1>
+          <CircularProgress />
+        </div>
+      )}
     </>
   );
 }

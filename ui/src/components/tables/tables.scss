@@ -1,0 +1,19 @@
+@import '../scss-variables/variables.module.scss';
+
+td {
+  padding: 10px;
+}
+
+.row:hover {
+  background-color: $bluePrimary;
+  border-color: $bluePrimary;
+  border-bottom: 1px solid $text;
+}
+
+.rowExpanded {
+  padding: 0;
+  border-bottom: 1px solid $text;
+  height: 10vw;
+}
+
+

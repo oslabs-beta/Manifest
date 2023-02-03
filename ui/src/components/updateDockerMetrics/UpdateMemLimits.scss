@@ -1,0 +1,41 @@
+@import '../scss-variables/variables.module.scss';
+
+.formGrid {
+  margin: 1vh auto;
+  display: grid;
+  width:75%;
+  row-gap: 1vw;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr) ;
+}
+.hard-limit-input{
+  grid-column-start: 1;
+  grid-column-end: 4;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+.hard-limit-units {
+  grid-column-start: 4;
+  grid-column-end: 5;
+  grid-row-start: 1 ;
+  grid-row-end: 2 ;
+}
+.soft-limit-input{
+  grid-column-start: 1;
+  grid-column-end: 4;
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+.soft-limit-units {
+  grid-column-start: 4 ;
+  grid-column-end: 5 ;
+  grid-row-start: 2 ;
+  grid-row-end: 3 ;
+ }
+
+ .formSubmit{
+  grid-column-start: 2;
+  grid-column-end: 4;
+  grid-row-start: 3 ;
+  grid-row-end: 4 ;
+ }

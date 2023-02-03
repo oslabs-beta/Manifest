@@ -1,55 +1,87 @@
 .mainPageWrapper {
   display: flex;
   flex-direction: column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
+  justify-content: left;
+  align-items: center;
+  text-align: center;
+  border: none;
 }
-a{
+a {
   text-decoration: none;
-  color:white;
+  color: white;
 }
 .containers {
-  width:100%;
+  width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
-  // border: solid;
-  // border-color: white;
   flex-wrap: wrap;
 }
 
-@import '../scss-variables/variables.scss';
+@import '../scss-variables/variables.module.scss';
 
-.containerButton {
-  font-size: 1.5vw;
-  width: 20%;
-  height: 250px;
-  margin: 10px;
-  margin-top: 25px;
-  background-color: $primary;
+.h1Dark {
+  color: white;
+}
+
+.h1Light {
+  color: black;
+}
+
+.doughnutCharts {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  padding: 0px;
+  margin: 0 auto;
+  padding: 30px 0;
+}
+
+table {
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+#tableName,
+#tableMemUsage,
+#tableHardLim,
+#tableSoftLim {
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+#tableHeader {
+  padding: 10px 0 0 0;
+  font-size: 35px;
+}
+
+hr {
+  padding: 0;
+}
+
+tr:last-child {
+  border-bottom: none;
+}
+
+.mainPageTableDark {
   color: $text;
+  width: 100%;
+  font-size: 2vw;
   font-family: 'Roboto', sans-serif;
   border-color: rgb(55, 55, 55);
   border-width: 2px;
-  border-style: solid;
   border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 2px 1px,
-    rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px,
-    rgba(0, 0, 0, 0.09) 0px 16px 8px;
+  box-shadow: $boxShadow;
 }
 
-.containerButton:hover {
-  background-color: $secondary;
-  box-shadow: 0px 0px 5px rgb(223, 223, 223);
-  border: none;
+.mainPageTableLight {
+  color: $textDark;
+  width: 100%;
+  font-size: 2vw;
+  font-family: 'Roboto', sans-serif;
+  border-color: rgb(0, 0, 0);
+  border-width: 2px;
+  border-radius: 10px;
+  box-shadow: $boxShadowDark;
 }
-
-// @media (max-width: 800px) {
-//   .containerButton {
-//     font-size: medium;
-//     width: 200px;
-//     height: 200px;
-//     margin: 10px;
-//   }
-// }
