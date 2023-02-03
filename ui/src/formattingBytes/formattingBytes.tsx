@@ -1,18 +1,30 @@
 
 //takes in a string representing the number of MiB OR GiB and returns out a number of bytes
-function formatMemUsage(bytes: string) {
-  const strArr: RegExpMatchArray | null  = bytes.match(/\d+\.\d+|\d+\b|\d+(?=\w)/g)
-  if(strArr){
-    const inBytes: number[] = strArr.map(function (v) {
-        return +v;
-      });
-    if (bytes?.includes('MiB')) {
-      return inBytes[0] * 1048576;
-    } else {
-      return inBytes[0] * 1073741824;
-    }
+function formatMemUsage(bytes: string | null): number {
+  const inBytes: number[] = bytes
+    .match(/\d+\.\d+|\d+\b|\d+(?=\w)/g)
+    .map(function (v) {
+      return +v;
+    });
+
+  const conversion: { [key: string] : number } = {
+    'KiB': 1024,
+    'MiB': 1048576,
+    'GiB': 1073741824,
+    'TiB': 1099511627776,
   }
-  else return 0;
+
+  for (const key of Object.keys(conversion)) {
+    if (bytes?.includes(key)) return inBytes[0] * conversion[key];
+  }
+  return inBytes[0];
+  // if (bytes?.includes('KiB')) {
+  //   return parseInt(inBytes[0] * )
+  // } else if (bytes?.includes('MiB')) {
+  //   return parseInt(inBytes[0] * 1048576);
+  // } else {
+  //   return parseInt(inBytes[0] * 1073741824);
+  // }
 }
 //function that takes in a number and a string representing the memory limit, and returns out a STRING representing the number of bytes.
 function formatBytes(bytes: number | null, memLimit: string, decimals = 2) {

@@ -75,6 +75,7 @@ export function Navbar(props: props) {
                     }}
             >
               Total Memory Usage: {totalMemUsage}
+
             </Typography>
             <Popup
               trigger={
