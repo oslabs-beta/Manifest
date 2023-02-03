@@ -1,16 +1,17 @@
 
 //takes in a string representing the number of MiB OR GiB and returns out a number of bytes
 function formatMemUsage(bytes: string) {
-  const inBytes: number[] = bytes
-    .match(/\d+\.\d+|\d+\b|\d+(?=\w)/g)
-    .map(function (v) {
-      return +v;
-    });
-    console.log('typeof inBytes[0]', typeof inBytes[0])
-  if (bytes?.includes('MiB')) {
-    return inBytes[0] * 1048576;
-  } else {
-    return inBytes[0] * 1073741824;
+  const strArr: RegExpMatchArray | null  = bytes.match(/\d+\.\d+|\d+\b|\d+(?=\w)/g)
+  if(strArr){
+    const inBytes: number[] = strArr.map(function (v) {
+        return +v;
+      });
+      console.log('typeof inBytes[0]', typeof inBytes[0])
+    if (bytes?.includes('MiB')) {
+      return inBytes[0] * 1048576;
+    } else {
+      return inBytes[0] * 1073741824;
+    }
   }
 }
 //function that takes in a number and a string representing the memory limit, and returns out a STRING representing the number of bytes.
