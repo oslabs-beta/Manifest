@@ -128,7 +128,6 @@ export default function BarChart(props: Props) {
   };
   /* Setting the hard limit annotation. */
   const hardLimitAnnotations = {
-    annotations: {
       hardLimit: {
         type: 'line',
         xMin: props.hardLimit,
@@ -142,12 +141,10 @@ export default function BarChart(props: Props) {
           position: '0%',
         },
       },
-    },
   };
 
 /* Setting the soft limit annotation. */
   const softLimitAnnotations = {
-    annotations: {
       softLimit: {
         type: 'line',
         xMin: props.softLimit,
@@ -161,7 +158,6 @@ export default function BarChart(props: Props) {
           position: '100%',
         },
       },
-    }
   };
   
 
@@ -175,17 +171,18 @@ export default function BarChart(props: Props) {
   function annotations(
     softLimit: number | null,
     hardLimit: number | null
-  ): AnnotationPluginOptions {
-    let result = { annotations: {} };
+  ){
+    let result = {};
     if (softLimit) {
       result = Object.assign(result, softLimitAnnotations);
     }
-    if (hardLimit) {
+    if (hardLimit)  {
       result = Object.assign(result, hardLimitAnnotations);
     }
+    console.log('result:', result);
     return result;
   }
-
+  const annotation = annotations(softLimit, hardLimit);
 /* Setting the options for the bar chart. */
   // console.log(data);
 
@@ -214,9 +211,13 @@ export default function BarChart(props: Props) {
       title: {
         display: false,
       },
-      annotation: annotations(softLimit, hardLimit),
+      annotation: {
+        annotations: annotation
+      }
     },
   };
+
+  console.log('options:', options);
 
   return (
     <div className="barGraphWrapper">
