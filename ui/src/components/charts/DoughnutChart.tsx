@@ -34,12 +34,12 @@ type datasets = {
   color: string;
 };
 
-interface data {
+type data = {
   labels: string[];
   datasets: datasets[];
 }
 
-interface props {
+type props = {
   containerNames: string[];
   containerMemPerc: number[];
   maxMem?: any;
@@ -69,7 +69,7 @@ const backgroundColors = [
   '#bc5090',
 ];
 
-export default function DoughnutChart(props: props) {
+export default function DoughnutChart(props: props): JSX.Element {
 
   const { containerNames, containerMemPerc, maxMem } = props;
   const [data, setData] = React.useState<data>({
@@ -131,7 +131,7 @@ export default function DoughnutChart(props: props) {
   /**************
   Setting the title to the appropriate doughnut chart depending on whether 'maxMem' prop exists
   ***************/
-  let title = 'Memory Usage Ratio per Container';
+  let title: string = 'Memory Usage Ratio per Container';
   if (maxMem) {
     title = 'Memory Usage by Containers';
   }
@@ -189,14 +189,12 @@ export default function DoughnutChart(props: props) {
     style = {{
       boxShadow: ` 0px 0px 6px 1px ${currentTextColor}`,
       borderColor: `${currentTextColor}`
-    
     }}
     >
       <Doughnut
         className="totalMemUsageChart"
         data={data}
         options={options}
-        // plugins={}
       />
     </div>
   );

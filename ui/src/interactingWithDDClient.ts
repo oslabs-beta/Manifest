@@ -1,18 +1,16 @@
 import { createDockerDesktopClient } from '@docker/extension-api-client';
 import { allMemoryObject } from './components/types/memoryObject';
+import containerData from './components/types/containerData';
 const ddClient = createDockerDesktopClient();
 
 /**************
 getContainerIds --> returns an array holding the Id's of all running containers
 ***************/
-const getContianerIds = async () => {
+const getContainerIds = async (): Promise<string[]> => {
   return await ddClient.docker.cli
-    .exec('ps', ['--no-trunc', '--format', '"{{.ID}}"'])
-    .then((res) => {
-      const containerIdArr = res.stdout.split('\n');
-      containerIdArr.pop();
-      return containerIdArr;
-    });
+    .exec('ps', ['--no-trunc', '--format', '"{{json .ID}}"'])
+    .then((res) =>  res.parseJsonLines());
+  
 };
 
 
@@ -30,14 +28,13 @@ Example object = {
   }
 }
 ***************/
-const getMemLimits = async (idArr: string[]) => {
+const getMemLimits = async (idArr: string[]): Promise<allMemoryObject> => {
   const returnObj: allMemoryObject = {};
-  const memLimitArr = await ddClient.docker.cli
+  const memLimitArr: string[] = await ddClient.docker.cli
     .exec(`inspect`, [
       `--format='{{.HostConfig.MemoryReservation}} {{.HostConfig.Memory}}'`,
       ...idArr,
-    ])
-    .then((res) => res.stdout.split('\n'));
+    ]).then((res) => res.stdout.split('\n'));
   memLimitArr.pop();
   memLimitArr.forEach((memString, i) => {
     let softLimit: string | null;
@@ -57,7 +54,7 @@ const getMemLimits = async (idArr: string[]) => {
 /**************
 getContainerMetrics --> returns an array that holds objects. Each object contains metrics associated with each container.
 ***************/
-const getContainerMetrics = async () => {
+const getContainerMetrics = async (): Promise<containerData[]> => {
   return ddClient.docker.cli
     .exec('stats', ['--no-stream', '--no-trunc', '--format', '"{{json .}}"'])
     .then((res) => res.parseJsonLines());
@@ -65,11 +62,10 @@ const getContainerMetrics = async () => {
 
 
 /**************
-getContainerMetrics --> returns an array that holds objects. Each object contains metrics associated with each container.
+getTotalMemoryAllocatedToDocker --> returns the NUMBER of bytes allocated to docker as a whole. (The total memory Docker Desktop can take up)
 ***************/
-//returns the NUMBER of bytes allocated to docker as a whole. (The total memory Docker Desktop can take up)
-const getTotalMemoryAllocatedToDocker = async () => {
-  const [response] = await ddClient.docker.cli
+const getTotalMemoryAllocatedToDocker = async (): Promise<number> => {
+  const [response]: number[] = await ddClient.docker.cli
     .exec('info', ['--format', '"{{json .MemTotal}}"'])
     .then((res) => res.parseJsonLines());
   return response;
@@ -82,17 +78,17 @@ updateMemoryLimits --> this function accepts 2 strings and an ID example: update
 Will locate the container with the matching ID, and update it's --memory-reservation (soft limit) and -m (hard limit) accordingly.
 Also note that we need to set the --memory-swap to the hard limit. Docker does not allow containers to have a hard limit that is greater than a memory reservation 
 ***************/
-const updateMemoryLimits = async (softMemLimit: string, hardMemLimit: string, ID: string) => {
+const updateMemoryLimits = async (softMemLimit: string, hardMemLimit: string, ID: string): Promise<void> => {
   const response = await ddClient.docker.cli
   .exec('update', [`-m`, hardMemLimit, '--memory-reservation', softMemLimit, '--memory-swap', hardMemLimit, ID]);
 }
 
 
-const openExternalLink = async (link: string) => {
+const openExternalLink = async (link: string): Promise<void> => {
   await ddClient.host.openExternal(link);
 }
 
-const sendToast = (toastType: 'error' | 'success' | 'warning', message: string) => {
+const sendToast = (toastType: 'error' | 'success' | 'warning', message: string): void => {
   const toast = ddClient.desktopUI.toast;
   const funcs: { [key: string]: Function } = {
     'error': toast.error,
@@ -106,7 +102,7 @@ const sendToast = (toastType: 'error' | 'success' | 'warning', message: string) 
 }
 
 export {
-  getContianerIds,
+  getContainerIds,
   getMemLimits,
   getContainerMetrics,
   getTotalMemoryAllocatedToDocker,

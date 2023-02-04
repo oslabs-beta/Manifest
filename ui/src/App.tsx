@@ -1,19 +1,14 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Navbar } from './components/navbar/navbar';
 import { Mainpage } from './components/mainpage/mainpage';
-import Containers from './components/tables/tablerow';
 import ContainerData from './components/types/containerData';
-import { FormControl, InputLabel, MenuItem } from '@mui/material';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import {
-  getContianerIds,
+  getContainerIds,
   getMemLimits,
   getContainerMetrics,
   getTotalMemoryAllocatedToDocker,
 } from './interactingWithDDClient';
-// Note: This line relies on Docker Desktop's presence as a host application.
-// If you're running this React app in a browser, it won't work properly.
+
 
 //REFRESH_DELAY controls how often (in milliseconds) we will query the Docker desktop client to recieve updates about our running containers.
 let REFRESH_DELAY = 2000;
@@ -31,7 +26,7 @@ export function App() {
 
 
   
-  //mem object is a nested object containing the soft/hard memory limit for each contianer. See example memory object below
+  //mem object is a nested object containing the soft/hard memory limit for each container. See example memory object below
   const [memObj, setMemObj] = React.useState({});
   /* Example memObj
   memObj = {
@@ -43,10 +38,9 @@ export function App() {
   */
 
 
-  const updateMemoryObject = async () => {
-    await getContianerIds().then((containerIdArray) => {
+  const updateMemoryObject = async (): Promise<void> => {
+    await getContainerIds().then((containerIdArray) => {
       getMemLimits(containerIdArray).then((memoryLimitObject) => {
-        console.log('memoryLimitObject:', memoryLimitObject)
         setMemObj(memoryLimitObject);
       });
     });
@@ -56,7 +50,7 @@ export function App() {
   updateContainerData --> Gets the updated data on container metrics then sets the dataStore accordingly.
   Also sets containersLoaded to true and calls itself again after the REFRESH_DELAY
   ********************/
-  const updateContainerData = () => {
+  const updateContainerData = (): void => {
     getContainerMetrics().then((containerMetricsObject) => {
       setDataStore(containerMetricsObject);
       setContainersLoaded(true);

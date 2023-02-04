@@ -3,7 +3,6 @@ import {
   Tooltip,
   Legend,
   Title,
-  scales,
   BarElement,
   CategoryScale,
   LinearScale,
@@ -17,7 +16,6 @@ import { currentTextColor } from '../../getCurrentTextColor';
 //currentTextColor is based off of current light/dark mode theme set in docker desktop settings. 
 //Since ChartJS needs a color property passed in for the labels, we need to get this current themed color to apply it to our graphs
 /************************/
-
 
 ChartJS.register(
   annotationPlugin,
@@ -38,19 +36,6 @@ type Props = {
   totalMemString: string;
 };
 
-type dataset = [{
-    barPercentage: number,
-    data: number[],
-    backgroundColor: string[],
-    borderRadius: number,
-    borderSkipped: boolean,
-  }]
-
-type Data = {
-  labels: string[],
-
-  datasets: dataset,
-};
 
 /**
  * If the byteUsage is less than the softLimit, then the red value of the RGB color is set to the
@@ -89,7 +74,7 @@ const getGradientColor = (byteUsage: number, softLimit: number | null, hardLimit
     //    - Reducing green value makes the bar appear more red
     // Or, if a hard limit is not set, bar will be yellow
     if (hardLimit) {
-      const perc = softLimit / (hardLimit - softLimit);
+      const perc: number = softLimit / (hardLimit - softLimit);
       rgb[1] = Math.floor(rgb[1] * perc);
     } else return 'rgb(255, 255, 0)';
   }
@@ -97,15 +82,16 @@ const getGradientColor = (byteUsage: number, softLimit: number | null, hardLimit
 }
 
 /* Creating a bar chart with the data that is passed in from the props. */
-export default function BarChart(props: Props) {
+export default function BarChart(props: Props): JSX.Element {
  
-  // Destructuring the props object.
+  // Destructuring  props object.
   const { softLimit, hardLimit } = props;
+
   // Label for bar chart (One label, appears on left before bar)
-  const labels = [props.totalMemString];
+  const labels: string[] = [props.totalMemString];
+
   const data = {
     labels: labels,
-
     datasets: [{
       // Width of bar chart (height because it is horizontal)
       barPercentage: 0.4,
@@ -120,13 +106,9 @@ export default function BarChart(props: Props) {
       borderRadius: 10,
       // Do not make left edge squared
       borderSkipped: false,
-      // borderColor: [
-      //   'white',
-      // ],
-      // borderWidth: 1,
-      // color: 'white',
     }]
   };
+
   /* Setting the hard limit annotation. */
   const hardLimitAnnotations = {
       hardLimit: {
@@ -188,7 +170,6 @@ export default function BarChart(props: Props) {
 
 /* Setting the options for the bar chart. */
   
-
   const options: ChartOptions<'bar'> = {
     // Horizontal "progress bar" style
     indexAxis: 'y',
@@ -221,14 +202,10 @@ export default function BarChart(props: Props) {
   };
 
  
-
   return (
     <div 
       className="barGraphWrapper" 
-      style = {{
-        boxShadow: `0px 0px 5px ${currentTextColor}`,
-        borderColor: `${currentTextColor}`
-        }}>
+      style = {{ boxShadow: `0px 0px 10px  ${currentTextColor}` }}>
       <Bar data={data} options={options} />
     </div>
   );

@@ -6,10 +6,7 @@
   text-align: center;
   border: none;
 }
-// a {
-//   text-decoration: none;
-//   color: white;
-// }
+
 .containers {
   width: 100%;
   display: flex;
@@ -17,15 +14,6 @@
   flex-wrap: wrap;
 }
 
-@import '../scss-variables/variables.module.scss';
-
-// .h1Dark {
-//   color: white;
-// }
-
-// .h1Light {
-//   color: black;
-// }
 
 .doughnutCharts {
   display: flex;
@@ -65,7 +53,6 @@ tr:first-child {
   border-bottom: none;
 }
 
-
 table {
   width: 100%;
   font-size: 1.75vw;
@@ -73,5 +60,4 @@ table {
   border-width: 2px;
   border-radius: 10px;
   border-collapse: collapse;
-
 }
