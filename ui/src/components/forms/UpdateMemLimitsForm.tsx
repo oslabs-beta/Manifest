@@ -33,7 +33,6 @@ export default function UpdateMemLimitsForm (props: Props): JSX.Element {
   //updateMemoryObject --> Function that querries docker desktop API for up to date memory limits on all containers
   //softLimit, hardlimit --> a number representing bytes for these limits, OR NULL if limit isn't set
   const { ID, totalDockerMem, updateMemoryObject, softLimit, hardLimit } = props;
-  console.log('soft limit:', softLimit, 'hard limit:', hardLimit);
   const defaultValues: FormValues = {
     ID : ID,
     softLimit: '',
