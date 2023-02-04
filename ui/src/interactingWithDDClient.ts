@@ -77,10 +77,18 @@ const getTotalMemoryAllocatedToDocker = async (): Promise<number> => {
 updateMemoryLimits --> this function accepts 2 strings and an ID example: updateMemoryLimits('500m', '1g', '1234sampleID5678')
 Will locate the container with the matching ID, and update it's --memory-reservation (soft limit) and -m (hard limit) accordingly.
 Also note that we need to set the --memory-swap to the hard limit. Docker does not allow containers to have a hard limit that is greater than a memory reservation 
+If null is passed in instead of a string, will NOT update that memory limit
 ***************/
-const updateMemoryLimits = async (softMemLimit: string, hardMemLimit: string, ID: string): Promise<void> => {
-  const response = await ddClient.docker.cli
-  .exec('update', [`-m`, hardMemLimit, '--memory-reservation', softMemLimit, '--memory-swap', hardMemLimit, ID]);
+const updateMemoryLimits = async (softMemLimit: string | null, hardMemLimit: string | null, ID: string): Promise<void> => {
+  //updates BOTH soft and hard mem limits
+  if(softMemLimit && hardMemLimit) await ddClient.docker.cli
+    .exec('update', [`-m`, hardMemLimit, '--memory-reservation', softMemLimit, '--memory-swap', hardMemLimit, ID]);
+  //updates only hard mem limit
+  else if(hardMemLimit && !softMemLimit) await ddClient.docker.cli
+    .exec('update', [`-m`, hardMemLimit, '--memory-swap', hardMemLimit, ID]);
+  //updtaes only soft mem limit
+  else if(softMemLimit && !hardMemLimit) await ddClient.docker.cli
+    .exec('update', ['--memory-reservation', softMemLimit,  ID]);
 }
 
 
@@ -96,9 +104,7 @@ const sendToast = (toastType: 'error' | 'success' | 'warning', message: string):
     'warning': toast.warning,
   }
   funcs[toastType](message);
-  // if (toastType === 'error') ddClient.desktopUI.toast.error(message);
-  // if (toastType === 'success') ddClient.desktopUI.toast.success(message);
-  // if (toastType === 'warning') ddClient.desktopUI.toast.warning(message);
+ 
 }
 
 export {

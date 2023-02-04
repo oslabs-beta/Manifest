@@ -1,24 +1,12 @@
 
 //takes in a string representing the number of MiB OR GiB and returns out a number of bytes
 function formatMemUsage(bytes: string): number {
-  const regExMatch: RegExpMatchArray | null = bytes.match(/\d+\.\d+|\d+\b|\d+(?=\w)/g);
-  if(!regExMatch) return 0;
-  const inBytes: number[] = regExMatch.map(function (v) {
-      return +v;
-    });
-
-  const conversion: { [key: string] : number } = {
-    'KiB': 1024,
-    'MiB': 1048576,
-    'GiB': 1073741824,
-    'TiB': 1099511627776,
-  }
-
-  for (const key of Object.keys(conversion)) {
-    if (bytes?.includes(key)) return inBytes[0] * conversion[key];
-  }
-  return inBytes[0];
-  
+  // const regExMatch: RegExpMatchArray | null = bytes.match(/\d+\.\d+|\d+\b|\d+(?=\w)/g);
+  // if(!regExMatch) return 0;
+  const index: number = bytes.search(/[^0-9.]/);
+  const amount: string = bytes.substring(0, index);
+  const units: string = bytes.substring(index, index + 3);
+  return byteStringToBytes(amount, units);
 }
 
 
@@ -44,11 +32,17 @@ function formatBytes(bytes: number | null, memLimit: string, decimals = 2) {
 }
 
 //this function accepts a string represinting the amount of bites and a string representing the units. 
-//Example: byteStringToBytes(1, k) -> returns 1000 since there are 1000 bytes in a kb. would return 1 mil for m since there are 1 mil byes in a mb
+//Example: byteStringToBytes(1, KiB) -> returns 1024 since there are 1024 bytes in a KiB. would return 1048576 for m since there are 1048576 byes in a MiB
 function byteStringToBytes(amountOfBytes: string, units:string): number {
-  const numberOfBytes = parseFloat(amountOfBytes);
-  if(units === 'm') return numberOfBytes*1000000;
-  else return numberOfBytes*1000000000;
+
+  const conversion: { [key: string]: number } = {
+    KiB: 1024,
+    MiB: 1048576,
+    GiB: 1073741824,
+    TiB: 1099511627776,
+  };
+
+  return Math.round(parseFloat(amountOfBytes) * conversion[units]);
 }
 
 export { formatMemUsage, formatBytes, byteStringToBytes };
