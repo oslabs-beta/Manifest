@@ -1,11 +1,15 @@
+import { useEffect, useState, useContext } from 'react';
+
 import './mainpage.scss';
 import CircularProgress from '@mui/material/CircularProgress';
+
 import DoughnutChart from '../charts/DoughnutChart';
 import ContainerData from '../types/containerData';
+
 import TableRow from '../tables/tablerow';
 import { formatMemUsage } from '../../formattingBytes/formattingBytes';
 
-type Props = {
+interface Props {
   containersArray: ContainerData[];
   containersLoaded: boolean;
   memObj: any;
@@ -13,8 +17,12 @@ type Props = {
   updateMemoryObject: () => Promise<void>
 }
 
+interface containerInfo {
+  containerNames: string[];
+  containerMemPerc: number[];
+}
 
-export function Mainpage(props: Props): JSX.Element {
+export function Mainpage(props: Props) {
   const {
     containersArray,
     containersLoaded,
@@ -46,8 +54,8 @@ export function Mainpage(props: Props): JSX.Element {
           containerName={element.Name}
           memUsageReadableString={element.MemUsage}
           byteUsage={elementMemUsage}
-          softLimit={memObj[element.ID].softLimit}
-          hardLimit={memObj[element.ID].hardLimit}
+          softLimit={memObj[element.ID] ? memObj[element.ID].softLimit : null}
+          hardLimit={memObj[element.ID] ? memObj[element.ID].hardLimit : null}
           totalDockerMem={totalDockerMem}
           updateMemoryObject = {updateMemoryObject}
         />
