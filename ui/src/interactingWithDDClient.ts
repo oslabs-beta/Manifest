@@ -10,7 +10,6 @@ const getContainerIds = async (): Promise<string[]> => {
   return await ddClient.docker.cli
     .exec('ps', ['--no-trunc', '--format', '"{{json .ID}}"'])
     .then((res) =>  res.parseJsonLines());
-  
 };
 
 
