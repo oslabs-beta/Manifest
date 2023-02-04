@@ -23,8 +23,8 @@ COPY ui /ui
 RUN npm run build
 
 FROM alpine
-LABEL org.opencontainers.image.title="dockery-extension" \
-    org.opencontainers.image.description="OSP docker extension" \
+LABEL org.opencontainers.image.title="Dockery" \
+    org.opencontainers.image.description="Extension for monitoring and managing container memory usage" \
     org.opencontainers.image.vendor="Dockery" \
     com.docker.desktop.extension.api.version="0.3.0" \
     com.docker.extension.screenshots="" \
