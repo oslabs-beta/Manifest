@@ -89,6 +89,8 @@ export default function TableRow(props: Props) {
               ID = {ID}
               totalDockerMem = {totalDockerMem}
               updateMemoryObject = {updateMemoryObject}
+              softLimit = {softLimit}
+              hardLimit = {hardLimit}
             />
           </td>
         </tr>
