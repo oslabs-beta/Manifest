@@ -9,9 +9,8 @@ import {
   getTotalMemoryAllocatedToDocker,
 } from './interactingWithDDClient';
 
-
 //REFRESH_DELAY controls how often (in milliseconds) we will query the Docker desktop client to recieve updates about our running containers.
-let REFRESH_DELAY = 2000;
+const REFRESH_DELAY = 2000;
 
 export function App() {
   
@@ -24,7 +23,8 @@ export function App() {
   //totalDockerMem is a number that is the total Bytes of memory allocated to docker desktop. Can be changed from DockerDesktop settings. 
   const [totalDockerMem, setTotalDockerMem] = React.useState<number>(0);
 
-
+  //noContainers is boolean to indecate there are running containers or not
+  const [noContainers, setNoContainers] = React.useState<boolean>(false);
   
   //mem object is a nested object containing the soft/hard memory limit for each container. See example memory object below
   const [memObj, setMemObj] = React.useState({});
@@ -37,10 +37,17 @@ export function App() {
   }
   */
 
-
+  /************
+  updateMemoryObject --> This function gets all container ID's, then if there are no running containers, throws an error. 
+  If there are runnin containers, then it gets the memory limits and sets the memObj to be equal to the memory limits of the objects
+   *************/
   const updateMemoryObject = async (): Promise<void> => {
     await getContainerIds().then((containerIdArray) => {
-      getMemLimits(containerIdArray).then((memoryLimitObject) => {
+      if(containerIdArray.length === 0){
+        setNoContainers(true);
+        throw new Error;
+      } 
+      else getMemLimits(containerIdArray).then((memoryLimitObject) => {
         setMemObj(memoryLimitObject);
       });
     });
@@ -77,19 +84,24 @@ export function App() {
     });
   }, []);
 
-//return our navbar at the top and mainpage underneath it
+//return our navbar at the top and mainpage underneath it. Unless there are no containers running, then we alert the ueser. 
   return (
     <>
       <Navbar
-        containersArray={dataStore}
+      containersArray={dataStore}
+    />
+    {noContainers ? 
+      (<h1 style = {{textAlign:'center'}}>Looks like there are no containers running please start one and refresh the app</h1>)
+      : 
+      (<Mainpage
+      containersArray={dataStore}
+      containersLoaded={containersLoaded}
+      memObj={memObj}
+      totalDockerMem={totalDockerMem}
+      updateMemoryObject = {updateMemoryObject}
       />
-      <Mainpage
-        containersArray={dataStore}
-        containersLoaded={containersLoaded}
-        memObj={memObj}
-        totalDockerMem={totalDockerMem}
-        updateMemoryObject = {updateMemoryObject}
-      />
-    </>
+      )
+    }
+   </>
   );
 }
