@@ -19,10 +19,6 @@ type Props = {
   updateMemoryObject: () => Promise<void>
 };
 
-type style = {
-  borderBottom: string;
-};
-
 export default function TableRow(props: Props) {
   const {
     ID,
@@ -42,12 +38,10 @@ export default function TableRow(props: Props) {
   const [expanded, setExpanded] = useState<boolean>(false);
   const expand = (): void => {
     setExpanded(!expanded);
-   
-    
   };  
 
   /**************
-  softLimitPerc/String and hardLimitPerc/String are for displaying text within the tables
+  softLimitPerc/String, hardLimitPerc/String are for displaying text within the tables
   ***************/
   let softLimitPerc: number = 0;
   if (softLimit) {
@@ -60,8 +54,6 @@ export default function TableRow(props: Props) {
   const softLimitString: string = formatBytes(softLimit, 'Soft Limit Not Set');
   const hardLimitString: string = formatBytes(hardLimit, 'Hard Limit Not Set');
   const totalMemString: string = formatBytes(byteUsage, '');
-
-
 
   return (
     <>
@@ -93,7 +85,11 @@ export default function TableRow(props: Props) {
             )}
           </td>
           <td colSpan={1} >
-            <UpdateMemLimitsForm ID = {ID} totalDockerMem = {totalDockerMem} updateMemoryObject = {updateMemoryObject}/>
+            <UpdateMemLimitsForm 
+              ID = {ID}
+              totalDockerMem = {totalDockerMem}
+              updateMemoryObject = {updateMemoryObject}
+            />
           </td>
         </tr>
       )}

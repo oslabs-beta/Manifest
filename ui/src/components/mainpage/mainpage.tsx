@@ -1,15 +1,11 @@
-import { useEffect, useState, useContext } from 'react';
-
 import './mainpage.scss';
 import CircularProgress from '@mui/material/CircularProgress';
-
 import DoughnutChart from '../charts/DoughnutChart';
 import ContainerData from '../types/containerData';
-
 import TableRow from '../tables/tablerow';
 import { formatMemUsage } from '../../formattingBytes/formattingBytes';
 
-interface Props {
+type Props = {
   containersArray: ContainerData[];
   containersLoaded: boolean;
   memObj: any;
@@ -17,12 +13,8 @@ interface Props {
   updateMemoryObject: () => Promise<void>
 }
 
-interface containerInfo {
-  containerNames: string[];
-  containerMemPerc: number[];
-}
 
-export function Mainpage(props: Props) {
+export function Mainpage(props: Props): JSX.Element {
   const {
     containersArray,
     containersLoaded,

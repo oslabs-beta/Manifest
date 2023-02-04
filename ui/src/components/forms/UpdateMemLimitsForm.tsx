@@ -5,7 +5,7 @@ import {
   SelectChangeEvent,
   Button,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import  { useState } from 'react';
 import './UpdateMemLimits.scss';
 import { byteStringToBytes } from '../../formattingBytes/formattingBytes';
 import { updateMemoryLimits, sendToast } from '../../interactingWithDDClient';
@@ -26,8 +26,9 @@ type FormValues = {
   hardLimitUnits : string,
 }
 
-export default function UpdateMemLimitsForm (props: Props) {
-  //ID --> container ID, totalDockerMem --> total memory (in bytes) allocated to Docker Desktop
+export default function UpdateMemLimitsForm (props: Props): JSX.Element {
+  //ID --> container ID, totalDockerMem --> total memory (in bytes) allocated to Docker Desktop 
+  //updateMemoryObject --> Function that querries docker desktop API for up to date memory limits on all containers
   const { ID, totalDockerMem, updateMemoryObject } = props;
   const defaultValues: FormValues = {
     ID : ID,
@@ -43,7 +44,7 @@ export default function UpdateMemLimitsForm (props: Props) {
 
   //handleInputChange runs whenever a value in the form is updated. 
   //Name and value taken from the event and used to update the name/value property on the formValue piece of state
-  const handleInputChange = (event: SelectChangeEvent) => {
+  const handleInputChange = (event: SelectChangeEvent): void => {
     const { name, value } = event.target;
     setFormValues({
       ...formValues,
@@ -66,11 +67,11 @@ export default function UpdateMemLimitsForm (props: Props) {
     event.preventDefault();
 
     //1. converting limits to numbers
-    const hardLimitByteNumber = byteStringToBytes(
+    const hardLimitByteNumber: number = byteStringToBytes(
       formValues.hardLimit, 
       formValues.hardLimitUnits
     );
-    const softLimitByteNumber = byteStringToBytes(
+    const softLimitByteNumber: number = byteStringToBytes(
       formValues.softLimit, 
       formValues.softLimitUnits
     );  
@@ -91,8 +92,7 @@ export default function UpdateMemLimitsForm (props: Props) {
             'Success! Please wait a moment for Dockery to update its display'
           )
           updateMemoryObject();
-        }
-        )
+        })
         .catch(() =>
           sendToast(
             'error',
@@ -103,7 +103,7 @@ export default function UpdateMemLimitsForm (props: Props) {
   };
 
   //units array for dropdown selection
-  const unitsArray = [
+  const unitsArray: JSX.Element[] = [
     <MenuItem value ={'m'} key='m' >m</MenuItem>,
     <MenuItem value ={'g'} key='g'>g</MenuItem>,
   ];

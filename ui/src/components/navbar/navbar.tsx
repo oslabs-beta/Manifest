@@ -2,8 +2,7 @@ import React, { useEffect } from 'react';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import { SvgIcon, SvgIconProps } from '@mui/material';
-import { DocsButton } from '../menu/DocsButton';
+import { DocsButton } from './DocsButton';
 import Refresh from '@mui/icons-material/Refresh';
 import ContainerData from '../types/containerData';
 import './navbar.scss';
@@ -12,20 +11,11 @@ import {
   formatMemUsage,
 } from '../../formattingBytes/formattingBytes';
 
-function HomeIcon(props: SvgIconProps) {
-  return (
-    <SvgIcon {...props}>
-      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-    </SvgIcon>
-  );
-}
-
-interface props {
+type props = {
   containersArray: ContainerData[];
-
 }
 
-export function Navbar(props: props) {
+export function Navbar(props: props): JSX.Element {
   const { containersArray } = props;
   const [totalMemUsage, setTotalMemUsage] = React.useState<string>();
 
@@ -44,7 +34,6 @@ export function Navbar(props: props) {
   }, [containersArray]);
   
   return (
-
       <Toolbar>
         <IconButton
           size="large"
@@ -71,6 +60,5 @@ export function Navbar(props: props) {
         </Typography>
         <DocsButton />
       </Toolbar>
-
   );
 }

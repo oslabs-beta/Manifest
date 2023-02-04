@@ -1,4 +1,4 @@
-export default interface ContainerData {
+ type ContainerData = {
   BlockIO: string,
   CPUPerc: string,
   Container: string,
@@ -9,3 +9,5 @@ export default interface ContainerData {
   NetIO: string,
   PIDs: string,
 }
+
+export default ContainerData
