@@ -74,8 +74,8 @@ const getGradientColor = (byteUsage: number, softLimit: number | null, hardLimit
     //    - Reducing green value makes the bar appear more red
     // Or, if a hard limit is not set, bar will be yellow
     if (hardLimit) {
-      const perc: number = softLimit / (hardLimit - softLimit);
-      rgb[1] = Math.floor(rgb[1] * perc);
+      const perc: number = (byteUsage - softLimit) / (hardLimit - softLimit);
+      rgb[1] = Math.floor(rgb[1] * (1 - perc));
     } else return 'rgb(255, 255, 0)';
   }
   return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
