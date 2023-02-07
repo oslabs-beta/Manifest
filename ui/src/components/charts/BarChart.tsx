@@ -86,8 +86,7 @@ export default function BarChart(props: Props): JSX.Element {
  
   // Destructuring  props object.
   const { softLimit, hardLimit } = props;
-  console.log('chart softLimit: ', softLimit);
-  console.log('chart hardLimit: ', hardLimit)
+  
 
   // Label for bar chart (One label, appears on left before bar)
   const labels: string[] = [props.totalMemString];
