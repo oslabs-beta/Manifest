@@ -18,7 +18,7 @@
   <em>Figure 1: Intuitive UI to understand memory metrics on all running containers</em>
 </h3>
 <p align='center'>
-  <img src = './readMeMedia/dockery_overview_screenshot.png'  width='75%'/>
+  <img src = './readMeMedia/dockery_overview_screenshot.png'  width='100%'/>
 </p>
 
 <br>
@@ -27,7 +27,7 @@
   <em>Figure 2: Detailed memory metrics on all containers found within the table</em>
 </h3>
 <p align='center'>
-  <img src = './readMeMedia/dockery_table_details_screenshot.png'  width='75%'/>
+  <img src = './readMeMedia/dockery_table_details_screenshot.png'  width='100%'/>
 </p>
 
 <br>
@@ -36,7 +36,7 @@
   <em>Figure 3: Intuitive UI for updating memory limits</em>
 </h3>
 <p align='center'>
-  <img src = './readMeMedia/Updating_memory_limits.gif'  width='75%'/>
+  <img src = './readMeMedia/Updating_memory_limits.gif'  width='100%'/>
 </p>
 
 <br>
