@@ -43,6 +43,7 @@
 
 <h2>Getting Started</h2>
 <p>Pre-requisite: Download Docker Desktop 4.8.0 or later</p>
+<br>
 
 1. Clone this repository to your local machine
 2. Navigate to dockery folder in your terminal/PowerShell
