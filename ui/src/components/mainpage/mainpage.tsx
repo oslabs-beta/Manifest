@@ -46,6 +46,11 @@ export function Mainpage(props: Props) {
   ***************/
   if (containersLoaded) {
     containersArray.forEach((element) => {
+      console.log('mainpage: ===================');
+      console.log(memObj[element.ID].softLimit);
+      console.log(memObj[element.ID].hardLimit);
+      console.log(memObj[element.ID]);
+      console.log(memObj);
       const elementMemUsage = formatMemUsage(element.MemUsage);
       tableRows.push(
         <TableRow
@@ -62,6 +67,7 @@ export function Mainpage(props: Props) {
       );
       containerNames.push(element.Name);
       containerMemPerc.push(elementMemUsage);
+      console.log('mainpage end====================');
     });
   }
 
