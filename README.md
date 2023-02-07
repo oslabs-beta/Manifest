@@ -1,11 +1,11 @@
 # Dockery
 
-<p>Dockery is a Docker Destop extension that simplifies monitoring and updating container memory limits. With an intuitive UI, users can easily understand container memory usage AND set/udpdate memory limits - both hard limit(--memory) and soft limit(--memory-reservation)<p>
+<p>Dockery is a Docker Destop extension that simplifies monitoring and managing container memory limits. With an intuitive UI, users can easily understand container memory usage AND set/udpdate memory limits - both hard limit(--memory) and soft limit(--memory-reservation)<p>
 <br>
 <h2>Features</h2>
 
 <p>
-  Dockery displays real-time, important memory metrics such as total memory used by all containers, memory usage by container, and memory usage ratio by container (fig 1). These metrics are displayed in easy to digest graphs. However, the real power of Dockery lies within its table, where detailed memory metrics on all running containers are shown. Clicking on a row reveals an intuitive GUI where users can do 2 things: 
+  Dockery displays real-time, important memory metrics such as total memory used by all containers, memory usage per container, and memory usage ratio by container (fig 1). These metrics are displayed in easy to digest graphs. However, the real power of Dockery lies within its table, where detailed memory metrics on all running containers are shown. Clicking on a row reveals an intuitive GUI where users can do 2 things: 
   <ol>
     <li>Visually compare memory usage to the soft & hard limits (fig 2)</li>
     <li>Easily re-allocate memory through assignment of memory limits (fig 3)</li>
@@ -42,30 +42,34 @@
 <br>
 
 <h2>Getting Started</h2>
+Pre-requisite: Download Docker Desktop 4.8.0 or later
 
-Getting started with Dockery can be done in 4 simple steps:
+<br>
 
-1. Fork and clone this repository to your local machine
-2. Build your docker image: 
+1. Clone this repository to your local machine
+2. Navigate to dockery folder in your terminal/PowerShell
+3. Build your docker image: 
 ```
 docker build -t dockery .
 ```
-3. Install Dockery onto Docker Desktop: 
+4. Install Dockery onto Docker Desktop: 
 ```
 docker extension install dockery
 ```
 <p>You may be asked: 'Are you sure you want to continue? [y/N]' --> enter 'y' to continue</p>
 
-4. Dockery is now installed and will be running inside of Docker Desktop
-<br>
+5. Dockery is now installed and will be running inside of Docker Desktop
+
 <br>
 <h2>Extension Marketplace:</h2>
 <p>We are in the process of applying to have Dockery added to the Docker Desktop Extension Marketplace, but it is not yet avaliable there. </p>
 <br>
 <h2>Windows containers</h2>
-<p>Under the hood, Dockery uses the <code>docker update</code> command to update container memory limits, which is currently NOT supported for Windows containers. If you are running Windows containers, you can still use Dockery to visualy monitor your container memory metrics and limits, but to update you will still need to use the CLI and update limits another way.</p>
+<p>Under the hood, Dockery uses the <code>docker update</code> command to update container memory limits, which is currently NOT supported for Windows containers. If you are running Windows containers, you can still use Dockery to visually monitor your container memory metrics and limits, but to update you will still need to use the CLI and update limits another way.</p>
 
 <br>
+<h2>Contributing</h2>
+<p>Dockery is an open source product, so we welcome any/all feedbak. Please reach out or submit a PR if you'd like to help imporve Dockery! </p>
 <h2>Contributors</h2>
 
 <ul>
