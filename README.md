@@ -56,3 +56,16 @@
 <br>
 <h3>Windows containers</h3>
 <p>Under the hood, Dockery uses the <code>docker update</code> command to update container memory limits, which is currently NOT supported for Windows containers. If you are running Windows containers, you can still use Dockery to visualy monitor your container memory metrics and limits, but to update you will still need to use the CLI and update limits another way.</p>
+
+<br>
+<h2>Contributors</h2>
+<hr>
+<ul>
+  <li>Mike Battey  | <a href='https://www.linkedin.com/in/michael-battey-0591a1133/' target ='blank' >Linkedin</a> | <a href='https://github.com/Mrbattey' target = 'blank'>Github</a></li>
+  <li>Benjamin Ly  | <a href='https://www.linkedin.com/in/benjaminly88/' target = 'blank'>Linkedin</a> | <a href = 'https://github.com/benjaminly88' target = 'blank'>Github</a></li>
+  <li>Chase Mann | <a href = 'https://www.linkedin.com/in/chase-mann/' target = 'blank'>Linkedin</a> | <a href= 'https://github.com/xChesa' target = 'blank'>Github</a></li>
+  <li>Eliot Orando | <a href = 'https://www.linkedin.com/in/eliot-orando/' target = 'blank'>Linkedin</a> | <a href = 'https://github.com/EliotOrando' target = 'blank'>Github</a></li>
+</ul>
+<br>
+<h2>Proudly partnered with OS Labs</h2>
+<hr>
