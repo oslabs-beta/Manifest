@@ -67,5 +67,5 @@
   <li>Eliot Orando | <a href = 'https://www.linkedin.com/in/eliot-orando/' target = 'blank'>Linkedin</a> | <a href = 'https://github.com/EliotOrando' target = 'blank'>Github</a></li>
 </ul>
 <br>
-<h2>Proudly partnered with OS Labs</h2>
+<h2>Proudly partnered with <a href ='https://github.com/oslabs-beta' target='blank'>OS Labs</a></h2>
 
