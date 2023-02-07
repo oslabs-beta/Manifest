@@ -43,7 +43,7 @@
 
 <h2>Getting Started</h2>
 
-Getting started with Dockery can be done in 3 simple steps
+Getting started with Dockery can be done in 4 simple steps:
 
 1. Fork and clone this repository to your local machine
 2. Build your docker image: 
@@ -54,13 +54,15 @@ docker build -t dockery .
 ```
 docker extension install dockery
 ```
-(if asked 'Are you sure you want to continue? [y/N]', enter 'y')
-<p>Next time you open Docker Desktop you should see Dockery installed and you can begin using it to manage your containers.</p>
+<p>You may be asked: 'Are you sure you want to continue? [y/N]' --> enter 'y' to continue</p>
+
+4. Dockery is now installed and will be running inside of Docker Desktop
 <br>
-<h3>Extension Marketplace:</h3>
+<br>
+<h2>Extension Marketplace:</h2>
 <p>We are in the process of applying to have Dockery added to the Docker Desktop Extension Marketplace, but it is not yet avaliable there. </p>
 <br>
-<h3>Windows containers</h3>
+<h2>Windows containers</h2>
 <p>Under the hood, Dockery uses the <code>docker update</code> command to update container memory limits, which is currently NOT supported for Windows containers. If you are running Windows containers, you can still use Dockery to visualy monitor your container memory metrics and limits, but to update you will still need to use the CLI and update limits another way.</p>
 
 <br>
