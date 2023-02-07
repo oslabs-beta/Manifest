@@ -31,14 +31,17 @@ const getMemLimits = async (idArr: string[]): Promise<allMemoryObject> => {
   const returnObj: allMemoryObject = {};
   const memLimitArr: string[] = await ddClient.docker.cli
     .exec(`inspect`, [
-      `--format='{{.HostConfig.MemoryReservation}} {{.HostConfig.Memory}}'`,
+      // NOTE: We use this format instead of '{{.HostConfig.MemoryReservation}} {{.HostConfig.Memory}}'
+      // because this format works on both Linux based AND Windows, above format does not work on Windows
+      `--format='{{.HostConfig.MemoryReservation}}/{{.HostConfig.Memory}}'`,
       ...idArr,
     ]).then((res) => res.stdout.split('\n'));
   memLimitArr.pop();
   memLimitArr.forEach((memString, i) => {
     let softLimit: string | null;
     let hardLimit: string | null;
-    [softLimit, hardLimit] = memString.split(' ');
+    // NOTE: We replace any instances of ' or " because Windows will include them in soft and hard limits otherwise
+    [softLimit, hardLimit] = memString.replaceAll(/['"]/g, '').split('/');
     if (softLimit === '0') softLimit = null;
     if (hardLimit === '0') hardLimit = null;
     returnObj[idArr[i]] = {
