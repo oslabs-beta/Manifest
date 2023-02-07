@@ -43,12 +43,18 @@
 
 <h2>Getting Started</h2>
 
-<p>Getting started with Dockery can be done in 3 simple steps</p>
-<ol>
-  <li>Fork and clone this repository to your local machine</li>
-  <li>Build your docker image: <br><code>docker build -t dockery .</code></li>
-  <li>Install Dockery onto Docker Desktop: <br><code>docker extension install dockery</code><br>(if asked 'Are you sure you want to continue? [y/N]', enter 'y')</li>
-</ol>
+Getting started with Dockery can be done in 3 simple steps
+
+1. Fork and clone this repository to your local machine
+2. Build your docker image: 
+```
+docker build -t dockery .
+```
+3. Install Dockery onto Docker Desktop: 
+```
+docker extension install dockery
+```
+(if asked 'Are you sure you want to continue? [y/N]', enter 'y')
 <p>Next time you open Docker Desktop you should see Dockery installed and you can begin using it to manage your containers.</p>
 <br>
 <h3>Extension Marketplace:</h3>
