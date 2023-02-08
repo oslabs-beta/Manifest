@@ -61,7 +61,7 @@ docker extension install dockery
 
 5. Dockery is now installed and will be running inside of Docker Desktop
 <br>
-<br>
+
 <p>↓↓ gif detailing building and installing dockery from the cloned repository ↓↓</p>
 <img src='readMeMedia/building_and_installing_dockery.gif' />
 <br>
@@ -80,7 +80,7 @@ docker extension install dockeryteam/dockery
 
 3. Dockery is now installed and will be running inside of Docker Desktop
 <br>
-<br>
+
 <p>↓↓ gif detailing pulling and installing dockery from dockerhub ↓↓</p>
 <img src='readMeMedia/dockerhub_install.gif' />
 <br>
