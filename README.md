@@ -7,36 +7,36 @@
 <p>
   Dockery displays real-time, important memory metrics such as total memory used by all containers, memory usage per container, and memory usage ratio by container (fig 1). These metrics are displayed in easy to digest graphs. However, the real power of Dockery lies within its table, where detailed memory metrics on all running containers are shown. Clicking on a row reveals an intuitive GUI where users can do 2 things: 
   <ol>
-    <li>Visually compare memory usage to the soft & hard limits (fig 2)</li>
-    <li>Easily re-allocate memory through assignment of memory limits (fig 3)</li>
+    <li>Visually compare memory usage to the soft & hard limits (<a href="#fig-2">fig 2</a>)</li>
+    <li>Easily re-allocate memory through assignment of memory limits (<a href="#fig-3">fig 3</a>)</li>
   </ol>
 </p>
 
 <br>
 
 <h3 align="center">
-  <em>Figure 1: Intuitive UI to understand memory metrics on all running containers</em>
+  <em id="fig-1">Figure 1: Intuitive UI to understand memory metrics on all running containers</em>
 </h3>
 <p align='center'>
-  <img src = './readMeMedia/dockery_overview_screenshot.png'  width='100%'/>
+  <img id="overview-screenshot" src = './readMeMedia/dockery_overview_screenshot.png'  width='100%'/>
 </p>
 
 <br>
 
 <h3 align="center">
-  <em>Figure 2: Detailed memory metrics on all containers found within the table</em>
+  <em id="fig-2">Figure 2: Detailed memory metrics on all containers found within the table</em>
 </h3>
 <p align='center'>
-  <img src = './readMeMedia/dockery_table_details_screenshot.png'  width='100%'/>
+  <img id="table-details-screenshot" src = './readMeMedia/dockery_table_details_screenshot.png'  width='100%'/>
 </p>
 
 <br>
 
 <h3 align="center">
-  <em>Figure 3: Intuitive UI for updating memory limits</em>
+  <em id="fig-3">Figure 3: Intuitive UI for updating memory limits</em>
 </h3>
 <p align='center'>
-  <img src = './readMeMedia/Updating_memory_limits.gif'  width='100%'/>
+  <img id="updating-memory-limits-gif" src = './readMeMedia/Updating_memory_limits.gif'  width='100%'/>
 </p>
 
 <br>
