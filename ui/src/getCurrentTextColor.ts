@@ -5,6 +5,4 @@ const bodyElement: HTMLElement = document.body;
 const compStyles: CSSStyleDeclaration = window.getComputedStyle(bodyElement);
 const currentTextColor: string = compStyles.getPropertyValue('color');
 
-
-// console.log('body Element:', bodyElement);
 export { currentTextColor }
