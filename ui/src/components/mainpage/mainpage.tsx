@@ -62,7 +62,6 @@ export function Mainpage(props: Props) {
       );
       containerNames.push(element.Name);
       containerMemPerc.push(elementMemUsage);
-      // console.log('mainpage end====================');
     });
   }
 
