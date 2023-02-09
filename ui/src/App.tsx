@@ -1,53 +1,107 @@
-import React from 'react';
-import Button from '@mui/material/Button';
-import { createDockerDesktopClient } from '@docker/extension-api-client';
-import { Stack, TextField, Typography } from '@mui/material';
+import React, { useEffect } from 'react';
+import { Navbar } from './components/navbar/navbar';
+import { Mainpage } from './components/mainpage/mainpage';
+import ContainerData from './components/types/containerData';
+import {
+  getContainerIds,
+  getMemLimits,
+  getContainerMetrics,
+  getTotalMemoryAllocatedToDocker,
+} from './interactingWithDDClient';
 
-// Note: This line relies on Docker Desktop's presence as a host application.
-// If you're running this React app in a browser, it won't work properly.
-const client = createDockerDesktopClient();
-
-function useDockerDesktopClient() {
-  return client;
-}
+//REFRESH_DELAY controls how often (in milliseconds) we will query the Docker desktop client to recieve updates about our running containers.
+const REFRESH_DELAY = 2000;
 
 export function App() {
-  const [response, setResponse] = React.useState<string>();
-  const ddClient = useDockerDesktopClient();
+  
+  //dataStore is an array that holds objects. Each object holds data about a specific container 
+  const [dataStore, setDataStore] = React.useState<ContainerData[]>([]);
 
-  const fetchAndDisplayResponse = async () => {
-    const result = await ddClient.extension.vm?.service?.get('/hello');
-    setResponse(JSON.stringify(result));
+  //containersLoaded is bool indicating weather or not we've recieved data from the docker desktop client.
+  const [containersLoaded, setContainersLoaded] = React.useState(false);
+
+  //totalDockerMem is a number that is the total Bytes of memory allocated to docker desktop. Can be changed from DockerDesktop settings. 
+  const [totalDockerMem, setTotalDockerMem] = React.useState<number>(0);
+
+  //noContainers is boolean to indecate there are running containers or not
+  const [noContainers, setNoContainers] = React.useState<boolean>(false);
+  
+  //mem object is a nested object containing the soft/hard memory limit for each container. See example memory object below
+  const [memObj, setMemObj] = React.useState({});
+  /* Example memObj
+  memObj = {
+      containerID: {
+          softLimit: some num OR NULL
+          hardLimit: some num oR NULL
+      }
+  }
+  */
+
+  /************
+  updateMemoryObject --> This function gets all container ID's, then if there are no running containers, throws an error. 
+  If there are runnin containers, then it gets the memory limits and sets the memObj to be equal to the memory limits of the objects
+   *************/
+  const updateMemoryObject = async (): Promise<void> => {
+    await getContainerIds().then((containerIdArray) => {
+      if(containerIdArray.length === 0){
+        setNoContainers(true);
+        throw new Error;
+      } 
+      else getMemLimits(containerIdArray).then((memoryLimitObject) => {
+        setMemObj(memoryLimitObject);
+      });
+    });
+  }
+
+  /*******************
+  updateContainerData --> Gets the updated data on container metrics then sets the dataStore accordingly.
+  Also sets containersLoaded to true and calls itself again after the REFRESH_DELAY
+  ********************/
+  const updateContainerData = (): void => {
+    getContainerMetrics().then((containerMetricsObject) => {
+      setDataStore(containerMetricsObject);
+      setContainersLoaded(true);
+      setTimeout(updateContainerData, REFRESH_DELAY);
+    });
   };
 
+  /*******************
+   useEffect
+   *******************
+  Runs when container first loads ONLY. Does 4 things: in this order:
+    1. gets a list of all container id's
+    2. creates the memory  object --> memObj is a piece of state
+        memObj is object where keys are container id and values are soft memory limit in bytes. if no limit is set - value is null. 
+    3. Gets the totalMemory allocated to docker and sets totalDockerMem piece of state
+    4. calls updateContainerData to get metrics associated with each docker container
+  */
+  useEffect(() => {
+    updateMemoryObject().then(res => {
+      getTotalMemoryAllocatedToDocker().then((totalMem) => {
+        setTotalDockerMem(totalMem);
+        updateContainerData();
+      });
+    });
+  }, []);
+
+//return our navbar at the top and mainpage underneath it. Unless there are no containers running, then we alert the ueser. 
   return (
     <>
-      <Typography variant="h3">Docker extension demo</Typography>
-      <Typography variant="body1" color="text.secondary" sx={{ mt: 2 }}>
-        This is a basic page rendered with MUI, using Docker's theme. Read the
-        MUI documentation to learn more. Using MUI in a conventional way and
-        avoiding custom styling will help make sure your extension continues to
-        look great as Docker's theme evolves.
-      </Typography>
-      <Typography variant="body1" color="text.secondary" sx={{ mt: 2 }}>
-        Pressing the below button will trigger a request to the backend. Its
-        response will appear in the textarea.
-      </Typography>
-      <Stack direction="row" alignItems="start" spacing={2} sx={{ mt: 4 }}>
-        <Button variant="contained" onClick={fetchAndDisplayResponse}>
-          Call backend
-        </Button>
-
-        <TextField
-          label="Backend response"
-          sx={{ width: 480 }}
-          disabled
-          multiline
-          variant="outlined"
-          minRows={5}
-          value={response ?? ''}
-        />
-      </Stack>
-    </>
+      <Navbar
+      containersArray={dataStore}
+    />
+    {noContainers ? 
+      (<h1 style = {{textAlign:'center'}}>Looks like there are no containers running please start one and refresh the app</h1>)
+      : 
+      (<Mainpage
+      containersArray={dataStore}
+      containersLoaded={containersLoaded}
+      memObj={memObj}
+      totalDockerMem={totalDockerMem}
+      updateMemoryObject = {updateMemoryObject}
+      />
+      )
+    }
+   </>
   );
 }

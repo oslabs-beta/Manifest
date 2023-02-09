@@ -1,0 +1,63 @@
+.mainPageWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: center;
+  text-align: center;
+  border: none;
+}
+
+.containers {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+
+.doughnutCharts {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  padding: 0px;
+  margin: 0 auto;
+  padding: 30px 0;
+}
+
+table {
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+#tableName,
+#tableMemUsage,
+#tableHardLim,
+#tableSoftLim {
+  text-align: center;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+#tableHeader {
+  padding: 10px 0 0 0;
+  font-size: 35px;
+}
+
+hr {
+  padding: 0;
+}
+
+tr:first-child {
+  border-bottom: none;
+}
+
+table {
+  width: 100%;
+  font-size: 1.75vw;
+  font-family: 'Roboto', sans-serif;
+  border-width: 2px;
+  border-radius: 10px;
+  border-collapse: collapse;
+}

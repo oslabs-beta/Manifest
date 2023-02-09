@@ -1,0 +1,18 @@
+$bluePrimary: #1565c0;
+td {
+  padding: 10px;
+}
+
+.row:hover {
+  background-color: $bluePrimary;
+  border-color: $bluePrimary;
+}
+
+.rowExpanded { 
+  td{
+    padding-top: 0;
+    padding-bottom: 2vw;
+  }
+}
+
+
