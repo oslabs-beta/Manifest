@@ -63,7 +63,7 @@ docker extension install manifest
 <br>
 
 <p>↓↓ gif detailing building and installing manifest from the cloned repository ↓↓</p>
-<img src='readMeMedia/building_and_installing_manifest.gif' />
+<img src='readMeMedia/install_manifest_via_github.gif' />
 <br>
 <br>
 <h3>Install Manifest via DockerHub</h3>
@@ -82,7 +82,7 @@ docker extension install manifestteam/manifest
 <br>
 
 <p>↓↓ gif detailing pulling and installing manifest from dockerhub ↓↓</p>
-<img src='readMeMedia/dockerhub_install.gif' />
+<img src='readMeMedia/install_manifest_via_dockerhub.gif' />
 <br>
 <br>
 
