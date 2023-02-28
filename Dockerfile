@@ -23,10 +23,10 @@ COPY ui /ui
 RUN npm run build
 
 FROM alpine
-LABEL org.opencontainers.image.title="Dockery" \
+LABEL org.opencontainers.image.title="Manifest" \
     org.opencontainers.image.description="Extension for monitoring and managing container memory usage" \
-    org.opencontainers.image.vendor="Dockery" \
-    com.docker.desktop.extension.icon="Dockery extension icon 128x128.png" \
+    org.opencontainers.image.vendor="Manifest" \
+    com.docker.desktop.extension.icon="Manifest_extension_icon_128x128.png" \
     com.docker.extension.categories="Utility tools" \
     com.docker.desktop.extension.api.version="0.3.0" \
     com.docker.extension.screenshots="" \

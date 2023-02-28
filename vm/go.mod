@@ -1,4 +1,4 @@
-module dockery-extension
+module manifest-extension
 
 go 1.19
 

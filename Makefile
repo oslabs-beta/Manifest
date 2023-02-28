@@ -1,4 +1,4 @@
-IMAGE?=dockery/extension
+IMAGE?=manifest/extension
 TAG?=latest
 
 BUILDER=buildx-multi-arch

@@ -8,7 +8,7 @@
   },
   "ui": {
     "dashboard-tab": {
-      "title": "Dockery-Extension",
+      "title": "Manifest-Extension",
       "src": "index.html",
       "root": "ui",
       "backend": {

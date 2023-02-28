@@ -99,7 +99,7 @@ export default function UpdateMemLimitsForm (props: Props): JSX.Element {
           .then(() => {
             sendToast(
               'success',
-              'Success! Please wait a moment for Dockery to update its display'
+              'Success! Please wait a moment for Manifest to update its display'
             )
             updateMemoryObject();
           })
@@ -127,7 +127,7 @@ export default function UpdateMemLimitsForm (props: Props): JSX.Element {
         .then(() => {
           sendToast(
             'success',
-            'Success! Please wait a moment for Dockery to update its display'
+            'Success! Please wait a moment for Manifest to update its display'
           )
           updateMemoryObject();
         })
@@ -154,7 +154,7 @@ export default function UpdateMemLimitsForm (props: Props): JSX.Element {
         .then(() => {
           sendToast(
             'success',
-            'Success! Please wait a moment for Dockery to update its display'
+            'Success! Please wait a moment for Manifest to update its display'
           )
           updateMemoryObject();
         })
